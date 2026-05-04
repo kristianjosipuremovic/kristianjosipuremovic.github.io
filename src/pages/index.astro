@@ -12,9 +12,11 @@ import Services from '../components/Services.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import SectionDivider from '../components/SectionDivider.astro';
+import PrintResume from '../components/PrintResume.astro';
 ---
 
 <Layout>
+  <div class="web-only">
   <Header />
   <main id="main-content">
     <Hero />
@@ -36,4 +38,6 @@ import SectionDivider from '../components/SectionDivider.astro';
     <Contact />
   </main>
   <Footer />
+  </div>
+  <PrintResume />
 </Layout>
