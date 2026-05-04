@@ -83,12 +83,15 @@ const heroParts = personalData.heroRole.split(' & ');
 
         <div class="flex flex-col sm:flex-row gap-4 reveal" style="transition-delay: 0.3s;">
           <a href="#contact" class="btn-primary text-center">Get In Touch</a>
-          <a
-            href={personalData.cv}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn-secondary text-center">Download CV</a
-          >
+          {personalData.cv ? (
+            <a
+              href={personalData.cv}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-secondary text-center">Download CV</a>
+          ) : (
+            <button onclick="window.print()" class="btn-secondary text-center">Print Resume</button>
+          )}
         </div>
 
         <div class="flex items-center gap-6 reveal" style="transition-delay: 0.4s;">
