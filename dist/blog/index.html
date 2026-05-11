@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en" style="color-scheme: dark;"> <head><meta charset="UTF-8"><meta name="description" content="CTF writeups, project notes, research findings, and general writing."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/favicons/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png"><link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png"><link rel="manifest" href="/manifest.json"><meta name="msapplication-config" content="/browserconfig.xml"><meta name="generator" content="Astro v6.3.1"><meta property="og:type" content="website"><meta property="og:title" content="Blog — Kristian Uremovic"><meta property="og:description" content="CTF writeups, project notes, research findings, and general writing."><meta property="og:site_name" content="Kristian Uremovic"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Blog — Kristian Uremovic"><meta name="twitter:description" content="CTF writeups, project notes, research findings, and general writing."><meta name="theme-color" content="#111113"><!--
+     ██╗  ██╗██████╗  ██████╗     ██╗   ██╗██████╗ ███████╗███╗   ███╗ ██████╗ ██╗   ██╗██╗ ██████╗
+     ██║ ██╔╝██╔══██╗ ██╔══██╗    ██║   ██║██╔══██╗██╔════╝████╗ ████║██╔═══██╗██║   ██║██║██╔════╝
+     █████╔╝ ██████╔╝ ██║  ██║    ██║   ██║██████╔╝█████╗  ██╔████╔██║██║   ██║██║   ██║██║██║
+     ██╔═██╗ ██╔══██╗ ██║  ██║    ██║   ██║██╔══██╗██╔══╝  ██║╚██╔╝██║██║   ██║╚██╗ ██╔╝██║██║
+     ██║  ██╗██║  ██║ ██████╔╝    ╚██████╔╝██║  ██║███████╗██║ ╚═╝ ██║╚██████╔╝ ╚████╔╝ ██║╚██████╗
+     ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚═╝ ╚═════╝
+
+     You're the kind of person who views source. We'd probably get along.
+     → github.com/kristianjosipuremovic
+    --><link href="/fonts/jetbrains-mono-local.css" rel="stylesheet"><script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script><title>Blog — Kristian Uremovic</title><!-- Adds .page-hidden to <body> while the tab is not visible.
+         Components can use this class to pause expensive animations. --><script>
+      document.addEventListener('visibilitychange', function () {
+        document.body.classList.toggle('page-hidden', document.hidden);
+      });
+    </script><link rel="stylesheet" href="/_astro/Layout.DjNJdzfz.css">
+<style>.kbd[data-astro-cid-5tznm7mj]{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:.1rem .4rem;font-size:.72rem;color:var(--text-dim);font-family:inherit}.blog-folder-card[data-astro-cid-5tznm7mj]{display:flex;flex-direction:column;gap:.35rem;padding:1.25rem;background:var(--bg-card);border:1px solid var(--border);border-radius:.5rem;text-decoration:none;transition:border-color .2s ease,transform .2s ease}.blog-folder-card[data-astro-cid-5tznm7mj]:hover{border-color:var(--border-hover);transform:translateY(-2px)}.folder-icon-row[data-astro-cid-5tznm7mj]{display:flex;align-items:center;justify-content:space-between;color:var(--text-dim);margin-bottom:.25rem}.folder-count[data-astro-cid-5tznm7mj]{font-size:.68rem;color:var(--text-dimmer)}.folder-label[data-astro-cid-5tznm7mj]{font-size:1rem;font-weight:700;color:var(--text)}.folder-desc[data-astro-cid-5tznm7mj]{font-size:.78rem;color:var(--text-dim)}.folder-path[data-astro-cid-5tznm7mj]{font-size:.65rem;color:var(--text-dimmer);margin-top:.5rem}.recent-list[data-astro-cid-5tznm7mj]{display:flex;flex-direction:column;gap:0}.recent-item[data-astro-cid-5tznm7mj]{display:grid;grid-template-columns:6.5rem 1fr auto;gap:1rem;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border);text-decoration:none;transition:background .15s ease}.recent-item[data-astro-cid-5tznm7mj]:hover{background:#ffffff05}.recent-item[data-astro-cid-5tznm7mj]:last-child{border-bottom:none}.recent-date[data-astro-cid-5tznm7mj]{font-size:.7rem;color:var(--text-dimmer);white-space:nowrap}.recent-title[data-astro-cid-5tznm7mj]{font-size:.85rem;color:var(--text-muted);transition:color .2s ease}.recent-item[data-astro-cid-5tznm7mj]:hover .recent-title[data-astro-cid-5tznm7mj]{color:var(--text)}.recent-cat[data-astro-cid-5tznm7mj]{font-size:.65rem;color:var(--text-dimmer);text-align:right;white-space:nowrap}@media(max-width:480px){.recent-item[data-astro-cid-5tznm7mj]{grid-template-columns:1fr}.recent-cat[data-astro-cid-5tznm7mj]{display:none}}#search[data-astro-cid-5tznm7mj] .pagefind-ui[data-astro-cid-5tznm7mj]{--pagefind-ui-scale: .8;--pagefind-ui-primary: var(--text);--pagefind-ui-text: var(--text-muted);--pagefind-ui-background: var(--bg-card);--pagefind-ui-border: var(--border);--pagefind-ui-tag: var(--bg-surface);--pagefind-ui-border-width: 1px;--pagefind-ui-border-radius: .5rem;--pagefind-ui-font: inherit}
+</style></head> <body> <a href="#main-content" class="skip-link">Skip to main content</a> <div id="cmd-overlay" role="dialog" aria-modal="true" aria-label="Command palette" aria-hidden="true" data-astro-cid-wozhyvwc> <div id="cmd-backdrop" data-astro-cid-wozhyvwc></div> <div id="cmd-panel" data-astro-cid-wozhyvwc> <div id="cmd-search-row" data-astro-cid-wozhyvwc> <span id="cmd-prompt" data-astro-cid-wozhyvwc>›</span> <input id="cmd-input" type="text" placeholder="Search pages, posts, research..." autocomplete="off" spellcheck="false" data-astro-cid-wozhyvwc> <kbd id="cmd-esc" data-astro-cid-wozhyvwc>Esc</kbd> </div> <div id="cmd-results" role="listbox" data-astro-cid-wozhyvwc></div> </div> </div> <script>(function(){const commands = [{"label":"Home","href":"/","group":"Pages","icon":"~"},{"label":"Research","href":"/research","group":"Pages","icon":"📁"},{"label":"Blog","href":"/blog","group":"Pages","icon":"📝"},{"label":"Now","href":"/now","group":"Pages","icon":"⏱"},{"label":"Reading List","href":"/reading","group":"Pages","icon":"📚"},{"label":"About","href":"/#about","group":"Sections","icon":"#"},{"label":"Arsenal","href":"/#skills","group":"Sections","icon":"#"},{"label":"Projects","href":"/#projects","group":"Sections","icon":"#"},{"label":"Certifications","href":"/#certifications","group":"Sections","icon":"#"},{"label":"Contact","href":"/#contact","group":"Sections","icon":"#"},{"label":"CERIAS Binary Hardening Research","href":"/research/cerias-binary-hardening","group":"Research","icon":"🔬"},{"label":"LLM Political Bias Research","href":"/research/llm-political-bias","group":"Research","icon":"🔬"},{"label":"Data Mine Anomaly Detection","href":"/research/data-mine-anomaly-detection","group":"Research","icon":"🔬"},{"label":"PicoCTF 2025: Binary Exploitation Writeup","href":"/blog/ctf-writeups/example-ctf-writeup","group":"Blog","icon":"›"},{"label":"Hello, World","href":"/blog/general/hello-world","group":"Blog","icon":"›"},{"label":"GCC Flag Simulations: Project Overview","href":"/blog/project-writeups/gcc-flag-simulations-intro","group":"Blog","icon":"›"},{"label":"Zephyr RTOS + GCC Hardening: What's Actually Available","href":"/blog/research-writeups/cerias-zephyr-gcc-flags","group":"Blog","icon":"›"}];
+
+  const overlay = document.getElementById('cmd-overlay');
+  const backdrop = document.getElementById('cmd-backdrop');
+  const input = document.getElementById('cmd-input');
+  const results = document.getElementById('cmd-results');
+
+  let activeIdx = -1;
+
+  function open() {
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('open');
+    input.value = '';
+    renderResults('');
+    setTimeout(() => input.focus(), 50);
+  }
+
+  function close() {
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('open');
+    activeIdx = -1;
+  }
+
+  function fuzzy(str, query) {
+    const s = str.toLowerCase();
+    const q = query.toLowerCase();
+    let si = 0, qi = 0, score = 0;
+    while (si < s.length && qi < q.length) {
+      if (s[si] === q[qi]) { score++; qi++; }
+      si++;
+    }
+    return qi === q.length ? score : -1;
+  }
+
+  function renderResults(query) {
+    const filtered = query
+      ? commands
+          .map(c => ({ ...c, score: fuzzy(c.label, query) }))
+          .filter(c => c.score > 0)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 12)
+      : commands.slice(0, 12);
+
+    activeIdx = filtered.length > 0 ? 0 : -1;
+
+    results.innerHTML = '';
+    let lastGroup = '';
+    filtered.forEach((cmd, i) => {
+      if (cmd.group !== lastGroup) {
+        const g = document.createElement('div');
+        g.className = 'cmd-group-label';
+        g.textContent = cmd.group;
+        results.appendChild(g);
+        lastGroup = cmd.group;
+      }
+      const el = document.createElement('a');
+      el.href = cmd.href;
+      el.className = 'cmd-item' + (i === activeIdx ? ' active' : '');
+      el.setAttribute('role', 'option');
+      el.innerHTML = `<span class="cmd-icon">${cmd.icon}</span><span class="cmd-label">${cmd.label}</span>`;
+      el.addEventListener('click', close);
+      results.appendChild(el);
+    });
+  }
+
+  function moveActive(dir) {
+    const items = Array.from(results.querySelectorAll('.cmd-item'));
+    if (!items.length) return;
+    activeIdx = (activeIdx + dir + items.length) % items.length;
+    items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+    items[activeIdx]?.scrollIntoView({ block: 'nearest' });
+  }
+
+  input.addEventListener('input', () => renderResults(input.value));
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); moveActive(1); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); }
+    if (e.key === 'Enter') {
+      const items = Array.from(results.querySelectorAll('.cmd-item'));
+      if (items[activeIdx]) { close(); items[activeIdx].click(); }
+    }
+    if (e.key === 'Escape') close();
+  });
+
+  backdrop.addEventListener('click', close);
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      overlay.classList.contains('open') ? close() : open();
+    }
+    if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+  });
+})();</script>  <div style="min-height:100vh; background:var(--bg); padding-top:6rem; padding-bottom:6rem;" data-astro-cid-5tznm7mj> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl" data-astro-cid-5tznm7mj> <div class="term-breadcrumb" data-astro-cid-5tznm7mj> <a href="/" class="path-dir hover:text-[var(--text)] transition-colors" data-astro-cid-5tznm7mj>~</a> <span class="path-sep" data-astro-cid-5tznm7mj>/</span> <span class="path-cur" data-astro-cid-5tznm7mj>blog</span> </div> <!-- Search bar (Pagefind) --> <div id="search" class="mb-10" data-astro-cid-5tznm7mj></div> <h1 class="text-4xl font-bold text-[var(--text)] mb-2" data-astro-cid-5tznm7mj>Blog</h1> <p class="text-[var(--text-dim)] mb-12 text-sm" data-astro-cid-5tznm7mj> 4 posts across 4 categories.
+        Press <kbd class="kbd" data-astro-cid-5tznm7mj>Ctrl+K</kbd> to search.
+</p> <!-- Category folders --> <div class="grid gap-4 sm:grid-cols-2 mb-16" data-astro-cid-5tznm7mj> <a href="/blog/ctf-writeups" class="blog-folder-card" data-astro-cid-5tznm7mj> <div class="folder-icon-row" data-astro-cid-5tznm7mj> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7" data-astro-cid-5tznm7mj> <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" data-astro-cid-5tznm7mj></path> </svg> <span class="folder-count" data-astro-cid-5tznm7mj>1 post</span> </div> <h2 class="folder-label" data-astro-cid-5tznm7mj>CTF Writeups</h2> <p class="folder-desc" data-astro-cid-5tznm7mj>Capture-the-flag solutions and analysis</p> <p class="folder-path" data-astro-cid-5tznm7mj>~/blog/ctf-writeups/</p> </a><a href="/blog/project-writeups" class="blog-folder-card" data-astro-cid-5tznm7mj> <div class="folder-icon-row" data-astro-cid-5tznm7mj> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7" data-astro-cid-5tznm7mj> <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" data-astro-cid-5tznm7mj></path> </svg> <span class="folder-count" data-astro-cid-5tznm7mj>1 post</span> </div> <h2 class="folder-label" data-astro-cid-5tznm7mj>Project Writeups</h2> <p class="folder-desc" data-astro-cid-5tznm7mj>Deep dives into personal projects</p> <p class="folder-path" data-astro-cid-5tznm7mj>~/blog/project-writeups/</p> </a><a href="/blog/research-writeups" class="blog-folder-card" data-astro-cid-5tznm7mj> <div class="folder-icon-row" data-astro-cid-5tznm7mj> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7" data-astro-cid-5tznm7mj> <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" data-astro-cid-5tznm7mj></path> </svg> <span class="folder-count" data-astro-cid-5tznm7mj>1 post</span> </div> <h2 class="folder-label" data-astro-cid-5tznm7mj>Research Writeups</h2> <p class="folder-desc" data-astro-cid-5tznm7mj>Notes and findings from ongoing research</p> <p class="folder-path" data-astro-cid-5tznm7mj>~/blog/research-writeups/</p> </a><a href="/blog/general" class="blog-folder-card" data-astro-cid-5tznm7mj> <div class="folder-icon-row" data-astro-cid-5tznm7mj> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7" data-astro-cid-5tznm7mj> <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" data-astro-cid-5tznm7mj></path> </svg> <span class="folder-count" data-astro-cid-5tznm7mj>1 post</span> </div> <h2 class="folder-label" data-astro-cid-5tznm7mj>General</h2> <p class="folder-desc" data-astro-cid-5tznm7mj>Everything else</p> <p class="folder-path" data-astro-cid-5tznm7mj>~/blog/general/</p> </a> </div> <!-- Recent posts --> <div data-astro-cid-5tznm7mj> <h2 class="text-lg font-bold text-[var(--text-muted)] mb-4 uppercase tracking-widest text-xs" data-astro-cid-5tznm7mj>Recent Posts</h2> <div class="recent-list" data-astro-cid-5tznm7mj> <a href="/blog/general/hello-world" class="recent-item" data-astro-cid-5tznm7mj> <span class="recent-date" data-astro-cid-5tznm7mj>2025-05-11</span> <span class="recent-title" data-astro-cid-5tznm7mj>Hello, World</span> <span class="recent-cat" data-astro-cid-5tznm7mj>general</span> </a><a href="/blog/research-writeups/cerias-zephyr-gcc-flags" class="recent-item" data-astro-cid-5tznm7mj> <span class="recent-date" data-astro-cid-5tznm7mj>2025-05-01</span> <span class="recent-title" data-astro-cid-5tznm7mj>Zephyr RTOS + GCC Hardening: What&#39;s Actually Available</span> <span class="recent-cat" data-astro-cid-5tznm7mj>research-writeups</span> </a><a href="/blog/project-writeups/gcc-flag-simulations-intro" class="recent-item" data-astro-cid-5tznm7mj> <span class="recent-date" data-astro-cid-5tznm7mj>2025-04-01</span> <span class="recent-title" data-astro-cid-5tznm7mj>GCC Flag Simulations: Project Overview</span> <span class="recent-cat" data-astro-cid-5tznm7mj>project-writeups</span> </a><a href="/blog/ctf-writeups/example-ctf-writeup" class="recent-item" data-astro-cid-5tznm7mj> <span class="recent-date" data-astro-cid-5tznm7mj>2025-03-15</span> <span class="recent-title" data-astro-cid-5tznm7mj>PicoCTF 2025: Binary Exploitation Writeup</span> <span class="recent-cat" data-astro-cid-5tznm7mj>ctf-writeups</span> </a> </div> </div> </div> </div>  </body></html>  <script>
+  (async function() {
+    const el = document.getElementById('search');
+    if (!el) return;
+    try {
+      const { PagefindUI } = await import('/pagefind/pagefind-ui.js');
+      new PagefindUI({ element: '#search', showSubResults: true });
+    } catch {
+      // Pagefind not available in dev — only available after build
+      el.style.display = 'none';
+    }
+  })();
+</script>

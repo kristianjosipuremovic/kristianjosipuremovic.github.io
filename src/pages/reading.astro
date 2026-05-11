@@ -1,0 +1,99 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const books = {
+  "Cybersecurity": [
+    { title: "Countdown to Zero Day", author: "Kim Zetter", status: "To Read" },
+    { title: "Sandworm", author: "Andy Greenberg", status: "To Read" },
+    { title: "Chip War", author: "Chris Miller", status: "To Read" },
+    { title: "The Cuckoo's Egg", author: "Cliff Stoll", status: "To Read" },
+    { title: "The Seventh Sense", author: "Joshua Cooper Ramo", status: "To Read" },
+    { title: "The Sovereign Individual", author: "James Dale Davidson & Lord William Rees-Mogg", status: "To Read" },
+  ],
+  "Philosophy & Literature": [
+    { title: "Placeholder", author: "", status: "To Read" },
+  ],
+  "Technical": [
+    { title: "Placeholder", author: "", status: "To Read" },
+  ],
+};
+
+const statusColors: Record<string, string> = {
+  "Read": "status-green",
+  "Reading": "status-yellow",
+  "To Read": "status-grey",
+};
+---
+
+<Layout title="Reading List — Kristian Uremovic" description="Books I've read, am reading, or plan to read.">
+  <div style="min-height:100vh; background:var(--bg); padding-top:6rem; padding-bottom:6rem;">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl">
+
+      <div class="term-breadcrumb">
+        <a href="/" class="path-dir hover:text-[var(--text)] transition-colors">~</a>
+        <span class="path-sep">/</span>
+        <span class="path-cur">reading</span>
+      </div>
+
+      <h1 class="text-3xl font-bold text-[var(--text)] mb-2 mt-4">Reading List</h1>
+      <p class="text-[var(--text-dim)] text-sm mb-10">Books I've read, am reading, or want to read.</p>
+
+      {Object.entries(books).map(([category, list]) => (
+        <div class="book-category">
+          <h2 class="category-heading">{category}</h2>
+          <div class="book-list">
+            {list.map(book => (
+              <div class="book-item">
+                <div class="book-info">
+                  <span class="book-title">{book.title}</span>
+                  {book.author && <span class="book-author">{book.author}</span>}
+                </div>
+                <span class={`book-status ${statusColors[book.status] ?? 'status-grey'}`}>{book.status}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .book-category { margin-bottom: 2.5rem; }
+  .category-heading {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .book-list { display: flex; flex-direction: column; gap: 0; }
+  .book-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .book-item:last-child { border-bottom: none; }
+  .book-info { display: flex; flex-direction: column; gap: 0.1rem; }
+  .book-title { font-size: 0.9rem; color: var(--text-muted); }
+  .book-author { font-size: 0.72rem; color: var(--text-dim); }
+  .book-status {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .status-green { background: rgba(34,197,94,0.1); color: #86efac; border: 1px solid rgba(34,197,94,0.2); }
+  .status-yellow { background: rgba(234,179,8,0.1); color: #fde047; border: 1px solid rgba(234,179,8,0.2); }
+  .status-grey { background: rgba(255,255,255,0.05); color: var(--text-dimmer); border: 1px solid var(--border); }
+</style>

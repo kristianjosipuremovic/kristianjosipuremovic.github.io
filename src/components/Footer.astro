@@ -71,34 +71,20 @@ const { footerAttribution } = siteData;
     </div>
     <div class="footer-divider my-8"></div>
 
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <!-- Murakami quote -->
+    <div class="murakami-quote">
+      <p class="quote-en">"Nobody would take the time and effort to hang a fake moon in a real sky."</p>
+      <p class="quote-ru">«Никто не стал бы вешать фальшивую луну на настоящее небо.»</p>
+      <p class="quote-attr">— Haruki Murakami, 1Q84</p>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
       <p class="text-slate-600 text-sm">
-        © {currentYear}
-        {personalData.name}
-        {
-          footerAttribution.builder && (
-            <>
-              {' '}
-              · Built by{' '}
-              <a href={footerAttribution.builderUrl} target="_blank">
-                {footerAttribution.builder}
-              </a>
-            </>
-          )
-        }
-        {
-          footerAttribution.host && (
-            <>
-              {' '}
-              / Hosting by{' '}
-              <a href={footerAttribution.hostUrl} target="_blank">
-                {footerAttribution.host}
-              </a>
-            </>
-          )
-        }
-        &nbsp;·&nbsp;<a href="privacy" class="hover:text-accent transition-colors">Privacy</a
-        >&nbsp;·&nbsp;<a href="terms" class="hover:text-accent transition-colors">Terms</a>
+        © {currentYear} {personalData.name}
+        &nbsp;·&nbsp;<a href="/now" class="hover:text-[var(--text-dim)] transition-colors">Now</a>
+        &nbsp;·&nbsp;<a href="/reading" class="hover:text-[var(--text-dim)] transition-colors">Reading</a>
+        &nbsp;·&nbsp;<a href="/rss.xml" class="hover:text-[var(--text-dim)] transition-colors" title="RSS Feed">RSS</a>
+        &nbsp;·&nbsp;<a href="privacy" class="hover:text-[var(--text-dim)] transition-colors">Privacy</a>
       </p>
       <div class="flex items-center gap-5">
         {
@@ -426,8 +412,26 @@ const { footerAttribution } = siteData;
       transform 0.2s ease;
   }
   .footer-social:hover {
-    color: #a5b4fc;
+    color: #71717a;
     transform: translateY(-2px);
+  }
+
+  .murakami-quote {
+    text-align: center;
+    padding: 1rem 0;
+    opacity: 0.38;
+  }
+  .quote-en, .quote-ru {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    font-style: italic;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .quote-attr {
+    font-size: 0.62rem;
+    color: var(--text-dimmer);
+    margin-top: 0.25rem;
   }
 </style>
 

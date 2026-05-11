@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "cerias-binary-hardening",
+    "title": "CERIAS Binary Hardening Research",
+    "status": "Active — Primary Research",
+    "statusColor": "green",
+    "lastUpdated": "2026-05-01",
+    "tags": ["Embedded Security", "ARM Cortex-M3", "GCC", "Zephyr RTOS", "Binary Hardening", "CERIAS"],
+    "summary": "Caterpillar-funded research through Purdue CERIAS on compiler-level binary hardening for ARM Cortex-M3 embedded systems running Zephyr RTOS.",
+    "description": "Caterpillar-funded research through Purdue CERIAS on compiler-level binary hardening for ARM Cortex-M3 embedded systems running Zephyr RTOS. Supervised with biweekly technical meetings with two Caterpillar representatives.\n\nConfirmed GCC hardening flag availability on arm-zephyr-eabi-gcc SDK 0.17.0: stack protector family, FORTIFY_SOURCE, and fPIE are available; sanitizers and -fcf-protection are unavailable on this target.\n\nCross-referenced against Zephyr Kconfig: zero stack protector variants are exposed through Kconfig; FORTIFY_SOURCE is well-exposed; CONFIG_STACK_SENTINEL and CONFIG_MPU_STACK_GUARD are exposed but mutually exclusive.\n\nKey finding: the FUNC_NO_STACK_PROTECTOR macro in gcc.h proves Zephyr was designed assuming global canary enablement — a significant architectural observation.\n\nTargeting publication via cross-platform comparison with a FreeRTOS partner. Goal is a comprehensive survey of hardening flag availability and Kconfig exposure across both RTOS targets."
+  },
+  {
+    "slug": "llm-political-bias",
+    "title": "LLM Political Bias Research",
+    "status": "Active — Secondary Research",
+    "statusColor": "yellow",
+    "lastUpdated": "2026-04-15",
+    "tags": ["Machine Learning", "Mechanistic Interpretability", "Sparse Autoencoders", "NLP", "Gemma-2-2B"],
+    "summary": "Mechanistic interpretability research with Purdue College of Liberal Arts using sparse autoencoders on Gemma-2-2B to identify political bias structures.",
+    "description": "Mechanistic interpretability research with Purdue College of Liberal Arts using sparse autoencoders on Gemma-2-2B.\n\nIdentified generalizable outgroup negativity node L18/15794 firing across controversial political, social, and religious prompts with activation scores ranging from 8.76 to 16.25. Secondary node L23/13919 co-activates in US-specific contexts only, revealing a two-tier architecture.\n\nSteering experiments confirmed causality — the node is not merely correlated with the behavior but drives it.\n\nCritical honest reframing: L18/15794 also fires on non-political prompts (cat preferences, classical music), making it a general outgroup negativity node rather than a politically specific one. This is an important nuance that prevents over-interpretation.\n\nNext steps: completing negative controls, cross-model replication with Qwen prioritized for its non-Western training corpus, and potential Neuronpedia API automation for systematic feature mapping."
+  },
+  {
+    "slug": "data-mine-anomaly-detection",
+    "title": "Data Mine Anomaly Detection",
+    "status": "Active — Secondary Research",
+    "statusColor": "yellow",
+    "lastUpdated": "2026-03-20",
+    "tags": ["Machine Learning", "Anomaly Detection", "Data Science", "Purdue Data Mine"],
+    "summary": "ML anomaly detection research through the Purdue Data Mine learning community, applying machine learning methods for identifying anomalous patterns in datasets.",
+    "description": "Machine learning anomaly detection research project through the Purdue Data Mine learning community.\n\nApplying machine learning methods for identifying anomalous patterns in datasets. The project focuses on building and evaluating detection models, understanding false positive rates, and developing practical approaches for real-world anomaly detection scenarios.\n\nMore details forthcoming as the project progresses."
+  }
+]

@@ -2,8 +2,8 @@
 import personal from '../data/personal.json';
 import skillsData from '../data/skills.json';
 import certsData from '../data/certifications.json';
-import expertiseData from '../data/expertise.json';
 import projectsData from '../data/projects.json';
+import researchData from '../data/research.json';
 
 const resumeProjects = projectsData.filter(p => p.resume);
 
@@ -21,7 +21,7 @@ const inProgressCerts = certsData.filter(c => c.status !== 'Earned');
     <div class="header-right">
       <div>{personal.email} · {personal.phone}</div>
       <div>{personal.location}</div>
-      <div>linkedin.com/in/{personal.linkedin} · github.com/{personal.github}</div>
+      <div>{personal.linkedin ? personal.linkedin.replace('https://www.linkedin.com/in/', 'linkedin.com/in/') : ''} · {personal.github ? personal.github.replace('https://github.com/', 'github.com/') : ''}</div>
     </div>
   </header>
 
@@ -45,8 +45,14 @@ const inProgressCerts = certsData.filter(c => c.status !== 'Earned');
   </section>
 
   <section class="resume-section">
-    <h2 class="section-title">Areas of Expertise</h2>
-    <p class="body-text">{expertiseData.map(e => e.title).join('  ·  ')}</p>
+    <h2 class="section-title">Research</h2>
+    <div class="cert-list">
+      {researchData.map(r => (
+        <span class="cert-item" style="display:block;margin-bottom:0.2rem;">
+          <strong>{r.title}</strong> — {r.status}
+        </span>
+      ))}
+    </div>
   </section>
 
   <section class="resume-section">

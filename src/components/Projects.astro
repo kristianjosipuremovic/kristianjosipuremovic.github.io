@@ -2,6 +2,7 @@
 import projectsData from '../data/projects.json';
 import { augmentProjectsWithImages, type ProjectEntry } from '../lib/fetchGitHub';
 import { withBase } from '../lib/assetPath';
+import GitHubActivity from './GitHubActivity.astro';
 
 interface Props {
   featuredOnly?: boolean;
@@ -163,6 +164,10 @@ const projectsJson = JSON.stringify(
     <p id="projects-empty" class="hidden text-center text-slate-600 text-sm mt-12">
       No projects in this category yet.
     </p>
+
+    <div class="max-w-5xl mx-auto mt-8">
+      <GitHubActivity />
+    </div>
   </div>
 </section>
 

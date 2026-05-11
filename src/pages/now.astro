@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Now — Kristian Uremovic" description="What Kristian is currently focused on.">
+  <div style="min-height:100vh; background:var(--bg); padding-top:6rem; padding-bottom:6rem;">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl">
+
+      <div class="term-breadcrumb">
+        <a href="/" class="path-dir hover:text-[var(--text)] transition-colors">~</a>
+        <span class="path-sep">/</span>
+        <span class="path-cur">now</span>
+      </div>
+
+      <h1 class="text-3xl font-bold text-[var(--text)] mb-2 mt-4">Now</h1>
+      <p class="text-xs text-[var(--text-dimmer)] mb-10">Last updated: May 2026 · <a href="https://nownownow.com/about" target="_blank" rel="noopener" class="hover:text-[var(--text-dim)] transition-colors">What is a now page?</a></p>
+
+      <div class="now-sections">
+
+        <div class="now-item">
+          <h2 class="now-heading">Studying</h2>
+          <ul class="now-list">
+            <li>Cryptography</li>
+            <li>Unix Systems Administration</li>
+          </ul>
+        </div>
+
+        <div class="now-item">
+          <h2 class="now-heading">Reading</h2>
+          <ul class="now-list">
+            <li class="text-[var(--text-dimmer)] italic">Placeholder — will update</li>
+          </ul>
+        </div>
+
+        <div class="now-item">
+          <h2 class="now-heading">Building</h2>
+          <ul class="now-list">
+            <li>GCC flag simulation repository</li>
+            <li>CERIAS binary hardening benchmarking</li>
+          </ul>
+        </div>
+
+        <div class="now-item">
+          <h2 class="now-heading">Training</h2>
+          <ul class="now-list">
+            <li>Powerlifting</li>
+            <li>Judo</li>
+            <li>Soccer</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="mt-10 text-xs text-[var(--text-dimmer)]">
+        <a href="/reading" class="hover:text-[var(--text-dim)] transition-colors">→ Reading list</a>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .now-sections { display: flex; flex-direction: column; gap: 2rem; }
+  .now-item { border-left: 2px solid var(--border); padding-left: 1.25rem; }
+  .now-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.6rem;
+  }
+  .now-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+  .now-list li { font-size: 0.95rem; color: var(--text-muted); }
+  .now-list li::before { content: '›'; margin-right: 0.5rem; color: var(--text-dimmer); }
+</style>

@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "prebuild": "node scripts/download-assets.mjs",
-    "build": "astro build",
+    "build": "astro build && npx pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
@@ -15,12 +15,15 @@
     "typecheck": "astro check"
   },
   "dependencies": {
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/rss": "^4.0.18",
     "@tailwindcss/vite": "4.2.4",
-    "astro": "6.1.9",
+    "astro": "^6.3.1",
+    "pagefind": "^1.5.2",
     "tailwindcss": "4.2.4"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.8",
+    "@astrojs/check": "^0.9.9",
     "@types/node": "^22.19.17",
     "@typescript-eslint/parser": "8.59.0",
     "eslint": "9.27.0",

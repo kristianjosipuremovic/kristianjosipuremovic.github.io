@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 
-const GITHUB_USER = process.env.GITHUB_USER ?? '';
+const GITHUB_USER = process.env.GITHUB_USER ?? 'kristianjosipuremovic';
 
 interface CacheEntry {
   image: string | null;

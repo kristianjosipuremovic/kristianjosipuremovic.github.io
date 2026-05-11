@@ -1,0 +1,139 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import researchData from '../../data/research.json';
+
+export function getStaticPaths() {
+  return researchData.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const paragraphs = project.description.split('\n\n');
+---
+
+<Layout title={`${project.title} — Research`} description={project.summary}>
+  <div style="min-height:100vh; background:var(--bg); padding-top:6rem; padding-bottom:6rem;">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+
+      <!-- Breadcrumb -->
+      <div class="term-breadcrumb">
+        <a href="/" class="path-dir hover:text-[var(--text)] transition-colors">~</a>
+        <span class="path-sep">/</span>
+        <a href="/research" class="path-dir hover:text-[var(--text)] transition-colors">research</a>
+        <span class="path-sep">/</span>
+        <span class="path-cur">{project.slug}</span>
+      </div>
+
+      <!-- Back link -->
+      <a href="/research" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        Back to Research
+      </a>
+
+      <!-- Header -->
+      <div class="mt-8 mb-8">
+        <span class={`status-badge status-${project.statusColor}`}>{project.status}</span>
+        <h1 class="text-3xl sm:text-4xl font-bold text-[var(--text)] mt-3 mb-4 leading-tight">{project.title}</h1>
+        <div class="flex flex-wrap gap-2 mb-3">
+          {project.tags.map(tag => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+        <p class="text-xs text-[var(--text-dimmer)]">Last updated: {project.lastUpdated}</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Description -->
+      <div class="research-body mt-8" data-pagefind-body>
+        {paragraphs.map(para => (
+          <p class="research-para">{para}</p>
+        ))}
+      </div>
+
+      <!-- Back button bottom -->
+      <div class="mt-12">
+        <a href="/research" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          Back to Research
+        </a>
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <button id="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+  </div>
+</Layout>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text); }
+
+  .status-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+  }
+  .status-green { background: rgba(34,197,94,0.1); color: #86efac; border: 1px solid rgba(34,197,94,0.2); }
+  .status-yellow { background: rgba(234,179,8,0.1); color: #fde047; border: 1px solid rgba(234,179,8,0.2); }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+  }
+
+  .research-body { display: flex; flex-direction: column; gap: 1.25rem; }
+  .research-para {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--text-muted);
+  }
+
+  #back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease;
+    z-index: 50;
+  }
+  #back-to-top.visible { opacity: 1; transform: translateY(0); }
+  #back-to-top:hover { color: var(--text); border-color: var(--border-hover); }
+</style>
+
+<script>
+  const btn = document.getElementById('back-to-top');
+  if (btn) {
+    window.addEventListener('scroll', () => {
+      btn.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+</script>

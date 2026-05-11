@@ -1,0 +1,28 @@
+---
+interface Props {
+  /** Short label shown as the superscript reference mark (e.g. "1", "a", "†") */
+  label?: string;
+}
+const { label = '*' } = Astro.props;
+---
+<!-- Explicit sidenote for MDX posts — same CSS class as the auto-converted GFM footnotes -->
+<sup class="sidenote-ref-explicit" aria-label="note">{label}</sup><span class="sidenote" role="note">
+  <span class="sidenote-num" aria-hidden="true">{label}.</span>
+  <slot />
+</span>
+
+<script>
+  // Enable toggle on mobile for explicitly authored sidenotes
+  document.querySelectorAll<HTMLElement>('.sidenote-ref-explicit').forEach(ref => {
+    ref.style.cursor = 'pointer';
+    ref.addEventListener('click', (e) => {
+      if (window.innerWidth < 1400) {
+        e.preventDefault();
+        const next = ref.nextElementSibling;
+        if (next?.classList.contains('sidenote')) {
+          next.classList.toggle('open');
+        }
+      }
+    });
+  });
+</script>

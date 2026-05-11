@@ -3,16 +3,20 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import About from '../components/About.astro';
-import Expertise from '../components/Expertise.astro';
 import Skills from '../components/Skills.astro';
 import Projects from '../components/Projects.astro';
-import Portfolio from '../components/Portfolio.astro';
+import Research from '../components/Research.astro';
 import Certifications from '../components/Certifications.astro';
-import Services from '../components/Services.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import SectionDivider from '../components/SectionDivider.astro';
 import PrintResume from '../components/PrintResume.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const recentPosts = [...allPosts]
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 ---
 
 <Layout>
@@ -23,17 +27,44 @@ import PrintResume from '../components/PrintResume.astro';
     <SectionDivider />
     <About />
     <SectionDivider />
-    <Expertise />
-    <SectionDivider />
     <Skills />
-    <SectionDivider />
-    <Portfolio />
     <SectionDivider />
     <Projects />
     <SectionDivider />
+    <Research />
+    <SectionDivider />
     <Certifications />
     <SectionDivider />
-    <Services />
+
+    <!-- Recently Updated -->
+    {recentPosts.length > 0 && (
+      <section id="recent" class="py-16" style="background: var(--bg);">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl reveal">
+          <div class="flex items-center justify-between mb-8">
+            <div>
+              <p class="text-xs font-semibold tracking-widest text-[var(--text-dim)] uppercase mb-2">~/blog</p>
+              <h2 class="text-2xl font-bold section-title">Recently Published</h2>
+            </div>
+            <a href="/blog" class="text-sm text-[var(--text-dim)] hover:text-[var(--text)] transition-colors border border-[var(--border)] px-3 py-1.5 rounded hover:border-[var(--border-hover)]">
+              All posts →
+            </a>
+          </div>
+          <div class="recent-posts-list">
+            {recentPosts.map(post => {
+              const slug = post.id.split('/').pop()!;
+              return (
+                <a href={`/blog/${post.data.category}/${slug}`} class="recent-post-item">
+                  <span class="rp-date">{post.data.date.toISOString().split('T')[0]}</span>
+                  <span class="rp-title">{post.data.title}</span>
+                  <span class="rp-cat">{post.data.category}</span>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    )}
+
     <SectionDivider />
     <Contact />
   </main>
@@ -41,3 +72,27 @@ import PrintResume from '../components/PrintResume.astro';
   </div>
   <PrintResume />
 </Layout>
+
+<style>
+  .recent-posts-list { display: flex; flex-direction: column; gap: 0; }
+  .recent-post-item {
+    display: grid;
+    grid-template-columns: 7rem 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .recent-post-item:last-child { border-bottom: none; }
+  .recent-post-item:hover { background: rgba(255,255,255,0.02); }
+  .rp-date { font-size: 0.72rem; color: var(--text-dimmer); white-space: nowrap; font-family: inherit; }
+  .rp-title { font-size: 0.9rem; color: var(--text-muted); transition: color 0.2s ease; }
+  .recent-post-item:hover .rp-title { color: var(--text); }
+  .rp-cat { font-size: 0.65rem; color: var(--text-dimmer); text-align: right; white-space: nowrap; }
+  @media (max-width: 480px) {
+    .recent-post-item { grid-template-columns: 1fr; }
+    .rp-cat, .rp-date { display: none; }
+  }
+</style>

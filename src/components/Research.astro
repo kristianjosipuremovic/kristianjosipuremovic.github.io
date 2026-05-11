@@ -1,0 +1,114 @@
+---
+import researchData from '../data/research.json';
+---
+
+<section id="research" class="py-20 lg:py-28" style="background: var(--bg-section);">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl reveal">
+    <div class="flex items-center justify-between mb-10">
+      <div>
+        <p class="text-xs font-semibold tracking-widest text-[var(--text-dim)] uppercase mb-2">~/research</p>
+        <h2 class="text-3xl font-bold section-title">Research</h2>
+      </div>
+      <a href="/research" class="text-sm text-[var(--text-dim)] hover:text-[var(--text)] transition-colors border border-[var(--border)] px-3 py-1.5 rounded hover:border-[var(--border-hover)]">
+        View all →
+      </a>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {researchData.map((project) => (
+        <a href={`/research/${project.slug}`} class="research-folder-card group">
+          <div class="folder-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-8 h-8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+            </svg>
+          </div>
+          <div class="folder-body">
+            <h3 class="folder-title">{project.title}</h3>
+            <span class={`folder-status status-${project.statusColor}`}>{project.status}</span>
+            <div class="folder-tags">
+              {project.tags.slice(0, 3).map(tag => (
+                <span class="folder-tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .research-folder-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+  .research-folder-card:hover {
+    border-color: var(--border-hover);
+    background: rgba(39,39,42,0.5);
+    transform: translateY(-2px);
+  }
+
+  .folder-icon {
+    color: var(--text-dim);
+    transition: color 0.2s ease;
+  }
+  .research-folder-card:hover .folder-icon {
+    color: var(--text-muted);
+  }
+
+  .folder-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .folder-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .folder-status {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    display: inline-block;
+    width: fit-content;
+  }
+  .status-green {
+    background: rgba(34,197,94,0.1);
+    color: #86efac;
+    border: 1px solid rgba(34,197,94,0.2);
+  }
+  .status-yellow {
+    background: rgba(234,179,8,0.1);
+    color: #fde047;
+    border: 1px solid rgba(234,179,8,0.2);
+  }
+
+  .folder-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+  }
+  .folder-tag {
+    font-size: 0.6rem;
+    color: var(--text-dimmer);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+  }
+</style>

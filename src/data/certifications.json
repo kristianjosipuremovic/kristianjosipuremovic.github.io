@@ -1,119 +1,29 @@
 [
   {
-    "name": "Google UX Design Certificate",
-    "issuer": "Google / Coursera",
-    "date": "March 2023",
-    "status": "Earned",
-    "type": "certification",
-    "description": "Seven-course program covering UX research, wireframing, prototyping, and usability testing. Emphasis on human-centered design principles and building accessible, inclusive user experiences.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "Meta Front-End Developer Certificate",
-    "issuer": "Meta / Coursera",
-    "date": "November 2022",
-    "status": "Earned",
-    "type": "certification",
-    "description": "Comprehensive program covering HTML, CSS, JavaScript, React, and responsive design. Practical projects build toward a portfolio-ready capstone with real-world review criteria.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "AWS Cloud Practitioner",
-    "issuer": "Amazon Web Services",
-    "date": "June 2023",
-    "status": "Earned",
-    "type": "certification",
-    "description": "Foundational certification covering core AWS services, cloud architecture, pricing, and security fundamentals. Validates working knowledge of cloud infrastructure and deployment patterns.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "Introduction to Typography",
-    "issuer": "California Institute of the Arts / Coursera",
-    "date": "August 2021",
-    "status": "Completed",
-    "type": "professional-development",
-    "description": "Four-week deep dive into type history, classification, hierarchy, and pairing. Practical assignments applying typographic principles across editorial and screen-based design problems.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "Blender Character Modeling Masterclass",
-    "issuer": "Udemy",
-    "date": "January 2023",
-    "status": "Completed",
-    "type": "professional-development",
-    "description": "In-depth course covering polygonal modeling, UV unwrapping, texturing, and rigging for 3D characters. Focused on production-ready workflows and clean, efficient topology.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "Color Theory & Application",
-    "issuer": "Interaction Design Foundation",
-    "date": "May 2022",
-    "status": "Earned",
-    "type": "certification",
-    "description": "Systematic coverage of color psychology, harmony, contrast, and accessibility in design. Applied to brand identity, digital interfaces, and print production workflows.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "Video Editing: Premiere Pro",
-    "issuer": "LinkedIn Learning",
-    "date": "September 2021",
-    "status": "Completed",
-    "type": "professional-development",
-    "description": "End-to-end editing course from importing footage to color grading and final export. Covers multi-cam sequences, audio mixing, pacing, and motion graphics integration.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "Photography Fundamentals",
-    "issuer": "New York Institute of Photography",
-    "date": "April 2020",
-    "status": "Earned",
-    "type": "certification",
-    "description": "Comprehensive program covering exposure, composition, lighting, and post-processing. Portfolio-based assessment with instructor feedback from working photographers.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "Figma UI Design Bootcamp",
-    "issuer": "Scrimba",
-    "date": "February 2022",
-    "status": "Completed",
-    "type": "professional-development",
-    "description": "Hands-on course building production-ready UI components, auto-layouts, interactive prototypes, and component libraries. Structured to reflect real-world design system workflows.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "Freelance Business Foundations",
-    "issuer": "CreativeLive",
-    "date": "October 2021",
-    "status": "Earned",
-    "type": "certification",
-    "description": "Business-side program covering client acquisition, proposal writing, contracts, pricing strategy, and scope management. A practical toolkit for running an independent creative practice.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "Motion Design with After Effects",
-    "issuer": "School of Motion",
-    "date": "December 2022",
-    "status": "Completed",
-    "type": "professional-development",
-    "description": "Motion principles, keyframe animation, easing curves, and compositing applied to title sequences, UI animations, and explainer video production.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "Advanced CSS & Animations",
-    "issuer": "Frontend Masters",
-    "date": "July 2023",
-    "status": "Earned",
-    "type": "certification",
-    "description": "Deep-dive into CSS architecture, custom properties, grid layout, and performant keyframe animations. Focus on shipping polished, maintainable code that scales.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "3D Art for Real-Time Engines",
-    "issuer": "Unity Learn / Epic Games",
-    "date": "Target: End of Year",
+    "name": "CompTIA Security+",
+    "issuer": "CompTIA",
+    "date": "Summer 2025",
     "status": "In Progress",
     "type": "in-progress",
-    "description": "Bridging offline rendering knowledge with real-time constraints — optimizing assets, baking maps, and building environments in Unreal Engine for interactive and immersive projects.",
+    "description": "Industry-standard certification covering network security, threats, vulnerabilities, cryptography, identity management, and risk management. Foundational credential for cybersecurity careers.",
+    "credentialUrl": ""
+  },
+  {
+    "name": "CompTIA Network+",
+    "issuer": "CompTIA",
+    "date": "2025",
+    "status": "Planned",
+    "type": "planned",
+    "description": "Vendor-neutral networking certification covering protocols, routing, switching, infrastructure, and network troubleshooting. Complements Security+ with deep network fundamentals.",
+    "credentialUrl": ""
+  },
+  {
+    "name": "GICSP — Global Industrial Cyber Security Professional",
+    "issuer": "GIAC",
+    "date": "Junior/Senior Year",
+    "status": "Planned",
+    "type": "planned",
+    "description": "Specialized certification for industrial control system (ICS) and operational technology (OT) security. Highly relevant to embedded systems and critical infrastructure research.",
     "credentialUrl": ""
   }
 ]

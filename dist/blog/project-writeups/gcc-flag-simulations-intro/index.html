@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en" style="color-scheme: dark;"> <head><meta charset="UTF-8"><meta name="description" content="An introduction to the gcc_flag_simulations repository — what it is, why it exists, and how it works."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/favicons/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png"><link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png"><link rel="manifest" href="/manifest.json"><meta name="msapplication-config" content="/browserconfig.xml"><meta name="generator" content="Astro v6.3.1"><meta property="og:type" content="website"><meta property="og:title" content="GCC Flag Simulations: Project Overview — Kristian Uremovic"><meta property="og:description" content="An introduction to the gcc_flag_simulations repository — what it is, why it exists, and how it works."><meta property="og:site_name" content="Kristian Uremovic"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="GCC Flag Simulations: Project Overview — Kristian Uremovic"><meta name="twitter:description" content="An introduction to the gcc_flag_simulations repository — what it is, why it exists, and how it works."><meta name="theme-color" content="#111113"><!--
+     ██╗  ██╗██████╗  ██████╗     ██╗   ██╗██████╗ ███████╗███╗   ███╗ ██████╗ ██╗   ██╗██╗ ██████╗
+     ██║ ██╔╝██╔══██╗ ██╔══██╗    ██║   ██║██╔══██╗██╔════╝████╗ ████║██╔═══██╗██║   ██║██║██╔════╝
+     █████╔╝ ██████╔╝ ██║  ██║    ██║   ██║██████╔╝█████╗  ██╔████╔██║██║   ██║██║   ██║██║██║
+     ██╔═██╗ ██╔══██╗ ██║  ██║    ██║   ██║██╔══██╗██╔══╝  ██║╚██╔╝██║██║   ██║╚██╗ ██╔╝██║██║
+     ██║  ██╗██║  ██║ ██████╔╝    ╚██████╔╝██║  ██║███████╗██║ ╚═╝ ██║╚██████╔╝ ╚████╔╝ ██║╚██████╗
+     ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚═╝ ╚═════╝
+
+     You're the kind of person who views source. We'd probably get along.
+     → github.com/kristianjosipuremovic
+    --><link href="/fonts/jetbrains-mono-local.css" rel="stylesheet"><script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script><title>GCC Flag Simulations: Project Overview — Kristian Uremovic</title><!-- Adds .page-hidden to <body> while the tab is not visible.
+         Components can use this class to pause expensive animations. --><script>
+      document.addEventListener('visibilitychange', function () {
+        document.body.classList.toggle('page-hidden', document.hidden);
+      });
+    </script><link rel="stylesheet" href="/_astro/Layout.DjNJdzfz.css">
+<link rel="stylesheet" href="/_astro/_..Dkq3s3rl.css"></head> <body> <a href="#main-content" class="skip-link">Skip to main content</a> <div id="cmd-overlay" role="dialog" aria-modal="true" aria-label="Command palette" aria-hidden="true" data-astro-cid-wozhyvwc> <div id="cmd-backdrop" data-astro-cid-wozhyvwc></div> <div id="cmd-panel" data-astro-cid-wozhyvwc> <div id="cmd-search-row" data-astro-cid-wozhyvwc> <span id="cmd-prompt" data-astro-cid-wozhyvwc>›</span> <input id="cmd-input" type="text" placeholder="Search pages, posts, research..." autocomplete="off" spellcheck="false" data-astro-cid-wozhyvwc> <kbd id="cmd-esc" data-astro-cid-wozhyvwc>Esc</kbd> </div> <div id="cmd-results" role="listbox" data-astro-cid-wozhyvwc></div> </div> </div> <script>(function(){const commands = [{"label":"Home","href":"/","group":"Pages","icon":"~"},{"label":"Research","href":"/research","group":"Pages","icon":"📁"},{"label":"Blog","href":"/blog","group":"Pages","icon":"📝"},{"label":"Now","href":"/now","group":"Pages","icon":"⏱"},{"label":"Reading List","href":"/reading","group":"Pages","icon":"📚"},{"label":"About","href":"/#about","group":"Sections","icon":"#"},{"label":"Arsenal","href":"/#skills","group":"Sections","icon":"#"},{"label":"Projects","href":"/#projects","group":"Sections","icon":"#"},{"label":"Certifications","href":"/#certifications","group":"Sections","icon":"#"},{"label":"Contact","href":"/#contact","group":"Sections","icon":"#"},{"label":"CERIAS Binary Hardening Research","href":"/research/cerias-binary-hardening","group":"Research","icon":"🔬"},{"label":"LLM Political Bias Research","href":"/research/llm-political-bias","group":"Research","icon":"🔬"},{"label":"Data Mine Anomaly Detection","href":"/research/data-mine-anomaly-detection","group":"Research","icon":"🔬"},{"label":"PicoCTF 2025: Binary Exploitation Writeup","href":"/blog/ctf-writeups/example-ctf-writeup","group":"Blog","icon":"›"},{"label":"Hello, World","href":"/blog/general/hello-world","group":"Blog","icon":"›"},{"label":"GCC Flag Simulations: Project Overview","href":"/blog/project-writeups/gcc-flag-simulations-intro","group":"Blog","icon":"›"},{"label":"Zephyr RTOS + GCC Hardening: What's Actually Available","href":"/blog/research-writeups/cerias-zephyr-gcc-flags","group":"Blog","icon":"›"}];
+
+  const overlay = document.getElementById('cmd-overlay');
+  const backdrop = document.getElementById('cmd-backdrop');
+  const input = document.getElementById('cmd-input');
+  const results = document.getElementById('cmd-results');
+
+  let activeIdx = -1;
+
+  function open() {
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('open');
+    input.value = '';
+    renderResults('');
+    setTimeout(() => input.focus(), 50);
+  }
+
+  function close() {
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('open');
+    activeIdx = -1;
+  }
+
+  function fuzzy(str, query) {
+    const s = str.toLowerCase();
+    const q = query.toLowerCase();
+    let si = 0, qi = 0, score = 0;
+    while (si < s.length && qi < q.length) {
+      if (s[si] === q[qi]) { score++; qi++; }
+      si++;
+    }
+    return qi === q.length ? score : -1;
+  }
+
+  function renderResults(query) {
+    const filtered = query
+      ? commands
+          .map(c => ({ ...c, score: fuzzy(c.label, query) }))
+          .filter(c => c.score > 0)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 12)
+      : commands.slice(0, 12);
+
+    activeIdx = filtered.length > 0 ? 0 : -1;
+
+    results.innerHTML = '';
+    let lastGroup = '';
+    filtered.forEach((cmd, i) => {
+      if (cmd.group !== lastGroup) {
+        const g = document.createElement('div');
+        g.className = 'cmd-group-label';
+        g.textContent = cmd.group;
+        results.appendChild(g);
+        lastGroup = cmd.group;
+      }
+      const el = document.createElement('a');
+      el.href = cmd.href;
+      el.className = 'cmd-item' + (i === activeIdx ? ' active' : '');
+      el.setAttribute('role', 'option');
+      el.innerHTML = `<span class="cmd-icon">${cmd.icon}</span><span class="cmd-label">${cmd.label}</span>`;
+      el.addEventListener('click', close);
+      results.appendChild(el);
+    });
+  }
+
+  function moveActive(dir) {
+    const items = Array.from(results.querySelectorAll('.cmd-item'));
+    if (!items.length) return;
+    activeIdx = (activeIdx + dir + items.length) % items.length;
+    items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+    items[activeIdx]?.scrollIntoView({ block: 'nearest' });
+  }
+
+  input.addEventListener('input', () => renderResults(input.value));
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); moveActive(1); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); }
+    if (e.key === 'Enter') {
+      const items = Array.from(results.querySelectorAll('.cmd-item'));
+      if (items[activeIdx]) { close(); items[activeIdx].click(); }
+    }
+    if (e.key === 'Escape') close();
+  });
+
+  backdrop.addEventListener('click', close);
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      overlay.classList.contains('open') ? close() : open();
+    }
+    if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+  });
+})();</script>   <div id="reading-progress" aria-hidden="true" data-astro-cid-6yeeuaxl></div> <div class="blog-post-layout" style="min-height:100vh; background:var(--bg); padding-top:5rem;" data-astro-cid-6yeeuaxl> <!-- Main content column --> <div class="blog-main" data-astro-cid-6yeeuaxl> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl py-12" data-astro-cid-6yeeuaxl> <!-- Breadcrumb --> <div class="term-breadcrumb" data-astro-cid-6yeeuaxl> <a href="/" class="path-dir hover:text-[var(--text)] transition-colors" data-astro-cid-6yeeuaxl>~</a> <span class="path-sep" data-astro-cid-6yeeuaxl>/</span> <a href="/blog" class="path-dir hover:text-[var(--text)] transition-colors" data-astro-cid-6yeeuaxl>blog</a> <span class="path-sep" data-astro-cid-6yeeuaxl>/</span> <a href="/blog/project-writeups" class="path-dir hover:text-[var(--text)] transition-colors" data-astro-cid-6yeeuaxl>project-writeups</a> <span class="path-sep" data-astro-cid-6yeeuaxl>/</span> <span class="path-cur" data-astro-cid-6yeeuaxl>gcc-flag-simulations-intro</span> </div> <a href="/blog/project-writeups" class="back-link" data-astro-cid-6yeeuaxl>← Back to Project Writeups</a> <!-- Post header --> <div class="post-header" data-astro-cid-6yeeuaxl> <h1 class="post-title" data-astro-cid-6yeeuaxl>GCC Flag Simulations: Project Overview</h1> <!-- Meta block --> <div class="meta-block" data-astro-cid-6yeeuaxl> <div class="meta-item" data-astro-cid-6yeeuaxl> <span class="meta-label" data-astro-cid-6yeeuaxl>Date</span> <span class="meta-value" data-astro-cid-6yeeuaxl>2025-04-01</span> </div> <div class="meta-item" data-astro-cid-6yeeuaxl> <span class="meta-label" data-astro-cid-6yeeuaxl>Reading time</span> <span class="meta-value" data-astro-cid-6yeeuaxl>1 min</span> </div> <div class="meta-item" data-astro-cid-6yeeuaxl> <span class="meta-label" data-astro-cid-6yeeuaxl>Word count</span> <span class="meta-value" data-astro-cid-6yeeuaxl>151</span> </div> <div class="meta-item" data-astro-cid-6yeeuaxl> <span class="meta-label" data-astro-cid-6yeeuaxl>Category</span> <a href="/blog/project-writeups" class="meta-value meta-link" data-astro-cid-6yeeuaxl>Project Writeups</a> </div> </div> <!-- Tags --> <div class="post-tags" data-astro-cid-6yeeuaxl> <span class="tag" data-astro-cid-6yeeuaxl>GCC</span><span class="tag" data-astro-cid-6yeeuaxl>C</span><span class="tag" data-astro-cid-6yeeuaxl>Security</span><span class="tag" data-astro-cid-6yeeuaxl>Binary Hardening</span><span class="tag" data-astro-cid-6yeeuaxl>Systems Programming</span> </div> <!-- Series indicator --> <div class="series-indicator" data-astro-cid-6yeeuaxl> <span class="series-label" data-astro-cid-6yeeuaxl>Series: GCC Flag Simulations</span> <div class="series-parts" data-astro-cid-6yeeuaxl> <a href="#" class="series-part-link current" data-astro-cid-6yeeuaxl>
+Part 1 </a> </div> </div> </div> <!-- Post body --> <div class="prose-content" data-pagefind-body data-astro-cid-6yeeuaxl> <h1 id="gcc-flag-simulations-project-overview">GCC Flag Simulations: Project Overview</h1>
+<p>This is a placeholder project writeup. Replace with your actual content.</p>
+<h2 id="what-is-this">What Is This?</h2>
+<p>The <code>gcc_flag_simulations</code> repository is a collection of C files that manually simulate the mechanisms injected by GCC hardening flags — without actually enabling the flags.</p>
+<h2 id="why">Why?</h2>
+<p>Understanding what GCC <em>actually does</em> when you pass <code>-fstack-protector-strong</code> requires reading the generated assembly or the GCC source. This project takes a different approach: reimplement the mechanism in plain C, with full documentation.</p>
+<h2 id="repository-structure">Repository Structure</h2>
+<p>Each file corresponds to one hardening mechanism:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>gcc_flag_simulations/</span></span>
+<span class="line"><span>├── stack_protector/</span></span>
+<span class="line"><span>│   ├── basic.c          # simulates -fstack-protector</span></span>
+<span class="line"><span>│   └── strong.c         # simulates -fstack-protector-strong</span></span>
+<span class="line"><span>├── fortify_source/</span></span>
+<span class="line"><span>│   └── memcpy.c         # simulates FORTIFY_SOURCE for memcpy</span></span>
+<span class="line"><span>└── README.md</span></span></code></pre>
+<h2 id="how-to-use">How to Use</h2>
+<p>Clone the repo and read the source files alongside the GCC documentation.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#61AFEF">git</span><span style="color:#98C379"> clone</span><span style="color:#98C379"> https://github.com/kristianjosipuremovic/gcc_flag_simulations</span></span></code></pre>
+<p>Each file is fully commented and stands alone as documentation.</p> </div> <!-- Series navigation -->  <div class="mt-12" data-astro-cid-6yeeuaxl> <a href="/blog/project-writeups" class="back-link" data-astro-cid-6yeeuaxl>← Back to Project Writeups</a> </div> </div> </div> <!-- TOC sidebar (desktop only) --> <aside class="toc-sidebar" data-astro-cid-6yeeuaxl> <div class="toc-inner" id="toc-inner" data-astro-cid-6yeeuaxl> <p class="toc-label" data-astro-cid-6yeeuaxl>On this page</p> <nav data-astro-cid-6yeeuaxl> <a href="#gcc-flag-simulations-project-overview" class="toc-link depth-1" data-slug="gcc-flag-simulations-project-overview" data-astro-cid-6yeeuaxl> GCC Flag Simulations: Project Overview </a><a href="#what-is-this" class="toc-link depth-2" data-slug="what-is-this" data-astro-cid-6yeeuaxl> What Is This? </a><a href="#why" class="toc-link depth-2" data-slug="why" data-astro-cid-6yeeuaxl> Why? </a><a href="#repository-structure" class="toc-link depth-2" data-slug="repository-structure" data-astro-cid-6yeeuaxl> Repository Structure </a><a href="#how-to-use" class="toc-link depth-2" data-slug="how-to-use" data-astro-cid-6yeeuaxl> How to Use </a> </nav> </div> </aside> </div>  <button id="back-to-top" aria-label="Back to top" data-astro-cid-6yeeuaxl>↑</button>  </body></html>   <script type="module">const g=document.getElementById("reading-progress"),l=document.querySelector(".prose-content");function y(){if(!g||!l)return;const t=l.getBoundingClientRect(),e=l.clientHeight,n=Math.min(Math.max(-t.top,0),e);g.style.width=`${n/e*100}%`}window.addEventListener("scroll",y,{passive:!0});const a=document.getElementById("back-to-top");a&&(window.addEventListener("scroll",()=>{a.classList.toggle("visible",window.scrollY>300)},{passive:!0}),a.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"})));const d=document.querySelectorAll(".toc-link"),E=Array.from(d).map(t=>{const e=t.dataset.slug;return e?document.getElementById(e):null}).filter(Boolean),h=new IntersectionObserver(t=>{for(const e of t)e.isIntersecting&&(d.forEach(o=>o.classList.remove("active")),Array.from(d).find(o=>o.dataset.slug===e.target.id)?.classList.add("active"))},{rootMargin:"-20% 0px -70% 0px"});E.forEach(t=>h.observe(t));(function(){const e=document.querySelector(".prose-content");if(!e)return;const n=e.querySelector("[data-footnotes]");if(!n)return;const o=Array.from(e.querySelectorAll("a[data-footnote-ref]"));o.length&&(o.forEach(c=>{const u=c.getAttribute("href");if(!u)return;const f=document.getElementById(u.slice(1));if(!f)return;const p=f.cloneNode(!0);p.querySelectorAll("a[data-footnote-backref]").forEach(i=>i.remove());const v=p.innerHTML.replace(/^\s*<p>/,"").replace(/<\/p>\s*$/,"").trim(),s=document.createElement("span");s.className="sidenote",s.setAttribute("role","note"),s.innerHTML=`<span class="sidenote-num" aria-hidden="true">${c.textContent}.</span> ${v}`;const r=c.closest("sup");!r||!r.parentNode||(r.parentNode.insertBefore(s,r),r.addEventListener("click",i=>{if(window.innerWidth<1400){i.preventDefault();const m=r.previousElementSibling;m?.classList.contains("sidenote")&&m.classList.toggle("open")}}))}),n.style.display="none")})();document.querySelectorAll("pre").forEach(t=>{const e=document.createElement("button");e.className="code-block-copy",e.textContent="Copy",e.addEventListener("click",()=>{const n=t.querySelector("code")?.innerText??"";navigator.clipboard.writeText(n).then(()=>{e.textContent="Copied!",setTimeout(()=>{e.textContent="Copy"},1500)})}),t.style.position="relative",t.appendChild(e)});</script>
