@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  site: process.env.SITE_URL || site: 'https://kristianjosipuremovic.github.io',
+  site: process.env.SITE_URL || 'https://kristianjosipuremovic.github.io',
   base: process.env.BASE_PATH || '/',
   integrations: [mdx()],
   vite: {
