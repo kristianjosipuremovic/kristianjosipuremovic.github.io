@@ -2,6 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Ticker from '../components/Ticker.astro';
+import BootSequence from '../components/BootSequence.astro';
 import PrintResume from '../components/PrintResume.astro';
 import personalData from '../data/personal.json';
 
@@ -14,12 +16,26 @@ const cards = [
 ---
 
 <Layout>
+  <BootSequence />
   <div class="web-only">
     <Header />
     <main id="main-content" class="home">
       <!-- HERO -->
       <section class="hero">
-        <div class="container-page">
+
+        <!-- F1 — GHOST ARCHITECTURE: phantom structural form behind the name.
+             A: massive "UREMOVIC" outline as architectural mass.
+             B: two hairline structural verticals framing the section.
+             C: ghost facade mass-block bleeding off the right edge.
+             All non-interactive, behind hero content. -->
+        <div class="ghost-arch" aria-hidden="true">
+          <span class="ghost-vline ghost-vline-left"></span>
+          <span class="ghost-vline ghost-vline-right"></span>
+          <span class="ghost-mass"></span>
+          <span class="ghost-name">UREMOVIC</span>
+        </div>
+
+        <div class="container-page hero-content">
           <div class="hero-grid">
             <div class="hero-aside" aria-hidden="true">
               <span class="hero-num">01</span>
@@ -67,6 +83,7 @@ const cards = [
         </div>
       </section>
     </main>
+    <Ticker />
     <Footer />
   </div>
   <PrintResume />
@@ -86,6 +103,80 @@ const cards = [
   }
   @media (min-width: 768px) {
     .hero { padding: 7rem 0 7rem; }
+  }
+
+  /* ─── GHOST ARCHITECTURE (F1) ─── */
+  .ghost-arch {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  /* Content sits above the ghost layer */
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* A — Phantom surname, monumental outline */
+  .ghost-name {
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(180px, 22vw, 340px);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.055);
+    text-stroke: 1px rgba(255, 255, 255, 0.055);
+    filter: blur(0.4px);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* B — Structural verticals */
+  .ghost-vline {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.04);
+    pointer-events: none;
+  }
+  .ghost-vline-left  { left: 8%; }
+  .ghost-vline-right { right: 8%; }
+
+  /* C — Mass block, ghost facade */
+  .ghost-mass {
+    position: absolute;
+    top: 20%;
+    right: -5vw;
+    width: 45vw;
+    height: 60%;
+    background: rgba(255, 255, 255, 0.012);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    pointer-events: none;
+  }
+
+  /* Mobile — smaller, dimmer (opacities reduced ~40%) */
+  @media (max-width: 768px) {
+    .ghost-name {
+      font-size: clamp(80px, 18vw, 140px);
+      -webkit-text-stroke-color: rgba(255, 255, 255, 0.033);
+    }
+    .ghost-vline {
+      background: rgba(255, 255, 255, 0.024);
+    }
+    .ghost-mass {
+      background: rgba(255, 255, 255, 0.0072);
+      border-color: rgba(255, 255, 255, 0.024);
+    }
   }
 
   .hero-grid {

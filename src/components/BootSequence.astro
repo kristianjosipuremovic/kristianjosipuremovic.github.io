@@ -1,0 +1,195 @@
+---
+/*
+ * Boot Sequence — Feature 3.
+ *
+ * Full-screen terminal-style boot overlay. Plays on the user's first ever
+ * visit (tracked via localStorage), skipped on every visit thereafter.
+ * Total duration: 2200ms. Respects prefers-reduced-motion.
+ *
+ * The overlay is in the DOM on initial render so there is no flash of
+ * unstyled content. The inline script below decides — synchronously —
+ * whether to play the sequence or remove the overlay immediately.
+ */
+---
+
+<div id="boot-overlay" class="boot-overlay" role="status" aria-label="System initializing">
+  <div class="boot-block">
+
+    <div class="boot-line" data-delay="0">
+      <span class="bl-label">SYSTEM INIT</span><span class="bl-dots"> ···············</span>
+    </div>
+
+    <div class="boot-line" data-delay="200">
+      <span class="bl-label">OPERATOR</span><span class="bl-dots"> ···· </span><span class="bl-value">K. UREMOVIC</span>
+    </div>
+
+    <div class="boot-line" data-delay="450">
+      <span class="bl-label">NODE</span><span class="bl-dots"> ········ </span><span class="bl-value">PURDUE.CERIAS</span>
+    </div>
+
+    <div class="boot-line" data-delay="700">
+      <span class="bl-label">RESEARCH</span><span class="bl-dots"> ···· </span><span class="bl-value">ACTIVE</span>
+    </div>
+
+    <div class="boot-line" data-delay="950">
+      <span class="bl-label">CLEARANCE</span><span class="bl-dots"> ··· </span><span class="bl-value">VERIFIED</span>
+    </div>
+
+    <div class="boot-line boot-line-loading" data-delay="1200">
+      <span class="bl-label">LOADING</span><span class="bl-dots"> ·····················</span><span class="bl-cursor" aria-hidden="true">█</span>
+    </div>
+
+    <div class="bl-red" aria-hidden="true"></div>
+
+  </div>
+</div>
+
+<style>
+  .boot-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: #0a0a0c;
+    pointer-events: all;
+    opacity: 1;
+    transition: opacity 400ms ease-in;
+  }
+  .boot-overlay.is-fading {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .boot-overlay.is-hidden {
+    display: none;
+  }
+
+  .boot-block {
+    position: absolute;
+    top: 50%;
+    left: clamp(40px, 8vw, 120px);
+    transform: translateY(-50%);
+    font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.85;
+    max-width: calc(100vw - 80px);
+  }
+
+  .boot-line {
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 150ms ease-out, transform 150ms ease-out;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .boot-line.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .bl-label { color: rgba(255, 255, 255, 0.5); }
+  .bl-value { color: rgba(255, 255, 255, 0.9); }
+  .bl-dots  { color: rgba(255, 255, 255, 0.3); }
+
+  .bl-cursor {
+    color: rgba(255, 255, 255, 0.9);
+    display: none;
+    margin-left: 2px;
+  }
+  .bl-cursor.is-visible {
+    display: inline-block;
+    animation: bl-blink 500ms steps(1, end) infinite;
+  }
+  @keyframes bl-blink {
+    50% { opacity: 0; }
+  }
+
+  /* Red line beneath LOADING — draws 0 → 200px over 300ms */
+  .bl-red {
+    width: 0;
+    height: 1px;
+    background: #CC0000;
+    margin-top: 6px;
+    transition: width 300ms linear;
+  }
+  .bl-red.is-drawing {
+    width: 200px;
+  }
+
+  /* Mobile: keep text legible */
+  @media (max-width: 540px) {
+    .boot-block {
+      font-size: 11px;
+      left: clamp(20px, 6vw, 40px);
+    }
+  }
+</style>
+
+<script is:inline>
+(function () {
+  /*
+   * Inline because we want this to run as the parser reaches it, before paint:
+   *   - On subsequent visits we hide the overlay immediately (no flash).
+   *   - Under prefers-reduced-motion we skip the animation entirely.
+   *   - On a first visit, we set the flag and run the sequence.
+   *
+   * Idempotent: dataset.bootInit guards double-runs across View Transitions.
+   * astro:page-load handler re-fires the logic if the homepage is revisited.
+   */
+  function bootInit() {
+    var overlay = document.getElementById('boot-overlay');
+    if (!overlay) return;
+    if (overlay.dataset.bootInit === '1') return;
+    overlay.dataset.bootInit = '1';
+
+    var STORAGE_KEY = 'ku-booted';
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var booted = false;
+    try { booted = localStorage.getItem(STORAGE_KEY) === 'true'; } catch (e) { /* ignore */ }
+
+    if (reduced || booted) {
+      overlay.classList.add('is-hidden');
+      return;
+    }
+    try { localStorage.setItem(STORAGE_KEY, 'true'); } catch (e) { /* ignore */ }
+
+    var lines = overlay.querySelectorAll('.boot-line');
+    var cursor = overlay.querySelector('.bl-cursor');
+    var redLine = overlay.querySelector('.bl-red');
+
+    lines.forEach(function (line) {
+      var d = parseInt(line.getAttribute('data-delay') || '0', 10);
+      setTimeout(function () { line.classList.add('is-visible'); }, d);
+    });
+
+    // Cursor appears with LOADING line and blinks via CSS
+    setTimeout(function () {
+      if (cursor) cursor.classList.add('is-visible');
+    }, 1200);
+
+    // Red line: cursor off, red line draws left → right (0 → 200px over 300ms)
+    setTimeout(function () {
+      if (cursor) cursor.classList.remove('is-visible');
+      if (cursor) cursor.style.display = 'none';
+      if (redLine) redLine.classList.add('is-drawing');
+    }, 1400);
+
+    // Overlay fade — 1750ms in, 400ms cubic ease-in
+    setTimeout(function () {
+      overlay.classList.add('is-fading');
+    }, 1750);
+
+    // Hard removal at 2200ms
+    setTimeout(function () {
+      overlay.classList.add('is-hidden');
+    }, 2200);
+  }
+
+  bootInit();
+  document.addEventListener('astro:page-load', bootInit);
+})();
+</script>

@@ -1,0 +1,64 @@
+---
+/*
+ * Manifesto Ticker — Feature 2.
+ *
+ * A continuous horizontal ticker. Runs at 45s / loop, linear, infinite.
+ * The content string is rendered twice side-by-side so a -50% translate
+ * wraps seamlessly. Does not pause on hover. Static under
+ * prefers-reduced-motion.
+ */
+
+const stream = 'CERIAS BINARY HARDENING · ARM CORTEX-M3 · ZEPHYR RTOS · GCC HARDENING FLAGS · MECHANISTIC INTERPRETABILITY · SPARSE AUTOENCODERS · GEMMA-2-2B · LLM POLITICAL BIAS · ML ANOMALY DETECTION · PURDUE DATA MINE · COMPILER SECURITY · EMBEDDED SYSTEMS · KRISTIAN UREMOVIC · 2026 · PURDUE CERIAS · BINARY HARDENING · ARM CORTEX-M3 · ';
+---
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ticker-text">{stream}</span>
+    <span class="ticker-text">{stream}</span>
+  </div>
+</div>
+
+<style>
+  .ticker {
+    width: 100%;
+    height: 28px;
+    overflow: hidden;
+    background: transparent;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+  }
+
+  .ticker-inner {
+    display: flex;
+    flex-shrink: 0;
+    white-space: nowrap;
+    animation: ticker-scroll 45s linear infinite;
+    will-change: transform;
+  }
+
+  .ticker-text {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.25);
+    /* Each copy is one full content width; combined width = 200%.
+       Translating the wrapper by -50% wraps perfectly. */
+    padding-right: 0;
+    flex-shrink: 0;
+  }
+
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* The machine does not stop for the observer. */
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-inner { animation: none; transform: translateX(0); }
+  }
+</style>
