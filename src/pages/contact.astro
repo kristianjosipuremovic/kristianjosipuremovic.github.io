@@ -169,9 +169,12 @@ import siteData from '../data/site.json';
   }
   .form-field input::placeholder,
   .form-field textarea::placeholder { color: var(--text-dimmer); }
+  /* Red Element 5 — Form field focus.
+     All borders disappear except a 1px Soviet red baseline. */
   .form-field input:focus,
   .form-field textarea:focus {
-    border-color: var(--line-bright);
+    border-color: transparent;
+    border-bottom-color: #CC0000;
     background: rgba(0, 0, 0, 0.55);
   }
   .form-field textarea { resize: vertical; min-height: 140px; font-family: var(--font-body); }

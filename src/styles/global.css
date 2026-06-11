@@ -36,6 +36,10 @@
     --line-strong: rgba(244, 244, 245, 0.14);
     --line-bright: rgba(244, 244, 245, 0.28);
 
+    /* ── The single accent: Rodchenko / Soviet red.
+       Used in exactly six surgical locations across the site. ── */
+    --red:         #CC0000;
+
     /* ── Chrome panel surface (the master silver standard) ──
        A frosted brushed-silver slab: diagonal sheen, rim highlight,
        darkened belly. Reactive on hover. */
@@ -277,12 +281,14 @@
     gap: 1rem;
     margin-bottom: 2.25rem;
   }
+  /* Red Element 3 — Section numbers.
+     Stamped Soviet red numerals on a thin hairline box. */
   .sec-numeral {
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.1em;
-    color: var(--text-dimmer);
+    color: var(--red);
     padding: 0.18rem 0.4rem;
     border: 1px solid var(--line);
     line-height: 1;
@@ -301,33 +307,6 @@
     color: var(--text-dim);
     margin-top: 0.4rem;
     max-width: 56ch;
-  }
-
-  /* ─────────────────────────────────────────────
-     DIAGONAL DIVIDER — Maxim IV
-     A thin hairline drafted on the diagonal.
-     ───────────────────────────────────────────── */
-  .rule-diagonal {
-    position: relative;
-    height: 1px;
-    width: 100%;
-    background: transparent;
-    overflow: visible;
-  }
-  .rule-diagonal::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      var(--line-strong) 20%,
-      var(--line-bright) 50%,
-      var(--line-strong) 80%,
-      transparent 100%
-    );
-    transform: rotate(-1.4deg);
-    transform-origin: 0 50%;
   }
 
   /* ─────────────────────────────────────────────
@@ -532,8 +511,12 @@
   }
   .crumb a { color: var(--text-dim); text-decoration: none; transition: color 0.2s ease; }
   .crumb a:hover { color: var(--text); }
-  .crumb .sep { color: var(--text-dimmer); }
   .crumb .cur { color: var(--text); }
+  /* Red Element 4 — Breadcrumb structural punctuation.
+     The leading tilde and every separator slash are Soviet red. */
+  .crumb > a:first-child { color: var(--red); }
+  .crumb > a:first-child:hover { color: var(--red); opacity: 0.8; }
+  .crumb .sep { color: var(--red); }
 }
 
 /* ─────────────────────────────────────────────

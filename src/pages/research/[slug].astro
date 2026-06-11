@@ -40,8 +40,6 @@ const numeral = String(projectIdx + 1).padStart(2, '0');
         <h1 class="rs-title reveal">{project.title}</h1>
         <p class="rs-summary reveal">{project.summary}</p>
 
-        <div class="rule-diagonal" aria-hidden="true"></div>
-
         <div class="rs-body reveal" data-pagefind-body>
           {paragraphs.map((para: string) => (
             <p>{para}</p>
@@ -74,6 +72,13 @@ const numeral = String(projectIdx + 1).padStart(2, '0');
     color: var(--text-dimmer);
     text-transform: uppercase;
     margin-left: auto;
+  }
+
+  /* Red Element 6 — Research status badge on detail page: same red left edge. */
+  .rs-head :global(.status-label.is-active) {
+    border-color: transparent;
+    border-left: 2px solid #CC0000;
+    padding-left: 0.7rem;
   }
 
   .rs-title {

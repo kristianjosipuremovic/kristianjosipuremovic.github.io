@@ -91,6 +91,15 @@ const items = researchData as ResearchItem[];
   }
   .res-card.is-feature { min-height: 260px; }
 
+  /* Red Element 6 — Research status badge: 2px left edge in Soviet red.
+     Other borders disappear; text styling unchanged. Classified-document marker.
+     :global() bypasses scoped-style rewriting so we can reach the global .status-label. */
+  .res-card :global(.status-label.is-active) {
+    border-color: transparent;
+    border-left: 2px solid #CC0000;
+    padding-left: 0.7rem;
+  }
+
   .res-head {
     display: flex;
     align-items: center;

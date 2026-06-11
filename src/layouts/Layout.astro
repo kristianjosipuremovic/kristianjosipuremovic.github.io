@@ -77,6 +77,29 @@ const { title = siteData.title, description = siteData.description, ogImage } = 
       wireReveal();
       document.addEventListener('astro:page-load', wireReveal);
     </script>
+    <!-- Sound system: lazy AudioContext, off by default, persisted via localStorage -->
+    <script>
+      import {
+        wireSoundsForCurrentPage,
+        wireToggleButton,
+        setupGlobalSoundListeners,
+        maybePlayDroneIntro,
+      } from '../lib/sounds';
+
+      function wireSoundsAndToggle() {
+        wireSoundsForCurrentPage();
+        const btn = document.getElementById('sound-toggle');
+        if (btn) wireToggleButton(btn);
+      }
+
+      setupGlobalSoundListeners();
+      wireSoundsAndToggle();
+      document.addEventListener('astro:page-load', wireSoundsAndToggle);
+
+      // Attempt the dystopian drone on the user's first ever visit.
+      // Will silently defer until first user gesture if the AudioContext is suspended.
+      maybePlayDroneIntro();
+    </script>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
