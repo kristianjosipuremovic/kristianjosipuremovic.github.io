@@ -86,6 +86,14 @@
     --font-display: "Space Grotesk", "Archivo", system-ui, sans-serif;
     --font-body:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     --font-mono:    "JetBrains Mono", ui-monospace, "Courier New", monospace;
+
+    /* ── Fixed-bar heights ── */
+    --nav-h:    44px;  /* nav (desktop) — burger is hidden, monogram sets height */
+    --ticker-h: 24px;  /* top live-feed ticker */
+  }
+
+  @media (max-width: 767px) {
+    :root { --nav-h: 54px; /* mobile burger pushes the inner taller */ }
   }
 
   ::selection {
@@ -103,6 +111,13 @@
     color: var(--text-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Make room for the fixed top ticker. Existing page padding-top
+       still covers the nav itself. Reduced-motion removes the ticker
+       AND this offset so layout returns to baseline. */
+    padding-top: var(--ticker-h);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body { padding-top: 0; }
   }
 
   code, pre, kbd, samp {

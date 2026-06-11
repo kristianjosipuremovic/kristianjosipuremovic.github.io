@@ -1,0 +1,73 @@
+---
+/*
+ * Top Ticker — live system feed running just below the nav bar.
+ * Fixed positioning, faster (28s) than the bottom ticker, cold-white neon.
+ * Hidden under prefers-reduced-motion. Persisted across View Transitions.
+ */
+
+const stream = 'SYSTEM ONLINE · PURDUE CERIAS · RESEARCH ACTIVE · BINARY HARDENING · ARM CORTEX-M3 · ZEPHYR RTOS · OPERATOR: K. UREMOVIC · CLEARANCE VERIFIED · NODE: WEST LAFAYETTE · UPTIME: CONTINUOUS · LLM INTERPRETABILITY · ANOMALY DETECTION · COMPILER SECURITY · ';
+---
+
+<div class="top-ticker" aria-hidden="true" transition:persist="top-ticker">
+  <div class="top-ticker-inner">
+    <span class="top-ticker-text">{stream}</span>
+    <span class="top-ticker-text">{stream}</span>
+  </div>
+</div>
+
+<style>
+  .top-ticker {
+    position: fixed;
+    /* --nav-h is set in global.css; values: 44px desktop, 54px mobile */
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    height: 24px;
+    /* Nav sits at z-index 1000; ticker drops to 999 so the nav (and any
+       hover/focus outline emerging from it) wins any overlap. */
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    /* No top border — the red 1px nav line already separates this from the nav. */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .top-ticker-inner {
+    display: flex;
+    flex-shrink: 0;
+    white-space: nowrap;
+    animation: top-ticker-scroll 28s linear infinite;
+    will-change: transform;
+  }
+
+  .top-ticker-text {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+    /* Cold-white neon glow, fully achromatic (the inner glow uses
+       a very faint blue-white at low alpha to read as "electric"
+       without introducing chroma). */
+    text-shadow:
+      0 0 6px  rgba(255, 255, 255, 0.5),
+      0 0 18px rgba(220, 220, 255, 0.2);
+    flex-shrink: 0;
+  }
+
+  @keyframes top-ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Decorative + motion-dependent — drop entirely if the user prefers less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    .top-ticker { display: none; }
+  }
+</style>

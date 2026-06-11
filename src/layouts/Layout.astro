@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import siteData from '../data/site.json';
 import CommandPalette from '../components/CommandPalette.astro';
+import TopTicker from '../components/TopTicker.astro';
 
 interface Props {
   title?: string;
@@ -104,6 +105,7 @@ const { title = siteData.title, description = siteData.description, ogImage } = 
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <CommandPalette />
+    <TopTicker />
     <slot />
   </body>
 </html>
