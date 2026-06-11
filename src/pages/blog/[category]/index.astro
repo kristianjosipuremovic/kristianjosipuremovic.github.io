@@ -43,14 +43,14 @@ function readingTime(body: string) {
 const label = categoryLabels[category as string] ?? category;
 ---
 
-<Layout title={`${label} — Blog`} description={`All posts in ${label}`}>
+<Layout title={`${label} — Writeups`} description={`All posts in ${label}`}>
   <div style="min-height:100vh; background:var(--bg); padding-top:6rem; padding-bottom:6rem;">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
 
       <div class="term-breadcrumb">
         <a href="/" class="path-dir hover:text-[var(--text)] transition-colors">~</a>
         <span class="path-sep">/</span>
-        <a href="/blog" class="path-dir hover:text-[var(--text)] transition-colors">blog</a>
+        <a href="/blog" class="path-dir hover:text-[var(--text)] transition-colors">writeups</a>
         <span class="path-sep">/</span>
         <span class="path-cur">{category}</span>
       </div>
@@ -131,7 +131,7 @@ const label = categoryLabels[category as string] ?? category;
     align-items: center;
     gap: 0.5rem;
     padding: 0.6rem 1rem;
-    background: rgba(255,255,255,0.03);
+    background: var(--bg-surface);
     font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.05em;
@@ -159,7 +159,7 @@ const label = categoryLabels[category as string] ?? category;
     border-radius: 0;
   }
   .series-group .post-card:last-child { border-bottom: none; }
-  .post-card:hover { border-color: var(--border-hover); background: rgba(39,39,42,0.6); }
+  .post-card:hover { border-color: var(--border-hover); background: var(--bg-surface); }
   .post-card.focused { border-color: var(--text-muted); }
 
   .post-meta-row {
@@ -171,7 +171,7 @@ const label = categoryLabels[category as string] ?? category;
   .post-date { font-size: 0.7rem; color: var(--text-dimmer); }
   .series-part {
     font-size: 0.65rem; font-weight: 600; color: var(--text-dim);
-    background: rgba(255,255,255,0.06); padding: 0.1rem 0.4rem; border-radius: 4px;
+    background: var(--bg-surface); padding: 0.1rem 0.4rem; border-radius: 4px;
   }
   .reading-time { font-size: 0.68rem; color: var(--text-dimmer); margin-left: auto; }
   .post-title { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.3; }

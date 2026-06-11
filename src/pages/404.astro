@@ -38,7 +38,7 @@ const requestedPath = '/page/you/requested';
         <code>cd ~</code> — go home
       </a>
       <a href="/blog" class="home-link secondary">
-        <code>ls ~/blog</code> — browse the blog
+        <code>ls ~/writeups</code> — browse writeups
       </a>
     </div>
   </div>
@@ -62,7 +62,7 @@ const requestedPath = '/page/you/requested';
     border: 1px solid var(--border);
     border-radius: 0.5rem;
     overflow: hidden;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   }
 
   .term-titlebar {
@@ -70,16 +70,16 @@ const requestedPath = '/page/you/requested';
     align-items: center;
     gap: 0.4rem;
     padding: 0.5rem 0.75rem;
-    background: rgba(24,24,27,0.9);
+    background: var(--bg-surface);
     border-bottom: 1px solid var(--border);
   }
   .term-dot {
     width: 10px; height: 10px; border-radius: 50%;
-    background: #3f3f46;
+    background: var(--border-hover);
   }
-  .term-dot.red { background: #ef4444; }
-  .term-dot.yellow { background: #eab308; }
-  .term-dot.green { background: #22c55e; }
+  .term-dot.red { background: var(--border-hover); }
+  .term-dot.yellow { background: var(--border-hover); }
+  .term-dot.green { background: var(--border-hover); }
   .term-filename {
     font-size: 0.68rem;
     color: var(--text-dimmer);
@@ -87,7 +87,7 @@ const requestedPath = '/page/you/requested';
   }
 
   .term-body {
-    background: #0d0d0f;
+    background: var(--bg-card);
     padding: 1.25rem 1.5rem;
     min-height: 200px;
     font-size: 0.85rem;
@@ -99,9 +99,9 @@ const requestedPath = '/page/you/requested';
   .term-line.output.dim { color: var(--text-dimmer); }
   .term-line.empty { height: 1.8em; }
 
-  .prompt { color: #86efac; font-weight: 700; }
+  .prompt { color: var(--text-muted); font-weight: 700; }
   .prompt-sep { color: var(--text-dimmer); }
-  .prompt-dir { color: #93c5fd; }
+  .prompt-dir { color: var(--text-dim); }
   .prompt-dollar { color: var(--text-muted); margin-right: 0.25rem; }
   .cmd { color: var(--text); }
 

@@ -1,43 +1,43 @@
 [
   {
-    "title": "Security Tools",
+    "title": "Security",
     "skills": [
-      { "name": "Wireshark", "desc": "packet-level network forensics", "logo": "/images/icons/devicons/wireshark.svg" },
-      { "name": "Ghidra", "desc": "NSA reverse engineering framework", "logo": "/images/icons/devicons/ghidra.svg" }
+      { "name": "Wireshark" },
+      { "name": "Ghidra" }
     ]
   },
   {
     "title": "Languages",
     "skills": [
-      { "name": "C", "desc": "systems programming & security research", "logo": "/images/icons/devicons/c-original.svg" },
-      { "name": "Python", "desc": "scripting & automation", "logo": "/images/icons/devicons/python-original.svg" },
-      { "name": "Bash", "desc": "shell scripting & system administration", "logo": "/images/icons/devicons/bash-original.svg" }
+      { "name": "C" },
+      { "name": "Python" },
+      { "name": "Bash" }
     ]
   },
   {
-    "title": "Platforms & OS",
+    "title": "Platforms",
     "skills": [
-      { "name": "Linux", "desc": "primary development environment", "logo": "/images/icons/devicons/linux-original.svg" },
-      { "name": "Zephyr RTOS", "desc": "embedded research target", "logo": "/images/icons/devicons/zephyr.svg" },
-      { "name": "FreeRTOS", "desc": "cross-platform comparison", "logo": "/images/icons/devicons/freertos.svg" }
+      { "name": "Linux" },
+      { "name": "Zephyr RTOS" },
+      { "name": "FreeRTOS" }
     ]
   },
   {
-    "title": "Networking & Infrastructure",
+    "title": "Networking",
     "skills": [
-      { "name": "Cisco Packet Tracer", "desc": "network simulation & labs", "logo": "/images/icons/devicons/cisco.svg" },
-      { "name": "TCP/IP", "desc": "protocol analysis", "logo": "/images/icons/devicons/tcpip.svg" },
-      { "name": "Shodan", "desc": "IoT reconnaissance", "logo": "/images/icons/devicons/shodan.svg" }
+      { "name": "Cisco Packet Tracer" },
+      { "name": "TCP/IP" },
+      { "name": "Shodan" }
     ]
   },
   {
     "title": "Development",
     "skills": [
-      { "name": "Git", "desc": "version control", "logo": "/images/icons/devicons/git-original-wordmark.svg" },
-      { "name": "GCC", "desc": "compiler toolchain & hardening flags", "logo": "/images/icons/devicons/gcc.svg" },
-      { "name": "GDB", "desc": "debugging", "logo": "/images/icons/devicons/gdb.svg" },
-      { "name": "Make", "desc": "build automation", "logo": "/images/icons/devicons/make.svg" },
-      { "name": "VS Code", "desc": "IDE", "logo": "/images/icons/devicons/vscode-original.svg" }
+      { "name": "Git" },
+      { "name": "GCC" },
+      { "name": "GDB" },
+      { "name": "Make" },
+      { "name": "VS Code" }
     ]
   }
 ]

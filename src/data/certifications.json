@@ -1,29 +1,38 @@
 [
   {
+    "name": "CompTIA Network+",
+    "issuer": "CompTIA",
+    "date": "2025",
+    "status": "Completed",
+    "type": "certification",
+    "description": "Vendor-neutral networking certification covering protocols, routing, switching, infrastructure, and network troubleshooting.",
+    "credentialUrl": ""
+  },
+  {
     "name": "CompTIA Security+",
     "issuer": "CompTIA",
     "date": "Summer 2025",
     "status": "In Progress",
     "type": "in-progress",
-    "description": "Industry-standard certification covering network security, threats, vulnerabilities, cryptography, identity management, and risk management. Foundational credential for cybersecurity careers.",
-    "credentialUrl": ""
-  },
-  {
-    "name": "CompTIA Network+",
-    "issuer": "CompTIA",
-    "date": "2025",
-    "status": "Planned",
-    "type": "planned",
-    "description": "Vendor-neutral networking certification covering protocols, routing, switching, infrastructure, and network troubleshooting. Complements Security+ with deep network fundamentals.",
+    "description": "Industry-standard certification covering network security, threats, vulnerabilities, cryptography, identity management, and risk management.",
     "credentialUrl": ""
   },
   {
     "name": "GICSP — Global Industrial Cyber Security Professional",
     "issuer": "GIAC",
-    "date": "Junior/Senior Year",
+    "date": "Planned",
     "status": "Planned",
     "type": "planned",
     "description": "Specialized certification for industrial control system (ICS) and operational technology (OT) security. Highly relevant to embedded systems and critical infrastructure research.",
+    "credentialUrl": ""
+  },
+  {
+    "name": "CCNA — Cisco Certified Network Associate",
+    "issuer": "Cisco",
+    "date": "Planned",
+    "status": "Planned",
+    "type": "planned",
+    "description": "Comprehensive networking certification covering IP addressing, routing protocols, network security fundamentals, and Cisco IOS configuration.",
     "credentialUrl": ""
   }
 ]

@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="description" content="What Stuxnet revealed about the security of embedded systems,"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="/images/favicons/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png"><link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png"><link rel="manifest" href="/manifest.json"><meta name="msapplication-config" content="/browserconfig.xml"><meta name="generator" content="Astro v6.3.1"><meta property="og:type" content="website"><meta property="og:title" content="Relating Stuxnet to CERIAS Binary Hardening Research — Kristian Uremovic"><meta property="og:description" content="What Stuxnet revealed about the security of embedded systems,"><meta property="og:site_name" content="Kristian Uremovic"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Relating Stuxnet to CERIAS Binary Hardening Research — Kristian Uremovic"><meta name="twitter:description" content="What Stuxnet revealed about the security of embedded systems,"><meta name="theme-color" content="#111113"><!--
+     ██╗  ██╗██████╗  ██████╗     ██╗   ██╗██████╗ ███████╗███╗   ███╗ ██████╗ ██╗   ██╗██╗ ██████╗
+     ██║ ██╔╝██╔══██╗ ██╔══██╗    ██║   ██║██╔══██╗██╔════╝████╗ ████║██╔═══██╗██║   ██║██║██╔════╝
+     █████╔╝ ██████╔╝ ██║  ██║    ██║   ██║██████╔╝█████╗  ██╔████╔██║██║   ██║██║   ██║██║██║
+     ██╔═██╗ ██╔══██╗ ██║  ██║    ██║   ██║██╔══██╗██╔══╝  ██║╚██╔╝██║██║   ██║╚██╗ ██╔╝██║██║
+     ██║  ██╗██║  ██║ ██████╔╝    ╚██████╔╝██║  ██║███████╗██║ ╚═╝ ██║╚██████╔╝ ╚████╔╝ ██║╚██████╗
+     ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚═╝ ╚═════╝
+
+     You're the kind of person who views source. We'd probably get along.
+     → github.com/kristianjosipuremovic
+    --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link href="/fonts/jetbrains-mono-local.css" rel="stylesheet"><script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script><title>Relating Stuxnet to CERIAS Binary Hardening Research — Kristian Uremovic</title><!-- Theme init: read from localStorage before first paint to prevent flash --><script>
+      (function() {
+        var t = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script><!-- Adds .page-hidden to <body> while the tab is not visible. --><script>
+      document.addEventListener('visibilitychange', function () {
+        document.body.classList.toggle('page-hidden', document.hidden);
+      });
+    </script><link rel="stylesheet" href="/_astro/Layout.31EtzLBV.css">
+<link rel="stylesheet" href="/_astro/_..Dkq3s3rl.css"></head> <body> <a href="#main-content" class="skip-link">Skip to main content</a> <div id="cmd-overlay" role="dialog" aria-modal="true" aria-label="Command palette" aria-hidden="true" data-astro-cid-wozhyvwc> <div id="cmd-backdrop" data-astro-cid-wozhyvwc></div> <div id="cmd-panel" data-astro-cid-wozhyvwc> <div id="cmd-search-row" data-astro-cid-wozhyvwc> <span id="cmd-prompt" data-astro-cid-wozhyvwc>›</span> <input id="cmd-input" type="text" placeholder="Search pages, posts, research..." autocomplete="off" spellcheck="false" data-astro-cid-wozhyvwc> <kbd id="cmd-esc" data-astro-cid-wozhyvwc>Esc</kbd> </div> <div id="cmd-results" role="listbox" data-astro-cid-wozhyvwc></div> </div> </div> <script>(function(){const commands = [{"label":"Home","href":"/","group":"Pages","icon":"~"},{"label":"Research","href":"/research","group":"Pages","icon":"📁"},{"label":"Blog","href":"/blog","group":"Pages","icon":"📝"},{"label":"Now","href":"/now","group":"Pages","icon":"⏱"},{"label":"Reading List","href":"/reading","group":"Pages","icon":"📚"},{"label":"About","href":"/#about","group":"Sections","icon":"#"},{"label":"Arsenal","href":"/#skills","group":"Sections","icon":"#"},{"label":"Projects","href":"/#projects","group":"Sections","icon":"#"},{"label":"Certifications","href":"/#certifications","group":"Sections","icon":"#"},{"label":"Contact","href":"/#contact","group":"Sections","icon":"#"},{"label":"CERIAS Binary Hardening Research","href":"/research/cerias-binary-hardening","group":"Research","icon":"🔬"},{"label":"LLM Political Bias Research","href":"/research/llm-political-bias","group":"Research","icon":"🔬"},{"label":"Data Mine Anomaly Detection","href":"/research/data-mine-anomaly-detection","group":"Research","icon":"🔬"},{"label":"PicoCTF 2025: Binary Exploitation Writeup","href":"/blog/ctf-writeups/example-ctf-writeup","group":"Blog","icon":"›"},{"label":"Hello, World","href":"/blog/general/hello-world","group":"Blog","icon":"›"},{"label":"Relating Stuxnet to CERIAS Binary Hardening Research","href":"/blog/research-writeups/stuxnet","group":"Blog","icon":"›"},{"label":"GCC Flag Simulations: Project Overview","href":"/blog/project-writeups/gcc-flag-simulations-intro","group":"Blog","icon":"›"},{"label":"Zephyr RTOS + GCC Hardening: What's Actually Available","href":"/blog/research-writeups/cerias-zephyr-gcc-flags","group":"Blog","icon":"›"},{"label":"URGENT/11: Mapping GCC Hardening Flags to VxWorks Zero-Days","href":"/blog/research-writeups/urgent11","group":"Blog","icon":"›"}];
+
+  const overlay = document.getElementById('cmd-overlay');
+  const backdrop = document.getElementById('cmd-backdrop');
+  const input = document.getElementById('cmd-input');
+  const results = document.getElementById('cmd-results');
+
+  let activeIdx = -1;
+
+  function open() {
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('open');
+    input.value = '';
+    renderResults('');
+    setTimeout(() => input.focus(), 50);
+  }
+
+  function close() {
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('open');
+    activeIdx = -1;
+  }
+
+  function fuzzy(str, query) {
+    const s = str.toLowerCase();
+    const q = query.toLowerCase();
+    let si = 0, qi = 0, score = 0;
+    while (si < s.length && qi < q.length) {
+      if (s[si] === q[qi]) { score++; qi++; }
+      si++;
+    }
+    return qi === q.length ? score : -1;
+  }
+
+  function renderResults(query) {
+    const filtered = query
+      ? commands
+          .map(c => ({ ...c, score: fuzzy(c.label, query) }))
+          .filter(c => c.score > 0)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 12)
+      : commands.slice(0, 12);
+
+    activeIdx = filtered.length > 0 ? 0 : -1;
+
+    results.innerHTML = '';
+    let lastGroup = '';
+    filtered.forEach((cmd, i) => {
+      if (cmd.group !== lastGroup) {
+        const g = document.createElement('div');
+        g.className = 'cmd-group-label';
+        g.textContent = cmd.group;
+        results.appendChild(g);
+        lastGroup = cmd.group;
+      }
+      const el = document.createElement('a');
+      el.href = cmd.href;
+      el.className = 'cmd-item' + (i === activeIdx ? ' active' : '');
+      el.setAttribute('role', 'option');
+      el.innerHTML = `<span class="cmd-icon">${cmd.icon}</span><span class="cmd-label">${cmd.label}</span>`;
+      el.addEventListener('click', close);
+      results.appendChild(el);
+    });
+  }
+
+  function moveActive(dir) {
+    const items = Array.from(results.querySelectorAll('.cmd-item'));
+    if (!items.length) return;
+    activeIdx = (activeIdx + dir + items.length) % items.length;
+    items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+    items[activeIdx]?.scrollIntoView({ block: 'nearest' });
+  }
+
+  input.addEventListener('input', () => renderResults(input.value));
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); moveActive(1); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); }
+    if (e.key === 'Enter') {
+      const items = Array.from(results.querySelectorAll('.cmd-item'));
+      if (items[activeIdx]) { close(); items[activeIdx].click(); }
+    }
+    if (e.key === 'Escape') close();
+  });
+
+  backdrop.addEventListener('click', close);
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      overlay.classList.contains('open') ? close() : open();
+    }
+    if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+  });
+})();</script>   <div id="reading-progress" aria-hidden="true" data-astro-cid-6yeeuaxl></div> <div class="blog-post-layout" style="min-height:100vh; background:var(--bg); padding-top:5rem;" data-astro-cid-6yeeuaxl> <!-- Main content column --> <div class="blog-main" data-astro-cid-6yeeuaxl> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl py-12" data-astro-cid-6yeeuaxl> <!-- Breadcrumb --> <div class="term-breadcrumb" data-astro-cid-6yeeuaxl> <a href="/" class="path-dir hover:text-[var(--text)] transition-colors" data-astro-cid-6yeeuaxl>~</a> <span class="path-sep" data-astro-cid-6yeeuaxl>/</span> <a href="/blog" class="path-dir hover:text-[var(--text)] transition-colors" data-astro-cid-6yeeuaxl>writeups</a> <span class="path-sep" data-astro-cid-6yeeuaxl>/</span> <a href="/blog/research-writeups" class="path-dir hover:text-[var(--text)] transition-colors" data-astro-cid-6yeeuaxl>research-writeups</a> <span class="path-sep" data-astro-cid-6yeeuaxl>/</span> <span class="path-cur" data-astro-cid-6yeeuaxl>stuxnet</span> </div> <a href="/blog/research-writeups" class="back-link" data-astro-cid-6yeeuaxl>← Back to Research Writeups</a> <!-- Post header --> <div class="post-header" data-astro-cid-6yeeuaxl> <h1 class="post-title" data-astro-cid-6yeeuaxl>Relating Stuxnet to CERIAS Binary Hardening Research</h1> <!-- Meta block --> <div class="meta-block" data-astro-cid-6yeeuaxl> <div class="meta-item" data-astro-cid-6yeeuaxl> <span class="meta-label" data-astro-cid-6yeeuaxl>Date</span> <span class="meta-value" data-astro-cid-6yeeuaxl>2026-05-26</span> </div> <div class="meta-item" data-astro-cid-6yeeuaxl> <span class="meta-label" data-astro-cid-6yeeuaxl>Reading time</span> <span class="meta-value" data-astro-cid-6yeeuaxl>6 min</span> </div> <div class="meta-item" data-astro-cid-6yeeuaxl> <span class="meta-label" data-astro-cid-6yeeuaxl>Word count</span> <span class="meta-value" data-astro-cid-6yeeuaxl>1051</span> </div> <div class="meta-item" data-astro-cid-6yeeuaxl> <span class="meta-label" data-astro-cid-6yeeuaxl>Category</span> <a href="/blog/research-writeups" class="meta-value meta-link" data-astro-cid-6yeeuaxl>Research Writeups</a> </div> </div> <!-- Tags --> <div class="post-tags" data-astro-cid-6yeeuaxl> <span class="tag" data-astro-cid-6yeeuaxl>ICS</span><span class="tag" data-astro-cid-6yeeuaxl>Embedded Security</span><span class="tag" data-astro-cid-6yeeuaxl>CERIAS</span><span class="tag" data-astro-cid-6yeeuaxl>Stuxnet</span><span class="tag" data-astro-cid-6yeeuaxl>Binary Hardening</span> </div> <!-- Series indicator -->  </div> <!-- Post body --> <div class="prose-content" data-pagefind-body data-astro-cid-6yeeuaxl> <h1 id="relating-stuxnet-to-cerias-binary-hardening-research">Relating Stuxnet to CERIAS Binary Hardening Research</h1>
+<p>My semester-long research project with CERIAS (Center for Education and Research in Information Assurance and Security — Purdue’s cybersecurity research center), now a summer endeavor as I use my time back at home to get started on detailed documentation and benchmarking for Zephyr samples, was my first introduction to ICS/OT (Industrial Control Systems / Operational Technology) security. The research question I needed to confront is one of the most talked-about limiting factors in the subfield — how can security professionals implement robust security mechanisms on embedded hardware without betraying the reliability of the critical infrastructure that relies on it? More specifically, I was assigned Zephyr, which Dr. Tian called the “best open-source RTOS (Real-Time Operating System — a lightweight OS designed for resource-constrained embedded devices) the community has to offer”, in order to examine binary hardening techniques for Cortex-M3 chips. With the hundreds of hours I have and will continue to put into this research question, it isn’t surprising that I view embedded security through an entirely new lens. Every automobile, train, plane, piece of heavy machinery (which will be important here), or otherwise any important contributor to infrastructure here in the United States, is another piece of the attack surface vulnerable to exploitation that I see with fresh eyes.</p>
+<p>When I looked for resources to deepen my understanding of ICS/OT security, Stuxnet was at the top of every result. It was one of many cases I enumerated in my search, so I resolved to put down a daily record of the topics I am actively reading and how they connect to my summer research.</p>
+<p>Ultimately, not every ICS vulnerability is a result of any failure in the embedded space. Security has been an afterthought in embedded firmware for a generation now, as availability and reliability have taken priority in large, legacy, deterministic systems. Yet that isn’t to say that the networks and security protocols surrounding the embedded attack surface are unfamiliar to security professionals. Usually, from what I’ve read about Stuxnet and other attacks on physical infrastructure, although embedded security — or the lack thereof — enables the exploitation of a system, it is often not the direct cause of it.</p>
+<p>In the Stuxnet attack, unauthorized access to PLC (Programmable Logic Controller — the embedded computer directly controlling industrial machinery like centrifuges) configurations was gained through infected USB drives, four Windows zero-day vulnerabilities, and the forging of digital signatures. There is little doubt that significant covert intelligence gathering contributed as well. The point is that embedded systems are the last line of defense on the court, and they have their hands down. The hard part of the Stuxnet attack flow was getting to the point where infected systems could inject malicious configurations into the PLC — the easy part was doing whatever you want once you were already in.</p>
+<p>So why do embedded systems lack the robust mechanisms so present in other areas of security? From what I have learned in my research, it comes down to three reasons: it is expensive, the performance constraint tradeoffs aren’t worth the added security to most engineers, and OT as a whole persists with old infrastructure because of the downtime required for large system changes.</p>
+<p>Embedded security is expensive, and the reason ties directly into the inherent performance constraints of constrained chips like the Cortex-M3 I work on. Embedded devices operate with low clock speeds and limited RAM. As a result, engineers need specialized security solutions to achieve any meaningful level of protection. In my research, I encountered the memory constraints of these chips firsthand and learned a great deal about the difference between physical and virtual memory. On embedded devices, there is typically a fixed amount of physical memory assigned at boot — there is no room for the overhead that virtual memory mapping and the extra cycles it requires. I’ve read about solutions like MPUs (Memory Protection Units — hardware components that enforce memory access boundaries between regions) and Dr. Tian’s CRT-C, a memory-safe approach to vulnerable C language features. Discovering these solutions is expensive in the first place, yet the biggest cost comes when implementing them into old, proven systems. For the heavy machinery that operates with constrained devices, reliability and uptime are the highest priorities. Even a second of delay on a manufacturing line results in money lost. Even a second of delay on centrifuge operation could set back an enrichment program by days.</p>
+<p>After researching Stuxnet’s attack flow — specifically how attackers operated once they had already compromised the system — I identified a few ways the PLC configuration mechanism could have been more resistant to this class of attack.</p>
+<ol>
+<li>
+<p><strong>Code signing on PLC uploads</strong> — Stuxnet injected code blocks with no authentication whatsoever. Requiring cryptographically signed code blocks during the upload process would have rejected the malware’s attempt to alter centrifuge behavior. Code signing carries only minimal runtime overhead since verification occurs at upload time, not during execution.</p>
+</li>
+<li>
+<p><strong>HMAC on Step 7 communications</strong> — In Stuxnet’s case, the engineer’s workstation sent legitimate PLC programs through Siemens’ proprietary S7 protocol to the controller. The malware’s DLL (Dynamic Link Library — a reusable code module that Windows applications load at runtime) sat inside the Step 7 process and intercepted the data stream mid-transfer to append malicious code blocks. The PLC received no indication of on-path tampering. An HMAC (Hash-based Message Authentication Code — a cryptographic checksum that verifies both the integrity and authenticity of a message) on the communication channel would have detected modifications to the upload stream before anything malicious reached the controller.</p>
+</li>
+<li>
+<p><strong>Hardware-enforced VFD operating bounds</strong> — This one is less about the Step 7 process and more about a safety mechanism on the centrifuge itself. A bounds checker at the VFD (Variable Frequency Drive — the electronic controller regulating centrifuge motor spin speed) level, independent of PLC logic, would refuse any command outside safe RPM (Revolutions Per Minute) parameters. This requires no cryptography and near-zero compute overhead, and it would have prevented the physical destruction of the centrifuges entirely.</p>
+</li>
+</ol>
+<p>Overall, Stuxnet is interesting not only for what it reveals about cybersecurity, but also in the broader geopolitical context of uranium enrichment and ongoing US-Iran tensions. I’ll be returning to both threads throughout this summer’s reading.</p> </div> <!-- Series navigation -->  <div class="mt-12" data-astro-cid-6yeeuaxl> <a href="/blog/research-writeups" class="back-link" data-astro-cid-6yeeuaxl>← Back to Research Writeups</a> </div> </div> </div> <!-- TOC sidebar (desktop only) -->  </div>  <button id="back-to-top" aria-label="Back to top" data-astro-cid-6yeeuaxl>↑</button>  </body></html>   <script type="module">const g=document.getElementById("reading-progress"),l=document.querySelector(".prose-content");function y(){if(!g||!l)return;const t=l.getBoundingClientRect(),e=l.clientHeight,n=Math.min(Math.max(-t.top,0),e);g.style.width=`${n/e*100}%`}window.addEventListener("scroll",y,{passive:!0});const a=document.getElementById("back-to-top");a&&(window.addEventListener("scroll",()=>{a.classList.toggle("visible",window.scrollY>300)},{passive:!0}),a.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"})));const d=document.querySelectorAll(".toc-link"),E=Array.from(d).map(t=>{const e=t.dataset.slug;return e?document.getElementById(e):null}).filter(Boolean),h=new IntersectionObserver(t=>{for(const e of t)e.isIntersecting&&(d.forEach(o=>o.classList.remove("active")),Array.from(d).find(o=>o.dataset.slug===e.target.id)?.classList.add("active"))},{rootMargin:"-20% 0px -70% 0px"});E.forEach(t=>h.observe(t));(function(){const e=document.querySelector(".prose-content");if(!e)return;const n=e.querySelector("[data-footnotes]");if(!n)return;const o=Array.from(e.querySelectorAll("a[data-footnote-ref]"));o.length&&(o.forEach(c=>{const u=c.getAttribute("href");if(!u)return;const f=document.getElementById(u.slice(1));if(!f)return;const p=f.cloneNode(!0);p.querySelectorAll("a[data-footnote-backref]").forEach(i=>i.remove());const v=p.innerHTML.replace(/^\s*<p>/,"").replace(/<\/p>\s*$/,"").trim(),s=document.createElement("span");s.className="sidenote",s.setAttribute("role","note"),s.innerHTML=`<span class="sidenote-num" aria-hidden="true">${c.textContent}.</span> ${v}`;const r=c.closest("sup");!r||!r.parentNode||(r.parentNode.insertBefore(s,r),r.addEventListener("click",i=>{if(window.innerWidth<1400){i.preventDefault();const m=r.previousElementSibling;m?.classList.contains("sidenote")&&m.classList.toggle("open")}}))}),n.style.display="none")})();document.querySelectorAll("pre").forEach(t=>{const e=document.createElement("button");e.className="code-block-copy",e.textContent="Copy",e.addEventListener("click",()=>{const n=t.querySelector("code")?.innerText??"";navigator.clipboard.writeText(n).then(()=>{e.textContent="Copied!",setTimeout(()=>{e.textContent="Copy"},1500)})}),t.style.position="relative",t.appendChild(e)});</script>

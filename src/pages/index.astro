@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import About from '../components/About.astro';
-import Skills from '../components/Skills.astro';
 import Projects from '../components/Projects.astro';
 import Research from '../components/Research.astro';
 import Certifications from '../components/Certifications.astro';
@@ -27,8 +26,6 @@ const recentPosts = [...allPosts]
     <SectionDivider />
     <About />
     <SectionDivider />
-    <Skills />
-    <SectionDivider />
     <Projects />
     <SectionDivider />
     <Research />
@@ -42,7 +39,7 @@ const recentPosts = [...allPosts]
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl reveal">
           <div class="flex items-center justify-between mb-8">
             <div>
-              <p class="text-xs font-semibold tracking-widest text-[var(--text-dim)] uppercase mb-2">~/blog</p>
+              <p class="text-xs font-semibold tracking-widest text-[var(--text-dim)] uppercase mb-2">~/writeups</p>
               <h2 class="text-2xl font-bold section-title">Recently Published</h2>
             </div>
             <a href="/blog" class="text-sm text-[var(--text-dim)] hover:text-[var(--text)] transition-colors border border-[var(--border)] px-3 py-1.5 rounded hover:border-[var(--border-hover)]">
@@ -86,7 +83,7 @@ const recentPosts = [...allPosts]
     transition: background 0.15s ease;
   }
   .recent-post-item:last-child { border-bottom: none; }
-  .recent-post-item:hover { background: rgba(255,255,255,0.02); }
+  .recent-post-item:hover { background: var(--bg-surface); }
   .rp-date { font-size: 0.72rem; color: var(--text-dimmer); white-space: nowrap; font-family: inherit; }
   .rp-title { font-size: 0.9rem; color: var(--text-muted); transition: color 0.2s ease; }
   .recent-post-item:hover .rp-title { color: var(--text); }

@@ -20,20 +20,20 @@ const recentPosts = [...allPosts]
   .slice(0, 5);
 ---
 
-<Layout title="Blog — Kristian Uremovic" description="CTF writeups, project notes, research findings, and general writing.">
+<Layout title="Writeups — Kristian Uremovic" description="CTF writeups, project notes, research findings, and general writing.">
   <div style="min-height:100vh; background:var(--bg); padding-top:6rem; padding-bottom:6rem;">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
 
       <div class="term-breadcrumb">
         <a href="/" class="path-dir hover:text-[var(--text)] transition-colors">~</a>
         <span class="path-sep">/</span>
-        <span class="path-cur">blog</span>
+        <span class="path-cur">writeups</span>
       </div>
 
       <!-- Search bar (Pagefind) -->
       <div id="search" class="mb-10"></div>
 
-      <h1 class="text-4xl font-bold text-[var(--text)] mb-2">Blog</h1>
+      <h1 class="text-4xl font-bold text-[var(--text)] mb-2">Writeups</h1>
       <p class="text-[var(--text-dim)] mb-12 text-sm">
         {allPosts.length} post{allPosts.length !== 1 ? 's' : ''} across {categories.length} categories.
         Press <kbd class="kbd">Ctrl+K</kbd> to search.
@@ -51,7 +51,7 @@ const recentPosts = [...allPosts]
             </div>
             <h2 class="folder-label">{cat.label}</h2>
             <p class="folder-desc">{cat.desc}</p>
-            <p class="folder-path">~/blog/{cat.slug}/</p>
+            <p class="folder-path">~/writeups/{cat.slug}/</p>
           </a>
         ))}
       </div>
@@ -122,7 +122,7 @@ const recentPosts = [...allPosts]
     text-decoration: none;
     transition: background 0.15s ease;
   }
-  .recent-item:hover { background: rgba(255,255,255,0.02); }
+  .recent-item:hover { background: var(--bg-surface); }
   .recent-item:last-child { border-bottom: none; }
   .recent-date { font-size: 0.7rem; color: var(--text-dimmer); white-space: nowrap; }
   .recent-title { font-size: 0.85rem; color: var(--text-muted); transition: color 0.2s ease; }

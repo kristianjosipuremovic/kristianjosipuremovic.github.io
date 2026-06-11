@@ -7,12 +7,6 @@
       "desc": "Background, education, and approach"
     },
     {
-      "label": "Arsenal",
-      "shortLabel": "Arsenal",
-      "href": "#skills",
-      "desc": "Tools, languages, and platforms I use"
-    },
-    {
       "label": "Projects",
       "shortLabel": "Projects",
       "href": "#projects",
@@ -31,8 +25,8 @@
       "desc": "Certifications in progress and planned"
     },
     {
-      "label": "Blog",
-      "shortLabel": "Blog",
+      "label": "Writeups",
+      "shortLabel": "Writeups",
       "href": "/blog",
       "desc": "CTF writeups, research notes, and more"
     },

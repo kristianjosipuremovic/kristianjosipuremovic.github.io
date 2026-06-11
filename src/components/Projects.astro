@@ -36,7 +36,7 @@ const projectsJson = JSON.stringify(
 );
 ---
 
-<section id="projects" class="py-24 bg-slate-900/30" style="scroll-margin-top: 80px;">
+<section id="projects" class="py-24" style="scroll-margin-top: 80px;">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-10 reveal">
       <p class="text-sm font-semibold tracking-widest text-highlight uppercase mb-3">My work</p>
@@ -111,7 +111,7 @@ const projectsJson = JSON.stringify(
 
                 <h3 class="project-title text-lg font-bold mb-2 leading-snug">{project.title}</h3>
 
-                <p class="card-desc text-slate-400 text-sm leading-relaxed flex-1 mb-4">
+                <p class="card-desc text-sm leading-relaxed flex-1 mb-4">
                   {project.description}
                 </p>
 
@@ -161,7 +161,7 @@ const projectsJson = JSON.stringify(
       }
     </div>
 
-    <p id="projects-empty" class="hidden text-center text-slate-600 text-sm mt-12">
+    <p id="projects-empty" class="hidden text-center text-sm mt-12" style="color:var(--text-dimmer);">
       No projects in this category yet.
     </p>
 
@@ -422,8 +422,8 @@ const projectsJson = JSON.stringify(
   }
   .filter-btn.filter-active {
     color: var(--accent);
-    background: rgba(99, 102, 241, 0.1);
-    border-color: rgba(99, 102, 241, 0.4);
+    background: var(--bg-surface);
+    border-color: var(--border-hover);
   }
   .filter-count {
     font-size: 0.65rem;
@@ -439,8 +439,8 @@ const projectsJson = JSON.stringify(
       background 0.2s ease;
   }
   .filter-btn.filter-active .filter-count {
-    color: var(--accent);
-    background: rgba(99, 102, 241, 0.15);
+    color: var(--text-muted);
+    background: var(--bg-surface);
   }
 
   .project-card {
@@ -494,7 +494,7 @@ const projectsJson = JSON.stringify(
     border-color: var(--border-hover);
     box-shadow:
       0 8px 28px rgba(0, 0, 0, 0.35),
-      0 0 18px rgba(99, 102, 241, 0.15);
+
   }
   .float-icon {
     width: 100%;
@@ -512,8 +512,8 @@ const projectsJson = JSON.stringify(
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text-dim);
-    background: rgba(99, 102, 241, 0.05);
-    border: 1px solid rgba(99, 102, 241, 0.12);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
     opacity: 0.7;
     border-radius: 9999px;
     padding: 0.25rem 0.75rem;
@@ -528,8 +528,8 @@ const projectsJson = JSON.stringify(
   }
   .project-card:hover .category-badge {
     color: var(--text-muted);
-    background: rgba(99, 102, 241, 0.1);
-    border-color: rgba(99, 102, 241, 0.3);
+    background: var(--bg-surface);
+    border-color: var(--border-hover);
     opacity: 1;
   }
   .project-card.has-bg .category-badge {
@@ -591,12 +591,11 @@ const projectsJson = JSON.stringify(
   }
   .project-card:hover .project-card-inner {
     transform: translateY(-5px);
-    border-color: rgba(99, 102, 241, 0.4);
-    box-shadow:
-      0 20px 52px rgba(0, 0, 0, 0.38),
-      0 0 0 1px rgba(99, 102, 241, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    border-color: var(--border-hover);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
+
+  .card-desc { color: var(--text-muted); }
 
   .project-title {
     color: var(--text);
@@ -627,15 +626,15 @@ const projectsJson = JSON.stringify(
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--bg-surface);
     gap: 0.75rem;
     transition:
       border-top-color 0.35s ease,
       background 0.35s ease;
   }
   .project-card:hover .project-footer {
-    border-top-color: rgba(99, 102, 241, 0.22);
-    background: rgba(99, 102, 241, 0.06);
+    border-top-color: var(--border-hover);
+    background: var(--bg-surface);
   }
   .project-card.has-bg .project-footer {
     background: rgba(0, 0, 0, 0.32);
@@ -644,19 +643,19 @@ const projectsJson = JSON.stringify(
     -webkit-backdrop-filter: blur(4px);
   }
   .project-card.has-bg:hover .project-footer {
-    background: rgba(99, 102, 241, 0.22);
-    border-top-color: rgba(99, 102, 241, 0.35);
+    background: rgba(0, 0, 0, 0.12);
+    border-top-color: rgba(255, 255, 255, 0.15);
   }
   .footer-shimmer {
     display: none;
   }
 
   .card-icon {
-    color: rgba(99, 102, 241, 0.45);
+    color: var(--text-dimmer);
     transition: color 0.35s ease;
   }
   .project-card:hover .view-hint svg {
-    color: rgba(99, 102, 241, 0.85);
+    color: var(--text-muted);
     transform: rotate(-8deg) scale(1.15);
   }
 
@@ -733,8 +732,7 @@ const projectsJson = JSON.stringify(
     border-radius: 1.25rem;
     box-shadow:
       0 32px 80px rgba(0, 0, 0, 0.55),
-      0 0 0 1px rgba(99, 102, 241, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
     overflow: hidden;
     transform: translateY(28px) scale(0.97);
     transition:
@@ -762,9 +760,9 @@ const projectsJson = JSON.stringify(
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #94a3b8;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
     cursor: pointer;
     transition:
       background 0.2s ease,
@@ -772,8 +770,8 @@ const projectsJson = JSON.stringify(
       transform 0.25s ease;
   }
   .modal-close:hover {
-    background: rgba(99, 102, 241, 0.25);
-    color: #fff;
+    background: var(--bg-surface);
+    color: var(--text);
     transform: rotate(90deg);
   }
   .modal-close:focus-visible {
@@ -813,8 +811,8 @@ const projectsJson = JSON.stringify(
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--accent);
-    background: rgba(99, 102, 241, 0.12);
-    border: 1px solid rgba(99, 102, 241, 0.25);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
     border-radius: 9999px;
     padding: 0.2rem 0.65rem;
     margin-bottom: 0.6rem;
@@ -877,7 +875,7 @@ const projectsJson = JSON.stringify(
     width: 1.1rem;
     height: 1.1rem;
     flex-shrink: 0;
-    color: #38bdf8;
+    color: var(--text-muted);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     -webkit-text-fill-color: initial;
   }
@@ -950,116 +948,10 @@ const projectsJson = JSON.stringify(
     opacity: 0;
   }
 
-  [data-theme='light'] .float-icon-mdi {
-    filter: none;
-  }
 
-  [data-theme='light'] .project-card.has-bg .card-bg-img::after {
-    display: none;
-  }
-  [data-theme='light'] .project-card.has-bg .card-bg-img {
-    filter: invert(0.88) saturate(1.4) brightness(1.1);
-  }
-  [data-theme='light'] .project-card.has-bg:hover .card-bg-img {
-    filter: invert(0.88) saturate(1.7) brightness(1.2);
-  }
-  [data-theme='light'] .project-card.has-bg .card-bg-img img {
-    filter: blur(24px) saturate(1.8) brightness(0.72);
-  }
-  [data-theme='light'] .project-card.has-bg:hover .card-bg-img img {
-    filter: blur(18px) saturate(2.1) brightness(0.82);
-  }
 
-  [data-theme='light'] .project-card-inner.has-bg-img {
-    background: rgba(255, 255, 255, 0.52);
-  }
 
-  [data-theme='light'] .project-card.has-bg .project-card-inner {
-    color: #1e293b;
-  }
-  [data-theme='light'] .project-card.has-bg h3 {
-    color: #0f172a;
-  }
-  [data-theme='light'] .project-card.has-bg p {
-    color: rgba(15, 23, 42, 0.75);
-  }
-  [data-theme='light'] .project-card.has-bg .project-title {
-    color: #0f172a;
-  }
-  [data-theme='light'] .project-card.has-bg:hover .project-title {
-    color: var(--accent);
-  }
-  [data-theme='light'] .project-card.has-bg .card-desc {
-    color: rgba(30, 41, 59, 0.78);
-  }
-  [data-theme='light'] .project-card.has-bg .category-badge {
-    color: rgba(15, 23, 42, 0.6);
-  }
-  [data-theme='light'] .project-card.has-bg .view-hint {
-    color: rgba(71, 85, 105, 0.65);
-  }
 
-  [data-theme='light'] .project-card:hover .project-card-inner {
-    box-shadow:
-      0 16px 40px rgba(0, 0, 0, 0.1),
-      0 0 0 1px rgba(109, 40, 217, 0.18);
-  }
 
-  [data-theme='light'] .project-footer {
-    background: rgba(255, 255, 255, 0.2);
-    border-top-color: rgba(0, 0, 0, 0.07);
-    color: var(--text-muted);
-  }
-  [data-theme='light'] .project-card:hover .project-footer {
-    background: rgba(109, 40, 217, 0.05);
-  }
-  [data-theme='light'] .project-card.has-bg .project-footer {
-    background: rgba(255, 255, 255, 0.55);
-    border-top-color: rgba(0, 0, 0, 0.08);
-  }
-  [data-theme='light'] .project-card.has-bg:hover .project-footer {
-    background: rgba(109, 40, 217, 0.08);
-  }
 
-  [data-theme='light'] .modal-backdrop {
-    background: rgba(241, 245, 249, 0.88);
-  }
-  [data-theme='light'] .modal-container {
-    box-shadow:
-      0 24px 60px rgba(0, 0, 0, 0.14),
-      0 0 0 1px rgba(109, 40, 217, 0.1);
-  }
-  [data-theme='light'] .modal-close {
-    background: rgba(255, 255, 255, 0.7);
-    border-color: rgba(0, 0, 0, 0.1);
-    color: #64748b;
-  }
-  [data-theme='light'] .modal-close:hover {
-    background: rgba(109, 40, 217, 0.15);
-    color: #6d28d9;
-  }
-  [data-theme='light'] .modal-hero {
-    background-color: #e2e8f0;
-  }
-  [data-theme='light'] .modal-hero-overlay {
-    background: linear-gradient(to bottom, #ffffff00, #0f172a4d 80%, #a8a8a875);
-  }
-  [data-theme='light'] .modal-hero-content {
-    color: #0f172a;
-  }
-  [data-theme='light'] .modal-cat-badge {
-    color: #ffffff;
-    background: #6d28d91f;
-    border-color: #f5f5f5d6;
-  }
-  [data-theme='light'] .modal-heading {
-    color: white;
-    text-shadow: 1px 1px 5px rgb(0 0 0);
-  }
-  [data-theme='light'] .modal-company {
-    color: #ffffff;
-    font-weight: 700;
-    opacity: 1;
-    text-decoration: underline;
-  }
 </style>

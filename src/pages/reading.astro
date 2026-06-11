@@ -77,7 +77,7 @@ const statusColors: Record<string, string> = {
     justify-content: space-between;
     gap: 1rem;
     padding: 0.65rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border);
   }
   .book-item:last-child { border-bottom: none; }
   .book-info { display: flex; flex-direction: column; gap: 0.1rem; }
@@ -93,7 +93,7 @@ const statusColors: Record<string, string> = {
     white-space: nowrap;
     flex-shrink: 0;
   }
-  .status-green { background: rgba(34,197,94,0.1); color: #86efac; border: 1px solid rgba(34,197,94,0.2); }
-  .status-yellow { background: rgba(234,179,8,0.1); color: #fde047; border: 1px solid rgba(234,179,8,0.2); }
-  .status-grey { background: rgba(255,255,255,0.05); color: var(--text-dimmer); border: 1px solid var(--border); }
+  .status-green { background: var(--bg-surface); color: var(--text-muted); border: 1px solid var(--border-hover); }
+  .status-yellow { background: var(--bg-surface); color: var(--text-dim); border: 1px solid var(--border); }
+  .status-grey { background: var(--bg-surface); color: var(--text-dimmer); border: 1px solid var(--border); }
 </style>
