@@ -37,27 +37,37 @@
     --line-bright: rgba(244, 244, 245, 0.28);
 
     /* ── Chrome panel surface (the master silver standard) ──
-       A frosted slab with diagonal silver sheen and a hairline. */
+       A frosted brushed-silver slab: diagonal sheen, rim highlight,
+       darkened belly. Reactive on hover. */
     --chrome-bg:
       linear-gradient(
         135deg,
-        rgba(244, 244, 245, 0.055) 0%,
-        rgba(244, 244, 245, 0.022) 32%,
-        rgba(244, 244, 245, 0.012) 64%,
-        rgba(244, 244, 245, 0.05)  100%
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0.065) 26%,
+        rgba(255, 255, 255, 0.028) 52%,
+        rgba(255, 255, 255, 0.07)  78%,
+        rgba(255, 255, 255, 0.16)  100%
       );
     --chrome-bg-hover:
       linear-gradient(
         135deg,
-        rgba(244, 244, 245, 0.085) 0%,
-        rgba(244, 244, 245, 0.04)  32%,
-        rgba(244, 244, 245, 0.025) 64%,
-        rgba(244, 244, 245, 0.08)  100%
+        rgba(255, 255, 255, 0.22) 0%,
+        rgba(255, 255, 255, 0.10) 26%,
+        rgba(255, 255, 255, 0.045) 52%,
+        rgba(255, 255, 255, 0.11)  78%,
+        rgba(255, 255, 255, 0.24)  100%
       );
     --chrome-inset:
-      inset 0 1px 0 rgba(244, 244, 245, 0.10),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.4);
-    --chrome-edge-light: rgba(244, 244, 245, 0.16);
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+      inset 1px 0 0 rgba(255, 255, 255, 0.05),
+      inset -1px 0 0 rgba(0, 0, 0, 0.25);
+    --chrome-inset-hover:
+      inset 0 1px 0 rgba(255, 255, 255, 0.32),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+      inset 1px 0 0 rgba(255, 255, 255, 0.08),
+      inset -1px 0 0 rgba(0, 0, 0, 0.25);
+    --chrome-edge-light: rgba(255, 255, 255, 0.28);
 
     /* ── Selection / scrollbar ── */
     --scrollbar-track: #0c0c0e;
@@ -160,10 +170,10 @@
     position: relative;
     background: var(--bg-elev-1);
     background-image: var(--chrome-bg);
-    border: 1px solid var(--line);
+    border: 1px solid var(--line-strong);
     box-shadow: var(--chrome-inset);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    backdrop-filter: blur(12px) saturate(140%);
     /* Machined chamfer on top-right */
     clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
     transition:
@@ -172,6 +182,7 @@
       background-image 0.32s var(--ease-shutter),
       box-shadow 0.32s var(--ease-shutter);
   }
+  /* Brushed silver sheen — diagonal highlight sweep, top-left */
   .panel-chrome::before {
     content: "";
     position: absolute;
@@ -180,20 +191,46 @@
     background:
       linear-gradient(
         135deg,
-        transparent 0%,
-        rgba(244, 244, 245, 0.04) 28%,
-        transparent 55%
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0.05) 22%,
+        transparent 46%,
+        transparent 72%,
+        rgba(255, 255, 255, 0.04) 90%,
+        rgba(255, 255, 255, 0.12) 100%
       );
+    opacity: 0.85;
+    mix-blend-mode: screen;
+    transition: opacity 0.32s var(--ease-shutter), transform 0.4s var(--ease-shutter);
+  }
+  /* Subtle inner glow at the rim — adds the "machined" feel */
+  .panel-chrome::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 120% 80% at 50% -10%,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 60%
+    );
     opacity: 0.7;
     transition: opacity 0.32s var(--ease-shutter);
   }
   .panel-chrome:hover {
     background-image: var(--chrome-bg-hover);
-    border-color: var(--line-strong);
+    border-color: var(--line-bright);
+    box-shadow: var(--chrome-inset-hover);
     /* Diagonal lift — Maxim IV */
     transform: translate(-1px, -2px);
   }
-  .panel-chrome:hover::before { opacity: 1; }
+  .panel-chrome:hover::before {
+    opacity: 1;
+    /* Sheen drifts slightly on hover */
+    transform: translate(2px, -2px);
+  }
+  .panel-chrome:hover::after { opacity: 1; }
+  /* Panel content sits above the chrome sheen pseudo-elements */
+  .panel-chrome > * { position: relative; z-index: 1; }
 
   /* Larger chamfer variant for hero/feature panels */
   .panel-chrome.panel-feature {
