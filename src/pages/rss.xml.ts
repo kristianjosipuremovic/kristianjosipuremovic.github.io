@@ -7,8 +7,8 @@ export async function GET(context: APIContext) {
   const sorted = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
   return rss({
-    title: 'Kristian Uremovic — Blog',
-    description: 'CTF writeups, research notes, project writeups, and general writing.',
+    title: 'Kristian Uremovic — Writeups',
+    description: 'Research notes, CTFs, home labs, and general writing.',
     site: context.site ?? 'https://kristianuremovic.com',
     items: sorted.map(post => {
       const slug = post.id.split('/').pop()!;

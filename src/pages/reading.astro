@@ -1,99 +1,104 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
-const books = {
-  "Cybersecurity": [
-    { title: "Countdown to Zero Day", author: "Kim Zetter", status: "To Read" },
-    { title: "Sandworm", author: "Andy Greenberg", status: "To Read" },
-    { title: "Chip War", author: "Chris Miller", status: "To Read" },
-    { title: "The Cuckoo's Egg", author: "Cliff Stoll", status: "To Read" },
-    { title: "The Seventh Sense", author: "Joshua Cooper Ramo", status: "To Read" },
-    { title: "The Sovereign Individual", author: "James Dale Davidson & Lord William Rees-Mogg", status: "To Read" },
+const books: Record<string, { title: string; author: string; status: string }[]> = {
+  'Cybersecurity': [
+    { title: 'Countdown to Zero Day',  author: 'Kim Zetter',                                       status: 'To Read' },
+    { title: 'Sandworm',               author: 'Andy Greenberg',                                   status: 'To Read' },
+    { title: 'Chip War',               author: 'Chris Miller',                                     status: 'To Read' },
+    { title: "The Cuckoo's Egg",       author: 'Cliff Stoll',                                      status: 'To Read' },
+    { title: 'The Seventh Sense',      author: 'Joshua Cooper Ramo',                               status: 'To Read' },
+    { title: 'The Sovereign Individual', author: 'James Dale Davidson & Lord William Rees-Mogg',   status: 'To Read' },
   ],
-  "Philosophy & Literature": [
-    { title: "Placeholder", author: "", status: "To Read" },
-  ],
-  "Technical": [
-    { title: "Placeholder", author: "", status: "To Read" },
-  ],
-};
-
-const statusColors: Record<string, string> = {
-  "Read": "status-green",
-  "Reading": "status-yellow",
-  "To Read": "status-grey",
 };
 ---
 
-<Layout title="Reading List — Kristian Uremovic" description="Books I've read, am reading, or plan to read.">
-  <div style="min-height:100vh; background:var(--bg); padding-top:6rem; padding-bottom:6rem;">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl">
+<Layout title="Reading — Kristian Uremovic" description="Books I've read, am reading, or plan to read.">
+  <div class="web-only">
+    <Header />
+    <main id="main-content" class="page">
+      <div class="container-page narrow">
 
-      <div class="term-breadcrumb">
-        <a href="/" class="path-dir hover:text-[var(--text)] transition-colors">~</a>
-        <span class="path-sep">/</span>
-        <span class="path-cur">reading</span>
-      </div>
+        <nav class="crumb" aria-label="Breadcrumb">
+          <a href="/">~</a>
+          <span class="sep">/</span>
+          <span class="cur">reading</span>
+        </nav>
 
-      <h1 class="text-3xl font-bold text-[var(--text)] mb-2 mt-4">Reading List</h1>
-      <p class="text-[var(--text-dim)] text-sm mb-10">Books I've read, am reading, or want to read.</p>
-
-      {Object.entries(books).map(([category, list]) => (
-        <div class="book-category">
-          <h2 class="category-heading">{category}</h2>
-          <div class="book-list">
-            {list.map(book => (
-              <div class="book-item">
-                <div class="book-info">
-                  <span class="book-title">{book.title}</span>
-                  {book.author && <span class="book-author">{book.author}</span>}
-                </div>
-                <span class={`book-status ${statusColors[book.status] ?? 'status-grey'}`}>{book.status}</span>
-              </div>
-            ))}
+        <div class="sec-head reveal">
+          <span class="sec-numeral">01</span>
+          <div>
+            <p class="eyebrow">Library</p>
+            <h1 class="sec-title">Reading</h1>
+            <p class="sec-sub">A living shelf — books that shape current thinking.</p>
           </div>
         </div>
-      ))}
-    </div>
+
+        {Object.entries(books).map(([category, list], i) => (
+          <section class="cat-block reveal">
+            <header class="cat-head">
+              <span class="cat-num">{String(i + 1).padStart(2, '0')}</span>
+              <h2 class="cat-label">{category}</h2>
+            </header>
+            <table class="hair-table book-table">
+              <tbody>
+                {list.map((book) => (
+                  <tr>
+                    <th>{book.title}</th>
+                    <td class="book-author">{book.author}</td>
+                    <td class="book-status"><span class="status-label">{book.status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        ))}
+
+      </div>
+    </main>
+    <Footer />
   </div>
 </Layout>
 
 <style>
-  .book-category { margin-bottom: 2.5rem; }
-  .category-heading {
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .book-list { display: flex; flex-direction: column; gap: 0; }
-  .book-item {
+  .page { padding-top: 7rem; padding-bottom: 6rem; min-height: 100vh; background: var(--bg); }
+  .container-page.narrow { max-width: 56rem; }
+
+  .cat-block { margin: 2.5rem 0 3rem; }
+  .cat-head {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: baseline;
     gap: 1rem;
-    padding: 0.65rem 0;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--line);
   }
-  .book-item:last-child { border-bottom: none; }
-  .book-info { display: flex; flex-direction: column; gap: 0.1rem; }
-  .book-title { font-size: 0.9rem; color: var(--text-muted); }
-  .book-author { font-size: 0.72rem; color: var(--text-dim); }
-  .book-status {
+  .cat-num {
+    font-family: var(--font-mono);
     font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 0.15rem 0.5rem;
-    border-radius: 9999px;
-    white-space: nowrap;
-    flex-shrink: 0;
+    letter-spacing: 0.2em;
+    color: var(--text-dimmer);
+    padding: 0.18rem 0.4rem;
+    border: 1px solid var(--line);
+    line-height: 1;
   }
-  .status-green { background: var(--bg-surface); color: var(--text-muted); border: 1px solid var(--border-hover); }
-  .status-yellow { background: var(--bg-surface); color: var(--text-dim); border: 1px solid var(--border); }
-  .status-grey { background: var(--bg-surface); color: var(--text-dimmer); border: 1px solid var(--border); }
+  .cat-label {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .book-table th { width: 50%; color: var(--text); font-family: var(--font-display); text-transform: none; letter-spacing: 0; font-size: 0.92rem; font-weight: 500; }
+  .book-author { color: var(--text-dim); font-size: 0.85rem; }
+  .book-status { text-align: right; width: 8rem; }
+  @media (max-width: 540px) {
+    .book-table th { width: 65%; font-size: 0.85rem; }
+    .book-author { display: none; }
+  }
 </style>

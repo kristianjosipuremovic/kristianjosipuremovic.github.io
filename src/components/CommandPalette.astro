@@ -5,191 +5,200 @@ import researchData from '../data/research.json';
 const allPosts = await getCollection('blog');
 
 const commands = [
-  // Pages
-  { label: 'Home', href: '/', group: 'Pages', icon: '~' },
-  { label: 'Research', href: '/research', group: 'Pages', icon: '📁' },
-  { label: 'Blog', href: '/blog', group: 'Pages', icon: '📝' },
-  { label: 'Now', href: '/now', group: 'Pages', icon: '⏱' },
-  { label: 'Reading List', href: '/reading', group: 'Pages', icon: '📚' },
-  // Sections
-  { label: 'About', href: '/#about', group: 'Sections', icon: '#' },
-  { label: 'Arsenal', href: '/#skills', group: 'Sections', icon: '#' },
-  { label: 'Projects', href: '/#projects', group: 'Sections', icon: '#' },
-  { label: 'Certifications', href: '/#certifications', group: 'Sections', icon: '#' },
-  { label: 'Contact', href: '/#contact', group: 'Sections', icon: '#' },
-  // Research
-  ...researchData.map(r => ({ label: r.title, href: `/research/${r.slug}`, group: 'Research', icon: '🔬' })),
-  // Blog
-  ...allPosts.map(p => ({
+  { label: 'Home',     href: '/',          group: 'Pages' },
+  { label: 'About',    href: '/about',     group: 'Pages' },
+  { label: 'Projects', href: '/projects',  group: 'Pages' },
+  { label: 'Research', href: '/research',  group: 'Pages' },
+  { label: 'Writeups', href: '/blog',      group: 'Pages' },
+  { label: 'Certs',    href: '/certs',     group: 'Pages' },
+  { label: 'Contact',  href: '/contact',   group: 'Pages' },
+  { label: 'Now',      href: '/now',       group: 'Pages' },
+  { label: 'Reading',  href: '/reading',   group: 'Pages' },
+
+  ...researchData.map((r) => ({ label: r.title, href: `/research/${r.slug}`, group: 'Research' })),
+  ...allPosts.map((p) => ({
     label: p.data.title,
     href: `/blog/${p.data.category}/${p.id.split('/').pop()}`,
-    group: 'Blog',
-    icon: '›',
+    group: 'Writeups',
   })),
 ];
 ---
 
-<div id="cmd-overlay" role="dialog" aria-modal="true" aria-label="Command palette" aria-hidden="true">
+<div id="cmd-overlay" role="dialog" aria-modal="true" aria-label="Command palette" aria-hidden="true" transition:persist="cmd-overlay">
   <div id="cmd-backdrop"></div>
-  <div id="cmd-panel">
+  <div id="cmd-panel" class="panel-chrome">
     <div id="cmd-search-row">
-      <span id="cmd-prompt">›</span>
+      <span id="cmd-prompt" aria-hidden="true">›</span>
       <input
         id="cmd-input"
         type="text"
-        placeholder="Search pages, posts, research..."
+        placeholder="Search pages, writeups, research…"
         autocomplete="off"
         spellcheck="false"
       />
-      <kbd id="cmd-esc">Esc</kbd>
+      <kbd id="cmd-esc">ESC</kbd>
     </div>
     <div id="cmd-results" role="listbox"></div>
+    <div id="cmd-foot">
+      <span><kbd>↑↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>ESC</kbd> close</span>
+    </div>
   </div>
 </div>
 
-<script define:vars={{ commands }}>
-  const overlay = document.getElementById('cmd-overlay');
-  const backdrop = document.getElementById('cmd-backdrop');
-  const input = document.getElementById('cmd-input');
-  const results = document.getElementById('cmd-results');
+<script is:inline define:vars={{ commands }}>
+  function wirePalette() {
+    const overlay = document.getElementById('cmd-overlay');
+    const backdrop = document.getElementById('cmd-backdrop');
+    const input = document.getElementById('cmd-input');
+    const results = document.getElementById('cmd-results');
+    if (!overlay || !backdrop || !input || !results) return;
+    if (overlay.dataset.wired === '1') return;
+    overlay.dataset.wired = '1';
 
-  let activeIdx = -1;
+    let activeIdx = -1;
 
-  function open() {
-    overlay.setAttribute('aria-hidden', 'false');
-    overlay.classList.add('open');
-    input.value = '';
-    renderResults('');
-    setTimeout(() => input.focus(), 50);
-  }
-
-  function close() {
-    overlay.setAttribute('aria-hidden', 'true');
-    overlay.classList.remove('open');
-    activeIdx = -1;
-  }
-
-  function fuzzy(str, query) {
-    const s = str.toLowerCase();
-    const q = query.toLowerCase();
-    let si = 0, qi = 0, score = 0;
-    while (si < s.length && qi < q.length) {
-      if (s[si] === q[qi]) { score++; qi++; }
-      si++;
+    function open() {
+      overlay.setAttribute('aria-hidden', 'false');
+      overlay.classList.add('open');
+      input.value = '';
+      renderResults('');
+      setTimeout(() => input.focus(), 50);
     }
-    return qi === q.length ? score : -1;
-  }
+    function close() {
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.classList.remove('open');
+      activeIdx = -1;
+    }
 
-  function renderResults(query) {
-    const filtered = query
-      ? commands
-          .map(c => ({ ...c, score: fuzzy(c.label, query) }))
-          .filter(c => c.score > 0)
-          .sort((a, b) => b.score - a.score)
-          .slice(0, 12)
-      : commands.slice(0, 12);
-
-    activeIdx = filtered.length > 0 ? 0 : -1;
-
-    results.innerHTML = '';
-    let lastGroup = '';
-    filtered.forEach((cmd, i) => {
-      if (cmd.group !== lastGroup) {
-        const g = document.createElement('div');
-        g.className = 'cmd-group-label';
-        g.textContent = cmd.group;
-        results.appendChild(g);
-        lastGroup = cmd.group;
+    function fuzzy(str, query) {
+      const s = str.toLowerCase();
+      const q = query.toLowerCase();
+      let si = 0, qi = 0, score = 0;
+      while (si < s.length && qi < q.length) {
+        if (s[si] === q[qi]) { score++; qi++; }
+        si++;
       }
-      const el = document.createElement('a');
-      el.href = cmd.href;
-      el.className = 'cmd-item' + (i === activeIdx ? ' active' : '');
-      el.setAttribute('role', 'option');
-      el.innerHTML = `<span class="cmd-icon">${cmd.icon}</span><span class="cmd-label">${cmd.label}</span>`;
-      el.addEventListener('click', close);
-      results.appendChild(el);
+      return qi === q.length ? score : -1;
+    }
+
+    function renderResults(query) {
+      const filtered = query
+        ? commands
+            .map((c) => ({ ...c, score: fuzzy(c.label, query) }))
+            .filter((c) => c.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 14)
+        : commands.slice(0, 14);
+
+      activeIdx = filtered.length > 0 ? 0 : -1;
+
+      results.innerHTML = '';
+      let lastGroup = '';
+      filtered.forEach((cmd, i) => {
+        if (cmd.group !== lastGroup) {
+          const g = document.createElement('div');
+          g.className = 'cmd-group-label';
+          g.textContent = cmd.group;
+          results.appendChild(g);
+          lastGroup = cmd.group;
+        }
+        const el = document.createElement('a');
+        el.href = cmd.href;
+        el.className = 'cmd-item' + (i === activeIdx ? ' active' : '');
+        el.setAttribute('role', 'option');
+        el.innerHTML = `<span class="cmd-glyph">›</span><span class="cmd-label">${cmd.label}</span><span class="cmd-path">${cmd.href}</span>`;
+        el.addEventListener('click', close);
+        results.appendChild(el);
+      });
+    }
+
+    function moveActive(dir) {
+      const items = Array.from(results.querySelectorAll('.cmd-item'));
+      if (!items.length) return;
+      activeIdx = (activeIdx + dir + items.length) % items.length;
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+      items[activeIdx]?.scrollIntoView({ block: 'nearest' });
+    }
+
+    input.addEventListener('input', () => renderResults(input.value));
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); moveActive(1); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); }
+      if (e.key === 'Enter') {
+        const items = Array.from(results.querySelectorAll('.cmd-item'));
+        if (items[activeIdx]) { close(); items[activeIdx].click(); }
+      }
+      if (e.key === 'Escape') close();
+    });
+
+    backdrop.addEventListener('click', close);
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        overlay.classList.contains('open') ? close() : open();
+      }
+      if (e.key === 'Escape' && overlay.classList.contains('open')) close();
     });
   }
 
-  function moveActive(dir) {
-    const items = Array.from(results.querySelectorAll('.cmd-item'));
-    if (!items.length) return;
-    activeIdx = (activeIdx + dir + items.length) % items.length;
-    items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
-    items[activeIdx]?.scrollIntoView({ block: 'nearest' });
-  }
-
-  input.addEventListener('input', () => renderResults(input.value));
-
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowDown') { e.preventDefault(); moveActive(1); }
-    if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); }
-    if (e.key === 'Enter') {
-      const items = Array.from(results.querySelectorAll('.cmd-item'));
-      if (items[activeIdx]) { close(); items[activeIdx].click(); }
-    }
-    if (e.key === 'Escape') close();
-  });
-
-  backdrop.addEventListener('click', close);
-
-  document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-      e.preventDefault();
-      overlay.classList.contains('open') ? close() : open();
-    }
-    if (e.key === 'Escape' && overlay.classList.contains('open')) close();
-  });
+  wirePalette();
+  document.addEventListener('astro:page-load', wirePalette);
 </script>
 
 <style>
   #cmd-overlay {
     position: fixed;
     inset: 0;
-    z-index: 999;
+    z-index: 2000;
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 15vh;
+    padding-top: 12vh;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.15s ease;
+    transition: opacity 0.18s var(--ease-shutter);
   }
-  #cmd-overlay.open {
-    opacity: 1;
-    pointer-events: all;
-  }
+  #cmd-overlay.open { opacity: 1; pointer-events: all; }
 
   #cmd-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(4px);
+    background: rgba(8, 8, 10, 0.78);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
 
   #cmd-panel {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 540px;
-    background: var(--bg-card-solid);
-    border: 1px solid var(--border-hover);
-    border-radius: 0.75rem;
-    overflow: hidden;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    max-width: 580px;
     margin: 0 1rem;
+    padding: 0 !important;
+    overflow: hidden;
+    transform: translateY(8px);
+    opacity: 0;
+    transition: transform 0.25s var(--ease-shutter), opacity 0.25s var(--ease-shutter);
   }
+  #cmd-overlay.open #cmd-panel { transform: translateY(0); opacity: 1; }
 
   #cmd-search-row {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.9rem 1rem;
-    border-bottom: 1px solid var(--border);
+    padding: 0.95rem 1.1rem;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    z-index: 2;
   }
 
   #cmd-prompt {
-    color: var(--text-dimmer);
+    color: var(--text-dim);
+    font-family: var(--font-mono);
     font-size: 1rem;
     flex-shrink: 0;
   }
@@ -201,58 +210,91 @@ const commands = [
     outline: none;
     font-size: 0.95rem;
     color: var(--text);
-    font-family: inherit;
+    font-family: var(--font-body);
   }
   #cmd-input::placeholder { color: var(--text-dimmer); }
 
   #cmd-esc {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
+    background: rgba(244, 244, 245, 0.06);
+    border: 1px solid var(--line-strong);
     padding: 0.15rem 0.45rem;
-    font-size: 0.65rem;
-    color: var(--text-dimmer);
-    font-family: inherit;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
     flex-shrink: 0;
   }
 
   #cmd-results {
-    max-height: 360px;
+    max-height: 380px;
     overflow-y: auto;
     padding: 0.5rem 0;
+    position: relative;
+    z-index: 2;
   }
 
   .cmd-group-label {
-    padding: 0.35rem 1rem 0.2rem;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    padding: 0.55rem 1.1rem 0.3rem;
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--text-dimmer);
   }
 
   .cmd-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1rem 1fr auto;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.55rem 1rem;
+    padding: 0.55rem 1.1rem;
     text-decoration: none;
-    color: var(--text-muted);
+    color: var(--text-body);
     font-size: 0.88rem;
     cursor: pointer;
-    transition: background 0.1s ease, color 0.1s ease;
+    transition: background 0.12s ease, color 0.12s ease;
   }
   .cmd-item:hover,
   .cmd-item.active {
-    background: rgba(255,255,255,0.05);
+    background: rgba(244, 244, 245, 0.06);
     color: var(--text);
   }
-
-  .cmd-icon {
-    font-size: 0.75rem;
+  .cmd-glyph {
+    font-family: var(--font-mono);
     color: var(--text-dimmer);
-    width: 1rem;
     text-align: center;
     flex-shrink: 0;
+  }
+  .cmd-item.active .cmd-glyph { color: var(--text); }
+  .cmd-label { line-height: 1.2; }
+  .cmd-path {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dimmer);
+    letter-spacing: 0.04em;
+  }
+
+  #cmd-foot {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0.6rem 1.1rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dimmer);
+    position: relative;
+    z-index: 2;
+  }
+  #cmd-foot kbd {
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+    background: rgba(244, 244, 245, 0.06);
+    border: 1px solid var(--line);
+    padding: 0.1rem 0.35rem;
+    margin-right: 0.4rem;
+    font-size: 0.65rem;
   }
 </style>

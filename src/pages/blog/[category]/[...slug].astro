@@ -1,10 +1,12 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  return posts.map(post => {
+  return posts.map((post) => {
     const parts = post.id.split('/');
     const slug = parts[parts.length - 1];
     const category = post.data.category;
@@ -24,159 +26,147 @@ const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
 const category = post.data.category;
 const categoryLabels: Record<string, string> = {
-  'ctf-writeups': 'CTF Writeups',
-  'project-writeups': 'Project Writeups',
   'research-writeups': 'Research Writeups',
-  'general': 'General',
+  'ctf-writeups':      'CTFs',
+  'home-labs':         'Home Labs',
+  'general':           'General',
 };
 const categoryLabel = categoryLabels[category] ?? category;
 
-// Get series sibling posts
 let seriesPosts: typeof post[] = [];
 if (post.data.series) {
   const all = await getCollection('blog');
   seriesPosts = all
-    .filter(p => p.data.series === post.data.series)
+    .filter((p) => p.data.series === post.data.series)
     .sort((a, b) => (a.data.seriesPart ?? 0) - (b.data.seriesPart ?? 0));
 }
 
-const tocHeadings = headings.filter(h => h.depth <= 3 && h.slug !== 'footnote-label');
+const tocHeadings = headings.filter((h) => h.depth <= 3 && h.slug !== 'footnote-label');
 ---
 
 <Layout title={`${post.data.title} — Kristian Uremovic`} description={post.data.description}>
-  <!-- Reading progress bar -->
-  <div id="reading-progress" aria-hidden="true"></div>
+  <div class="web-only">
+    <Header />
 
-  <div class="blog-post-layout" style="min-height:100vh; background:var(--bg); padding-top:5rem;">
+    <!-- Reading progress -->
+    <div id="reading-progress" aria-hidden="true"></div>
 
-    <!-- Main content column -->
-    <div class="blog-main">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl py-12">
+    <main id="main-content" class="post-layout">
 
-        <!-- Breadcrumb -->
-        <div class="term-breadcrumb">
-          <a href="/" class="path-dir hover:text-[var(--text)] transition-colors">~</a>
-          <span class="path-sep">/</span>
-          <a href="/blog" class="path-dir hover:text-[var(--text)] transition-colors">writeups</a>
-          <span class="path-sep">/</span>
-          <a href={`/blog/${category}`} class="path-dir hover:text-[var(--text)] transition-colors">{category}</a>
-          <span class="path-sep">/</span>
-          <span class="path-cur">{post.id.split('/').pop()}</span>
-        </div>
+      <article class="post-main">
+        <div class="container-page narrow">
 
-        <a href={`/blog/${category}`} class="back-link">← Back to {categoryLabel}</a>
-
-        <!-- Post header -->
-        <div class="post-header">
-          <h1 class="post-title">{post.data.title}</h1>
-
-          <!-- Meta block -->
-          <div class="meta-block">
-            <div class="meta-item">
-              <span class="meta-label">Date</span>
-              <span class="meta-value">{post.data.date.toISOString().split('T')[0]}</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Reading time</span>
-              <span class="meta-value">{readingTime} min</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Word count</span>
-              <span class="meta-value">{wordCount}</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Category</span>
-              <a href={`/blog/${category}`} class="meta-value meta-link">{categoryLabel}</a>
-            </div>
-          </div>
-
-          <!-- Tags -->
-          {post.data.tags.length > 0 && (
-            <div class="post-tags">
-              {post.data.tags.map((t: string) => <span class="tag">{t}</span>)}
-            </div>
-          )}
-
-          <!-- Series indicator -->
-          {post.data.series && (
-            <div class="series-indicator">
-              <span class="series-label">Series: {post.data.series}</span>
-              <div class="series-parts">
-                {seriesPosts.map(sp => {
-                  const spSlug = sp.id.split('/').pop()!;
-                  const isCurrent = sp.id === post.id;
-                  return (
-                    <a
-                      href={isCurrent ? '#' : `/blog/${sp.data.category}/${spSlug}`}
-                      class={`series-part-link ${isCurrent ? 'current' : ''}`}
-                    >
-                      Part {sp.data.seriesPart}
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-
-        <!-- Post body -->
-        <div class="prose-content" data-pagefind-body>
-          <Content />
-        </div>
-
-        <!-- Series navigation -->
-        {post.data.series && seriesPosts.length > 1 && (
-          <div class="series-nav">
-            {seriesPosts.find(s => (s.data.seriesPart ?? 0) === (post.data.seriesPart ?? 0) - 1) && (() => {
-              const prev = seriesPosts.find(s => (s.data.seriesPart ?? 0) === (post.data.seriesPart ?? 0) - 1)!;
-              return (
-                <a href={`/blog/${prev.data.category}/${prev.id.split('/').pop()}`} class="series-nav-link prev">
-                  <span class="nav-dir">← Previous</span>
-                  <span class="nav-title">Part {prev.data.seriesPart}: {prev.data.title}</span>
-                </a>
-              );
-            })()}
-            {seriesPosts.find(s => (s.data.seriesPart ?? 0) === (post.data.seriesPart ?? 0) + 1) && (() => {
-              const next = seriesPosts.find(s => (s.data.seriesPart ?? 0) === (post.data.seriesPart ?? 0) + 1)!;
-              return (
-                <a href={`/blog/${next.data.category}/${next.id.split('/').pop()}`} class="series-nav-link next">
-                  <span class="nav-dir">Next →</span>
-                  <span class="nav-title">Part {next.data.seriesPart}: {next.data.title}</span>
-                </a>
-              );
-            })()}
-          </div>
-        )}
-
-        <div class="mt-12">
-          <a href={`/blog/${category}`} class="back-link">← Back to {categoryLabel}</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- TOC sidebar (desktop only) -->
-    {tocHeadings.length > 1 && (
-      <aside class="toc-sidebar">
-        <div class="toc-inner" id="toc-inner">
-          <p class="toc-label">On this page</p>
-          <nav>
-            {tocHeadings.map(h => (
-              <a
-                href={`#${h.slug}`}
-                class={`toc-link depth-${h.depth}`}
-                data-slug={h.slug}
-              >
-                {h.text}
-              </a>
-            ))}
+          <nav class="crumb" aria-label="Breadcrumb">
+            <a href="/">~</a>
+            <span class="sep">/</span>
+            <a href="/blog">writeups</a>
+            <span class="sep">/</span>
+            <a href={`/blog/${category}`}>{category}</a>
+            <span class="sep">/</span>
+            <span class="cur">{post.id.split('/').pop()}</span>
           </nav>
-        </div>
-      </aside>
-    )}
-  </div>
 
-  <!-- Back to top -->
-  <button id="back-to-top" aria-label="Back to top">↑</button>
+          <header class="post-head reveal">
+            <p class="post-eyebrow">
+              <a href={`/blog/${category}`} class="post-eyebrow-link">{categoryLabel}</a>
+            </p>
+            <h1 class="post-title">{post.data.title}</h1>
+            <p class="post-desc">{post.data.description}</p>
+
+            <table class="hair-table post-meta-table">
+              <tbody>
+                <tr>
+                  <th>Date</th>
+                  <td>{post.data.date.toISOString().split('T')[0]}</td>
+                </tr>
+                <tr>
+                  <th>Reading</th>
+                  <td>{readingTime} min · {wordCount} words</td>
+                </tr>
+                <tr>
+                  <th>Category</th>
+                  <td>{categoryLabel}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            {post.data.series && seriesPosts.length > 0 && (
+              <aside class="series-indicator">
+                <span class="series-mono">Series</span>
+                <span class="series-name">{post.data.series}</span>
+                <span class="series-parts">
+                  {seriesPosts.map((sp) => {
+                    const spSlug = sp.id.split('/').pop()!;
+                    const isCurrent = sp.id === post.id;
+                    return (
+                      <a
+                        href={isCurrent ? '#' : `/blog/${sp.data.category}/${spSlug}`}
+                        class:list={['series-part-chip', { current: isCurrent }]}
+                      >
+                        {String(sp.data.seriesPart).padStart(2, '0')}
+                      </a>
+                    );
+                  })}
+                </span>
+              </aside>
+            )}
+          </header>
+
+          <div class="rule-diagonal" aria-hidden="true"></div>
+
+          <div class="prose-content reveal" data-pagefind-body>
+            <Content />
+          </div>
+
+          {post.data.series && seriesPosts.length > 1 && (
+            <div class="series-nav">
+              {(() => {
+                const prev = seriesPosts.find((s) => (s.data.seriesPart ?? 0) === (post.data.seriesPart ?? 0) - 1);
+                return prev ? (
+                  <a href={`/blog/${prev.data.category}/${prev.id.split('/').pop()}`} class="panel-chrome series-nav-link prev">
+                    <span class="nav-dir">← Previous</span>
+                    <span class="nav-title">Part {prev.data.seriesPart} · {prev.data.title}</span>
+                  </a>
+                ) : null;
+              })()}
+              {(() => {
+                const next = seriesPosts.find((s) => (s.data.seriesPart ?? 0) === (post.data.seriesPart ?? 0) + 1);
+                return next ? (
+                  <a href={`/blog/${next.data.category}/${next.id.split('/').pop()}`} class="panel-chrome series-nav-link next">
+                    <span class="nav-dir">Next →</span>
+                    <span class="nav-title">Part {next.data.seriesPart} · {next.data.title}</span>
+                  </a>
+                ) : null;
+              })()}
+            </div>
+          )}
+
+          <div class="post-back">
+            <a href={`/blog/${category}`} class="link-bright">← Back to {categoryLabel}</a>
+          </div>
+        </div>
+      </article>
+
+      {tocHeadings.length > 1 && (
+        <aside class="toc-sidebar" aria-label="Table of contents">
+          <div class="toc-inner">
+            <p class="toc-label">On this page</p>
+            <nav>
+              {tocHeadings.map((h) => (
+                <a href={`#${h.slug}`} class:list={['toc-link', `depth-${h.depth}`]} data-slug={h.slug}>
+                  {h.text}
+                </a>
+              ))}
+            </nav>
+          </div>
+        </aside>
+      )}
+    </main>
+
+    <button id="back-to-top" aria-label="Back to top">↑</button>
+
+    <Footer />
+  </div>
 </Layout>
 
 <style is:global>
@@ -185,44 +175,73 @@ const tocHeadings = headings.filter(h => h.depth <= 3 && h.slug !== 'footnote-la
     position: fixed;
     top: 0;
     left: 0;
-    height: 2px;
-    background: var(--text-muted);
+    height: 1px;
+    background: var(--line-bright);
     width: 0%;
-    z-index: 9999;
+    z-index: 999;
     transition: width 0.1s linear;
   }
 
-  /* Prose styles */
+  /* Prose */
   .prose-content {
-    color: var(--text-muted);
+    color: var(--text-body);
     line-height: 1.85;
-    font-size: 0.95rem;
+    font-size: 0.965rem;
+    font-family: var(--font-body);
   }
   .prose-content h1,
   .prose-content h2,
   .prose-content h3,
   .prose-content h4 {
+    font-family: var(--font-display);
     color: var(--text);
-    font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.3;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.25;
     scroll-margin-top: 5rem;
+    letter-spacing: 0.01em;
   }
-  .prose-content h1 { font-size: 1.7rem; }
-  .prose-content h2 { font-size: 1.3rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; }
-  .prose-content h3 { font-size: 1.1rem; }
-  .prose-content p { margin-bottom: 1.2rem; }
-  .prose-content a { color: var(--text); text-decoration: underline; text-decoration-color: var(--border-hover); }
-  .prose-content a:hover { text-decoration-color: var(--text-muted); }
-  .prose-content ul, .prose-content ol { margin: 1rem 0 1.25rem 1.5rem; }
-  .prose-content li { margin-bottom: 0.35rem; }
+  .prose-content h1 { font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .prose-content h2 {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.55rem;
+  }
+  .prose-content h3 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .prose-content h4 { font-size: 0.95rem; }
+  .prose-content p { margin-bottom: 1.25rem; }
+  .prose-content a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .prose-content a:hover { color: #ffffff; border-bottom-color: var(--line-bright); }
+  .prose-content strong { color: var(--text); font-weight: 600; }
+  .prose-content em { color: var(--text-body); font-style: italic; }
+
+  .prose-content ul,
+  .prose-content ol { margin: 1rem 0 1.4rem 1.5rem; }
+  .prose-content li { margin-bottom: 0.45rem; }
   .prose-content blockquote {
-    border-left: 3px solid var(--border-hover);
-    padding-left: 1rem;
-    margin: 1.5rem 0;
+    border-left: 1px solid var(--line-bright);
+    padding: 0.15rem 0 0.15rem 1.25rem;
+    margin: 1.75rem 0;
     color: var(--text-dim);
     font-style: italic;
+  }
+  .prose-content hr {
+    border: none;
+    height: 1px;
+    background: var(--line);
+    margin: 2.5rem 0;
   }
   .prose-content table {
     width: 100%;
@@ -231,218 +250,241 @@ const tocHeadings = headings.filter(h => h.depth <= 3 && h.slug !== 'footnote-la
     font-size: 0.85rem;
   }
   .prose-content th {
-    background: var(--bg-surface);
     color: var(--text);
-    padding: 0.5rem 0.75rem;
+    padding: 0.55rem 0.75rem;
     text-align: left;
-    border: 1px solid var(--border);
+    border-bottom: 1px solid var(--line-strong);
+    font-family: var(--font-display);
+    font-size: 0.7rem;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
   .prose-content td {
-    padding: 0.5rem 0.75rem;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--text-body);
   }
-  .prose-content tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
 
-  /* Code blocks — terminal style */
+  /* Code blocks: graphite slab, silver hairline */
   .prose-content pre {
-    background: #0d0d0f !important;
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
+    background: #08080a !important;
+    border: 1px solid var(--line-strong);
     padding: 0 !important;
-    margin: 1.5rem 0;
+    margin: 1.75rem 0;
     overflow: hidden;
     position: relative;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
   }
   .prose-content pre code {
     display: block;
-    padding: 1rem 1.25rem;
+    padding: 1.1rem 1.35rem;
     overflow-x: auto;
-    font-size: 0.82rem;
-    line-height: 1.65;
+    font-size: 0.815rem;
+    line-height: 1.7;
     background: transparent !important;
+    color: var(--text-body);
+    font-family: var(--font-mono);
+  }
+  .prose-content pre::before {
+    content: 'CODE';
+    display: block;
+    padding: 0.5rem 1rem;
+    background: rgba(244, 244, 245, 0.04);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    color: var(--text-dimmer);
+    font-weight: 600;
   }
   .prose-content :not(pre) > code {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0.15rem 0.4rem;
-    font-size: 0.82em;
+    background: rgba(244, 244, 245, 0.06);
+    border: 1px solid var(--line-strong);
+    padding: 0.1rem 0.4rem;
+    font-size: 0.85em;
     color: var(--text);
+    font-family: var(--font-mono);
   }
 
-  /* Fake terminal titlebar on pre blocks */
-  .prose-content pre::before {
-    content: '● ● ●';
-    display: block;
-    padding: 0.45rem 1rem;
-    background: rgba(24,24,27,0.9);
-    border-bottom: 1px solid var(--border);
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    color: #3f3f46;
-  }
-
-  /* ── Sidenotes ── */
-  /* Mobile default: hidden until toggled */
+  /* Footnotes / sidenotes */
   .sidenote {
     display: none;
     font-size: 0.78rem;
-    line-height: 1.6;
+    line-height: 1.65;
     color: var(--text-dim);
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 0.375rem;
-    padding: 0.4rem 0.65rem;
+    background: rgba(244, 244, 245, 0.03);
+    border: 1px solid var(--line);
+    padding: 0.5rem 0.75rem;
     margin: 0.5rem 0 0.75rem;
     max-width: 100%;
   }
   .sidenote.open { display: block; }
-
-  /* Inline toggle button styling for the sup ref on mobile */
   .prose-content sup { cursor: pointer; }
-
-  /* Number label inside each sidenote */
   .sidenote-num {
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     font-weight: 700;
     color: var(--text-dimmer);
     vertical-align: super;
     margin-right: 0.2rem;
   }
 
-  /* Wide screens: float right into the margin between content and TOC */
   @media (min-width: 1400px) {
     .sidenote {
       display: block;
       float: right;
       clear: right;
       width: 11rem;
-      /* pull 12.5rem past content's right edge into the right margin */
       margin-right: -12.5rem;
       margin-left: 0.5rem;
       margin-top: 0.2rem;
-      margin-bottom: 0;
-      padding: 0;
-      padding-left: 0.75rem;
+      padding: 0 0 0 0.75rem;
       background: transparent;
       border: none;
-      border-left: 2px solid var(--border);
-      border-radius: 0;
-      font-size: 0.68rem;
-      line-height: 1.65;
-      color: var(--text-dimmer);
+      border-left: 1px solid var(--line-strong);
+      font-size: 0.7rem;
+      line-height: 1.6;
+      color: var(--text-dim);
     }
-    /* Let sidenotes overflow the prose content box visibly */
     .prose-content { overflow: visible; }
   }
 
-  /* GFM footnotes section — hidden when sidenotes are active */
   .prose-content .footnotes { display: none; }
 </style>
 
 <style>
-  .blog-post-layout {
+  .post-layout {
     display: flex;
     position: relative;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+    background: var(--bg);
+    min-height: 100vh;
   }
-  .blog-main { flex: 1; min-width: 0; }
+  .post-main { flex: 1; min-width: 0; }
+  .container-page.narrow { max-width: 50rem; }
 
-  .back-link {
-    font-size: 0.8rem; color: var(--text-dim); text-decoration: none;
-    transition: color 0.2s ease; display: inline-block;
-  }
-  .back-link:hover { color: var(--text); }
-
-  .post-header { margin-top: 2rem; margin-bottom: 2.5rem; }
-  .post-title {
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
-    font-weight: 800;
-    color: var(--text);
-    line-height: 1.25;
-    margin-bottom: 1.25rem;
-  }
-
-  .meta-block {
+  .post-head {
+    margin: 2rem 0 2rem;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem 2rem;
-    padding: 0.75rem 1rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
+    flex-direction: column;
+    gap: 1rem;
   }
-  .meta-item { display: flex; flex-direction: column; gap: 0.15rem; }
-  .meta-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dimmer); }
-  .meta-value { font-size: 0.8rem; color: var(--text-muted); }
-  .meta-link { text-decoration: none; transition: color 0.2s ease; }
-  .meta-link:hover { color: var(--text); }
+  .post-eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--text-dim);
+    margin: 0;
+  }
+  .post-eyebrow-link { color: inherit; text-decoration: none; }
+  .post-eyebrow-link:hover { color: var(--text); }
 
-  .post-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem; }
+  .post-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .post-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-body);
+    margin: 0;
+    max-width: 42rem;
+  }
+
+  .post-meta-table { margin-top: 1.25rem; max-width: 36rem; }
+  .post-meta-table th { width: 9rem; }
 
   .series-indicator {
-    margin-top: 1rem;
-    padding: 0.75rem 1rem;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid var(--line-strong);
     display: flex;
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
   }
-  .series-label { font-size: 0.72rem; color: var(--text-dim); font-weight: 600; white-space: nowrap; }
-  .series-parts { display: flex; gap: 0.35rem; flex-wrap: wrap; }
-  .series-part-link {
-    font-size: 0.68rem;
-    padding: 0.15rem 0.5rem;
-    border-radius: 4px;
-    border: 1px solid var(--border);
+  .series-mono {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+  }
+  .series-name {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text);
+  }
+  .series-parts { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-left: auto; }
+  .series-part-chip {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
     color: var(--text-dim);
+    padding: 0.2rem 0.45rem;
+    border: 1px solid var(--line-strong);
     text-decoration: none;
-    transition: all 0.15s ease;
+    letter-spacing: 0.1em;
+    transition: color 0.2s ease, border-color 0.2s ease;
   }
-  .series-part-link.current {
-    background: var(--text-dimmer);
-    color: var(--bg);
-    border-color: var(--text-dimmer);
-    cursor: default;
-  }
-  .series-part-link:not(.current):hover { border-color: var(--border-hover); color: var(--text); }
+  .series-part-chip:hover { color: var(--text); border-color: var(--line-bright); }
+  .series-part-chip.current { background: var(--text); color: var(--bg); border-color: var(--text); cursor: default; }
 
   .series-nav {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 1rem;
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 640px) {
+    .series-nav { grid-template-columns: 1fr 1fr; }
   }
   .series-nav-link {
+    padding: 1rem 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
+    gap: 0.35rem;
     text-decoration: none;
-    flex: 1;
-    min-width: 180px;
-    transition: border-color 0.2s ease;
   }
-  .series-nav-link:hover { border-color: var(--border-hover); }
-  .series-nav-link.next { text-align: right; }
-  .nav-dir { font-size: 0.68rem; color: var(--text-dimmer); }
-  .nav-title { font-size: 0.82rem; color: var(--text-muted); }
+  .series-nav-link.next { text-align: right; align-items: flex-end; }
+  .nav-dir {
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--text-dimmer);
+  }
+  .nav-title {
+    font-size: 0.85rem;
+    color: var(--text-body);
+    line-height: 1.4;
+  }
+  .series-nav-link:hover .nav-title { color: var(--text); }
 
-  /* TOC sidebar */
+  .post-back {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  /* TOC */
   .toc-sidebar {
     display: none;
-    width: 220px;
+    width: 240px;
     flex-shrink: 0;
-    padding: 1.5rem 1rem;
+    padding: 4rem 1.25rem 0;
   }
   @media (min-width: 1280px) {
     .toc-sidebar { display: block; }
@@ -452,162 +494,151 @@ const tocHeadings = headings.filter(h => h.depth <= 3 && h.slug !== 'footnote-la
     top: 5rem;
     max-height: calc(100vh - 8rem);
     overflow-y: auto;
+    border-left: 1px solid var(--line);
+    padding-left: 1.25rem;
   }
   .toc-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--text-dimmer);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
   }
   .toc-link {
     display: block;
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     color: var(--text-dimmer);
     text-decoration: none;
-    padding: 0.2rem 0;
-    transition: color 0.15s ease;
-    border-left: 2px solid transparent;
-    padding-left: 0.5rem;
+    padding: 0.25rem 0;
+    transition: color 0.2s ease, padding-left 0.2s ease;
     line-height: 1.4;
-    margin-bottom: 0.2rem;
   }
-  .toc-link.depth-3 { padding-left: 1.25rem; font-size: 0.7rem; }
-  .toc-link:hover { color: var(--text-muted); }
-  .toc-link.active { color: var(--text); border-left-color: var(--text-muted); }
+  .toc-link.depth-3 { padding-left: 0.85rem; font-size: 0.72rem; }
+  .toc-link:hover { color: var(--text-body); }
+  .toc-link.active { color: var(--text); }
 
   #back-to-top {
     position: fixed;
-    bottom: 2rem;
-    right: 2rem;
+    bottom: 1.75rem;
+    right: 1.75rem;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: var(--bg-elev-1);
+    border: 1px solid var(--line-strong);
     color: var(--text-dim);
+    font-family: var(--font-mono);
     font-size: 1rem;
     cursor: pointer;
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease;
+    transition: opacity 0.3s var(--ease-shutter), transform 0.3s var(--ease-shutter), color 0.2s ease;
     z-index: 50;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
   }
   #back-to-top.visible { opacity: 1; transform: translateY(0); }
-  #back-to-top:hover { color: var(--text); border-color: var(--border-hover); }
+  #back-to-top:hover { color: var(--text); border-color: var(--line-bright); }
 </style>
 
 <script>
-  // Reading progress bar
-  const bar = document.getElementById('reading-progress');
-  const content = document.querySelector('.prose-content');
-  function updateProgress() {
-    if (!bar || !content) return;
-    const rect = content.getBoundingClientRect();
-    const total = content.clientHeight;
-    const scrolled = Math.min(Math.max(-rect.top, 0), total);
-    bar.style.width = `${(scrolled / total) * 100}%`;
-  }
-  window.addEventListener('scroll', updateProgress, { passive: true });
+  function wirePostPage() {
+    // Reading progress
+    const bar = document.getElementById('reading-progress');
+    const content = document.querySelector('.prose-content');
+    function updateProgress() {
+      if (!bar || !content) return;
+      const rect = (content as HTMLElement).getBoundingClientRect();
+      const total = (content as HTMLElement).clientHeight;
+      const scrolled = Math.min(Math.max(-rect.top, 0), total);
+      (bar as HTMLElement).style.width = `${(scrolled / total) * 100}%`;
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
 
-  // Back to top
-  const btn = document.getElementById('back-to-top');
-  if (btn) {
-    window.addEventListener('scroll', () => {
-      btn.classList.toggle('visible', window.scrollY > 300);
-    }, { passive: true });
-    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-  }
+    // Back to top
+    const btn = document.getElementById('back-to-top');
+    if (btn) {
+      const onScroll = () => btn.classList.toggle('visible', window.scrollY > 400);
+      window.addEventListener('scroll', onScroll, { passive: true });
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
 
-  // TOC active section tracking
-  const tocLinks = document.querySelectorAll<HTMLElement>('.toc-link');
-  const sectionEls = Array.from(tocLinks).map(l => {
-    const slug = l.dataset.slug;
-    return slug ? document.getElementById(slug) : null;
-  }).filter(Boolean) as HTMLElement[];
+    // TOC active section tracking
+    const tocLinks = document.querySelectorAll<HTMLElement>('.toc-link');
+    const sectionEls = Array.from(tocLinks)
+      .map((l) => (l.dataset.slug ? document.getElementById(l.dataset.slug) : null))
+      .filter(Boolean) as HTMLElement[];
 
-  const tocObserver = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          tocLinks.forEach(l => l.classList.remove('active'));
-          const active = Array.from(tocLinks).find(l => l.dataset.slug === entry.target.id);
-          active?.classList.add('active');
-        }
-      }
-    },
-    { rootMargin: '-20% 0px -70% 0px' }
-  );
-  sectionEls.forEach(el => tocObserver.observe(el));
-
-  // ── Sidenotes ──
-  // Converts GFM footnotes (remark-gfm output) into Tufte-style margin notes.
-  // On wide screens (≥1400px) they float right into the margin via CSS.
-  // On narrow screens they toggle on/off when the sup ref is clicked.
-  (function initSidenotes() {
-    const prose = document.querySelector<HTMLElement>('.prose-content');
-    if (!prose) return;
-
-    const footnoteSection = prose.querySelector<HTMLElement>('[data-footnotes]');
-    if (!footnoteSection) return;
-
-    const fnRefs = Array.from(prose.querySelectorAll<HTMLAnchorElement>('a[data-footnote-ref]'));
-    if (!fnRefs.length) return;
-
-    fnRefs.forEach(ref => {
-      const href = ref.getAttribute('href'); // e.g. "#user-content-fn-1"
-      if (!href) return;
-
-      const fnEl = document.getElementById(href.slice(1)); // strip leading #
-      if (!fnEl) return;
-
-      // Clone, strip the back-reference arrow link, get inner HTML
-      const clone = fnEl.cloneNode(true) as HTMLElement;
-      clone.querySelectorAll('a[data-footnote-backref]').forEach(el => el.remove());
-      const innerContent = clone.innerHTML
-        .replace(/^\s*<p>/, '').replace(/<\/p>\s*$/, '').trim();
-
-      // Build sidenote element
-      const sn = document.createElement('span');
-      sn.className = 'sidenote';
-      sn.setAttribute('role', 'note');
-      sn.innerHTML = `<span class="sidenote-num" aria-hidden="true">${ref.textContent}.</span> ${innerContent}`;
-
-      // Insert the sidenote right before its <sup> so the float works correctly
-      const sup = ref.closest<HTMLElement>('sup');
-      if (!sup || !sup.parentNode) return;
-      sup.parentNode.insertBefore(sn, sup);
-
-      // Mobile toggle: click the sup to show/hide its sidenote
-      sup.addEventListener('click', (e) => {
-        if (window.innerWidth < 1400) {
-          e.preventDefault();
-          const prev = sup.previousElementSibling;
-          if (prev?.classList.contains('sidenote')) {
-            prev.classList.toggle('open');
+    if (sectionEls.length) {
+      const tocObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              tocLinks.forEach((l) => l.classList.remove('active'));
+              const active = Array.from(tocLinks).find((l) => l.dataset.slug === entry.target.id);
+              active?.classList.add('active');
+            }
           }
-        }
-      });
-    });
+        },
+        { rootMargin: '-20% 0px -70% 0px' }
+      );
+      sectionEls.forEach((el) => tocObserver.observe(el));
+    }
 
-    // Footnotes section is replaced by sidenotes — hide it
-    footnoteSection.style.display = 'none';
-  })();
+    // Sidenotes — convert GFM footnotes to Tufte-style margin notes
+    (function initSidenotes() {
+      const prose = document.querySelector<HTMLElement>('.prose-content');
+      if (!prose) return;
+      const footnoteSection = prose.querySelector<HTMLElement>('[data-footnotes]');
+      if (!footnoteSection) return;
+      const fnRefs = Array.from(prose.querySelectorAll<HTMLAnchorElement>('a[data-footnote-ref]'));
+      if (!fnRefs.length) return;
 
-  // Copy buttons for code blocks
-  document.querySelectorAll('pre').forEach(pre => {
-    const btn = document.createElement('button');
-    btn.className = 'code-block-copy';
-    btn.textContent = 'Copy';
-    btn.addEventListener('click', () => {
-      const code = pre.querySelector('code')?.innerText ?? '';
-      navigator.clipboard.writeText(code).then(() => {
-        btn.textContent = 'Copied!';
-        setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+      fnRefs.forEach((ref) => {
+        const href = ref.getAttribute('href');
+        if (!href) return;
+        const fnEl = document.getElementById(href.slice(1));
+        if (!fnEl) return;
+        const clone = fnEl.cloneNode(true) as HTMLElement;
+        clone.querySelectorAll('a[data-footnote-backref]').forEach((el) => el.remove());
+        const innerContent = clone.innerHTML.replace(/^\s*<p>/, '').replace(/<\/p>\s*$/, '').trim();
+        const sn = document.createElement('span');
+        sn.className = 'sidenote';
+        sn.setAttribute('role', 'note');
+        sn.innerHTML = `<span class="sidenote-num" aria-hidden="true">${ref.textContent}.</span> ${innerContent}`;
+        const sup = ref.closest<HTMLElement>('sup');
+        if (!sup || !sup.parentNode) return;
+        sup.parentNode.insertBefore(sn, sup);
+        sup.addEventListener('click', (e) => {
+          if (window.innerWidth < 1400) {
+            e.preventDefault();
+            const prev = sup.previousElementSibling;
+            if (prev?.classList.contains('sidenote')) prev.classList.toggle('open');
+          }
+        });
       });
+      footnoteSection.style.display = 'none';
+    })();
+
+    // Copy buttons for code blocks
+    document.querySelectorAll('pre').forEach((pre) => {
+      if (pre.querySelector('.code-block-copy')) return;
+      const btn = document.createElement('button');
+      btn.className = 'code-block-copy';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', () => {
+        const code = pre.querySelector('code')?.textContent ?? '';
+        navigator.clipboard.writeText(code).then(() => {
+          btn.textContent = 'Copied';
+          setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+        });
+      });
+      (pre as HTMLElement).style.position = 'relative';
+      pre.appendChild(btn);
     });
-    pre.style.position = 'relative';
-    pre.appendChild(btn);
-  });
+  }
+
+  wirePostPage();
+  document.addEventListener('astro:page-load', wirePostPage);
 </script>

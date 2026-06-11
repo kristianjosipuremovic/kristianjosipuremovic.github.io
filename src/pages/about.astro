@@ -1,0 +1,138 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import personalData from '../data/personal.json';
+import skillsData from '../data/skills.json';
+---
+
+<Layout title="About — Kristian Uremovic" description={personalData.bio}>
+  <div class="web-only">
+    <Header />
+    <main id="main-content" class="page about-page">
+      <div class="container-page">
+
+        <nav class="crumb" aria-label="Breadcrumb">
+          <a href="/">~</a>
+          <span class="sep">/</span>
+          <span class="cur">about</span>
+        </nav>
+
+        <div class="sec-head reveal">
+          <span class="sec-numeral">01</span>
+          <div>
+            <p class="eyebrow">Profile</p>
+            <h1 class="sec-title">Background</h1>
+          </div>
+        </div>
+
+        <p class="lead reveal">{personalData.aboutLong}</p>
+
+        <div class="meta-block reveal">
+          <table class="hair-table">
+            <tbody>
+              <tr>
+                <th>Education</th>
+                <td>{personalData.education}</td>
+              </tr>
+              <tr>
+                <th>Location</th>
+                <td>{personalData.location}</td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td><a href={`mailto:${personalData.email}`} class="link-bright">{personalData.email}</a></td>
+              </tr>
+              <tr>
+                <th>GitHub</th>
+                <td><a href={personalData.github} target="_blank" rel="noopener noreferrer" class="link-bright">{personalData.github.replace('https://', '')}</a></td>
+              </tr>
+              <tr>
+                <th>LinkedIn</th>
+                <td><a href={personalData.linkedin} target="_blank" rel="noopener noreferrer" class="link-bright">{personalData.linkedin.replace('https://www.linkedin.com/in/', '').replace(/\/$/, '')}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="rule-diagonal" aria-hidden="true"></div>
+
+        <div class="sec-head reveal" style="margin-top:4rem;">
+          <span class="sec-numeral">02</span>
+          <div>
+            <p class="eyebrow">Tongues</p>
+            <h2 class="sec-title">Languages</h2>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <table class="hair-table">
+            <tbody>
+              {personalData.languages.map((lang: { name: string; level: string }) => (
+                <tr>
+                  <th>{lang.name}</th>
+                  <td>{lang.level}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="rule-diagonal" aria-hidden="true"></div>
+
+        <div class="sec-head reveal" style="margin-top:4rem;">
+          <span class="sec-numeral">03</span>
+          <div>
+            <p class="eyebrow">Instruments</p>
+            <h2 class="sec-title">Tools</h2>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <table class="hair-table tools-table">
+            <tbody>
+              {skillsData.map((category: { title: string; skills: { name: string }[] }) => (
+                <tr>
+                  <th>{category.title}</th>
+                  <td>{category.skills.map((s) => s.name).join(' · ')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="rule-diagonal" aria-hidden="true"></div>
+
+        <div class="actions reveal">
+          <a href="/contact" class="btn-primary">Get in Touch</a>
+          <button onclick="window.print()" class="btn-secondary">Download CV</button>
+        </div>
+
+      </div>
+    </main>
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .page { padding-top: 7rem; padding-bottom: 6rem; min-height: 100vh; background: var(--bg); }
+
+  .lead {
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.75;
+    color: var(--text-body);
+    max-width: 56rem;
+    margin: 1.25rem 0 2.5rem;
+  }
+
+  .meta-block { margin-bottom: 3rem; }
+
+  .tools-table th { width: 22%; }
+
+  .actions {
+    margin-top: 3rem;
+    display: flex;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+</style>

@@ -1,79 +1,118 @@
 @import "tailwindcss";
 
-@theme {
-  --color-accent: rgb(17, 24, 39);
-  --color-highlight: rgb(55, 65, 81);
+/* ─────────────────────────────────────────────────────────────
+   FUTURIST-CONSTRUCTIVIST MODERNISM
+   Design system tokens. Graphite canvas, silver chrome panels,
+   monumental typography, machined kinetics.
+   ───────────────────────────────────────────────────────────── */
 
+@theme {
+  --color-accent: rgb(244, 244, 245);
+  --color-highlight: rgb(200, 200, 204);
   --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 @layer base {
-  /* ── Light mode (default) ── */
   :root {
-    color-scheme: light;
-    --bg: #ffffff;
-    --bg-card: #f9fafb;
-    --bg-card-solid: #f9fafb;
-    --bg-section: #f9fafb;
-    --bg-nav: rgba(255, 255, 255, 0.95);
-    --bg-overlay: rgba(255, 255, 255, 0.98);
-    --bg-input: #ffffff;
-    --bg-surface: #f3f4f6;
-    --text: #111827;
-    --text-muted: #374151;
-    --text-dim: #6b7280;
-    --text-dimmer: #9ca3af;
-    --border: #e5e7eb;
-    --border-hover: #9ca3af;
-    --accent: #111827;
-    --accent-blue: #111827;
-    --neon: #111827;
-    --neon-glow: rgba(0, 0, 0, 0.04);
-    --scrollbar-track: #f3f4f6;
-    --scrollbar-thumb: #d1d5db;
-    --scrollbar-thumb-hover: #9ca3af;
-    --footer-bg: #f9fafb;
-    --footer-border: #e5e7eb;
+    color-scheme: dark;
+
+    /* ── Canvas (graphite, never pure black) ── */
+    --bg:               #0c0c0e;
+    --bg-deep:          #08080a;
+    --bg-elev-1:        #111114;
+    --bg-elev-2:        #16161a;
+    --bg-nav:           rgba(12, 12, 14, 0.72);
+    --bg-overlay:       rgba(8, 8, 10, 0.92);
+
+    /* ── Hierarchy of Light (luminance only) ── */
+    --text:        #f4f4f5;   /* headings */
+    --text-body:   #c8c8cc;   /* body */
+    --text-muted:  #c8c8cc;
+    --text-dim:    #8a8a90;   /* muted */
+    --text-dimmer: #5a5a60;   /* dim */
+
+    /* ── Hairlines ── */
+    --line:        rgba(244, 244, 245, 0.08);
+    --line-strong: rgba(244, 244, 245, 0.14);
+    --line-bright: rgba(244, 244, 245, 0.28);
+
+    /* ── Chrome panel surface (the master silver standard) ──
+       A frosted slab with diagonal silver sheen and a hairline. */
+    --chrome-bg:
+      linear-gradient(
+        135deg,
+        rgba(244, 244, 245, 0.055) 0%,
+        rgba(244, 244, 245, 0.022) 32%,
+        rgba(244, 244, 245, 0.012) 64%,
+        rgba(244, 244, 245, 0.05)  100%
+      );
+    --chrome-bg-hover:
+      linear-gradient(
+        135deg,
+        rgba(244, 244, 245, 0.085) 0%,
+        rgba(244, 244, 245, 0.04)  32%,
+        rgba(244, 244, 245, 0.025) 64%,
+        rgba(244, 244, 245, 0.08)  100%
+      );
+    --chrome-inset:
+      inset 0 1px 0 rgba(244, 244, 245, 0.10),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+    --chrome-edge-light: rgba(244, 244, 245, 0.16);
+
+    /* ── Selection / scrollbar ── */
+    --scrollbar-track: #0c0c0e;
+    --scrollbar-thumb: #2a2a2e;
+    --scrollbar-thumb-hover: #4a4a4e;
+
+    /* ── Motion ── */
+    --ease-shutter: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --ease-out-precise: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* ── Typography (computed display name kept here for clarity) ── */
+    --font-display: "Space Grotesk", "Archivo", system-ui, sans-serif;
+    --font-body:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, "Courier New", monospace;
   }
 
-  /* ── Dark mode (toggled via data-theme="dark") ── */
-  [data-theme="dark"] {
-    color-scheme: dark;
-    --bg: #0a0a0a;
-    --bg-card: rgba(20, 20, 20, 0.65);
-    --bg-card-solid: #141414;
-    --bg-section: rgba(20, 20, 20, 0.4);
-    --bg-nav: rgba(10, 10, 10, 0.88);
-    --bg-overlay: rgba(10, 10, 10, 0.97);
-    --bg-input: rgba(20, 20, 20, 0.5);
-    --bg-surface: rgba(40, 40, 40, 0.5);
-    --text: #e5e7eb;
-    --text-muted: #9ca3af;
-    --text-dim: #6b7280;
-    --text-dimmer: #4b5563;
-    --border: rgba(255, 255, 255, 0.08);
-    --border-hover: rgba(200, 200, 200, 0.3);
-    --accent: #e5e7eb;
-    --accent-blue: #e5e7eb;
-    --neon: #e5e7eb;
-    --neon-glow: rgba(255, 255, 255, 0.06);
-    --scrollbar-track: #141414;
-    --scrollbar-thumb: #374151;
-    --scrollbar-thumb-hover: #4b5563;
-    --footer-bg: rgba(10, 10, 10, 0.98);
-    --footer-border: rgba(255, 255, 255, 0.05);
+  ::selection {
+    background: rgba(244, 244, 245, 0.18);
+    color: var(--text);
+  }
+
+  html {
+    background-color: var(--bg);
   }
 
   body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: var(--font-body);
     background-color: var(--bg);
-    color: var(--text);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    color: var(--text-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   code, pre, kbd, samp {
-    font-family: "JetBrains Mono", "Courier New", monospace;
+    font-family: var(--font-mono);
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--text);
+    text-wrap: balance;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  /* Default underlined link treatment: white with a hairline silver underline */
+  .link-silver {
+    color: var(--text);
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    transition: background-size 0.2s var(--ease-shutter), color 0.2s ease;
+  }
+  .link-silver:hover { color: #ffffff; background-size: 100% 1.5px; }
 
   .sr-only {
     position: absolute;
@@ -95,228 +134,432 @@
     padding: 0.5rem 1rem;
     background: var(--text);
     color: var(--bg);
-    border-radius: 0 0 0.375rem 0.375rem;
     font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
     transition: top 0.15s ease;
   }
-  .skip-link:focus-visible {
-    top: 0;
-  }
+  .skip-link:focus-visible { top: 0; }
 
-  h1, h2, h3, h4, h5, h6 {
-    text-wrap: balance;
-  }
+  button, [role="button"], a { touch-action: manipulation; }
 
-  html {
-    scroll-behavior: smooth;
-  }
-
-  button, [role="button"], a {
-    touch-action: manipulation;
-  }
-
-  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
-  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); }
   ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
 }
 
 @layer utilities {
-  .gradient-text {
-    color: var(--text);
-  }
 
-  .section-title {
-    color: var(--text);
-  }
-
-  .text-highlight {
-    color: var(--text-dim);
-  }
-
-  /* ── Buttons ── */
-  .btn-primary {
-    display: inline-block;
+  /* ─────────────────────────────────────────────
+     THE CHROME PANEL — Maxim I, IV, XIV
+     Master surface treatment. Use everywhere.
+     Chamfered top-right corner (machined).
+     ───────────────────────────────────────────── */
+  .panel-chrome {
     position: relative;
-    padding: 0.75rem 1.75rem;
-    background: var(--text);
-    border-radius: 0.375rem;
-    font-weight: 600;
-    font-size: 0.875rem;
-    color: var(--bg);
-    border: 1.5px solid var(--text);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    text-decoration: none;
+    background: var(--bg-elev-1);
+    background-image: var(--chrome-bg);
+    border: 1px solid var(--line);
+    box-shadow: var(--chrome-inset);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    /* Machined chamfer on top-right */
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+    transition:
+      transform 0.32s var(--ease-shutter),
+      border-color 0.32s var(--ease-shutter),
+      background-image 0.32s var(--ease-shutter),
+      box-shadow 0.32s var(--ease-shutter);
   }
-  .btn-primary:hover {
-    opacity: 0.85;
-    transform: translateY(-1px);
-  }
-  .btn-primary:focus-visible {
-    outline: 2px solid var(--text);
-    outline-offset: 3px;
-  }
-
-  .btn-secondary {
-    display: inline-block;
-    padding: 0.75rem 1.75rem;
-    border: 1.5px solid var(--border);
-    border-radius: 0.375rem;
-    font-weight: 600;
-    font-size: 0.875rem;
-    color: var(--text);
-    background: transparent;
-    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-    text-decoration: none;
-  }
-  .btn-secondary:hover {
-    border-color: var(--border-hover);
-    background: var(--bg-surface);
-    transform: translateY(-1px);
-  }
-  .btn-secondary:focus-visible {
-    outline: 2px solid var(--text);
-    outline-offset: 2px;
-  }
-
-  /* ── Cards ── */
-  .card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    transition: border-color 0.2s ease;
-  }
-  .card:hover {
-    border-color: var(--border-hover);
-  }
-
-  /* ── Glass nav ── */
-  .glass-nav {
-    background: var(--bg-nav);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    transition: background 0.3s ease, border-color 0.3s ease;
-  }
-
-  /* ── Nav links ── */
-  .nav-link {
-    position: relative;
-    color: var(--text-dim);
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: color 0.2s ease;
-    padding-bottom: 4px;
-  }
-  .nav-link::after {
+  .panel-chrome::before {
     content: "";
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 1.5px;
-    background: var(--text);
-    transition: width 0.25s ease;
-    border-radius: 1px;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(244, 244, 245, 0.04) 28%,
+        transparent 55%
+      );
+    opacity: 0.7;
+    transition: opacity 0.32s var(--ease-shutter);
   }
-  .nav-link:hover {
-    color: var(--text);
+  .panel-chrome:hover {
+    background-image: var(--chrome-bg-hover);
+    border-color: var(--line-strong);
+    /* Diagonal lift — Maxim IV */
+    transform: translate(-1px, -2px);
   }
-  .nav-link:hover::after {
-    width: 100%;
+  .panel-chrome:hover::before { opacity: 1; }
+
+  /* Larger chamfer variant for hero/feature panels */
+  .panel-chrome.panel-feature {
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
   }
 
-  /* ── Scroll reveal ── */
+  /* Anchor styled as panel: kill default styling */
+  a.panel-chrome { display: block; color: inherit; text-decoration: none; }
+
+  /* ─────────────────────────────────────────────
+     MONUMENTAL TYPOGRAPHY — Maxim V
+     ───────────────────────────────────────────── */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    color: var(--text);
+  }
+  .display-mono {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 0.95;
+    color: var(--text);
+  }
+
+  /* Museum-placard header: small, uppercase, wide-tracked */
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+  }
+
+  /* Section heading common pattern: numeric + label */
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2.25rem;
+  }
+  .sec-numeral {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--text-dimmer);
+    padding: 0.18rem 0.4rem;
+    border: 1px solid var(--line);
+    line-height: 1;
+  }
+  .sec-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    line-height: 1.05;
+  }
+  .sec-sub {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-top: 0.4rem;
+    max-width: 56ch;
+  }
+
+  /* ─────────────────────────────────────────────
+     DIAGONAL DIVIDER — Maxim IV
+     A thin hairline drafted on the diagonal.
+     ───────────────────────────────────────────── */
+  .rule-diagonal {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    background: transparent;
+    overflow: visible;
+  }
+  .rule-diagonal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--line-strong) 20%,
+      var(--line-bright) 50%,
+      var(--line-strong) 80%,
+      transparent 100%
+    );
+    transform: rotate(-1.4deg);
+    transform-origin: 0 50%;
+  }
+
+  /* ─────────────────────────────────────────────
+     DRAFTED HAIRLINE — Maxim VI
+     A line that draws itself in on reveal.
+     ───────────────────────────────────────────── */
+  .draft-line {
+    position: relative;
+    height: 1px;
+    background: var(--line);
+    overflow: hidden;
+  }
+  .draft-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--line-bright);
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    transition: transform 0.9s var(--ease-out-precise);
+  }
+  .draft-line.visible::after { transform: scaleX(1); }
+
+  /* ─────────────────────────────────────────────
+     PANEL ASSEMBLE — Maxim VI / XV
+     Panels slide in 10px on reveal.
+     ───────────────────────────────────────────── */
   @media (scripting: enabled) {
     .reveal {
       opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transform: translate(0, 10px);
+      transition:
+        opacity 0.6s var(--ease-shutter),
+        transform 0.6s var(--ease-shutter);
     }
     .reveal.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translate(0, 0);
     }
     @media (prefers-reduced-motion: reduce) {
-      .reveal {
-        opacity: 0;
-        transform: none;
-        transition: opacity 0.3s ease;
+      .reveal,
+      .draft-line::after {
+        transition: none !important;
       }
+      .reveal { opacity: 1; transform: none; }
     }
   }
 
-  /* ── Tags ── */
-  .tag {
+  /* ─────────────────────────────────────────────
+     LINKS — Maxim XIV
+     ───────────────────────────────────────────── */
+  .link-bright {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .link-bright:hover {
+    color: #ffffff;
+    border-bottom-color: var(--line-bright);
+  }
+
+  /* ─────────────────────────────────────────────
+     BUTTONS
+     ───────────────────────────────────────────── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bg);
+    background: var(--text);
+    border: 1px solid var(--text);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background 0.25s var(--ease-shutter),
+      color 0.25s var(--ease-shutter),
+      transform 0.25s var(--ease-shutter);
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+  }
+  .btn-primary:hover { transform: translate(-1px, -1px); }
+  .btn-primary:focus-visible {
+    outline: 1px solid var(--text);
+    outline-offset: 4px;
+  }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background 0.25s var(--ease-shutter),
+      border-color 0.25s var(--ease-shutter),
+      transform 0.25s var(--ease-shutter);
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+  }
+  .btn-secondary:hover {
+    border-color: var(--line-bright);
+    background: rgba(244, 244, 245, 0.04);
+    transform: translate(-1px, -1px);
+  }
+  .btn-secondary:focus-visible {
+    outline: 1px solid var(--text);
+    outline-offset: 4px;
+  }
+
+  /* ─────────────────────────────────────────────
+     STATUS LABEL — Maxim XII
+     Uppercase wide-tracked text, no color.
+     ───────────────────────────────────────────── */
+  .status-label {
     display: inline-block;
-    padding: 0.2rem 0.6rem;
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    border-radius: 9999px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+    padding: 0.25rem 0.55rem;
+    border: 1px solid var(--line-strong);
+    line-height: 1;
+  }
+  .status-label.is-active {
+    color: var(--text);
+    border-color: var(--line-bright);
   }
 
-  /* ── Dividers ── */
-  .gradient-divider {
-    height: 1px;
-    background: var(--border);
-    border: none;
+  /* ─────────────────────────────────────────────
+     TABLE — typographic, hairline borders
+     ───────────────────────────────────────────── */
+  .hair-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  .hair-table th,
+  .hair-table td {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+  .hair-table th {
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+    padding-right: 1.5rem;
+    white-space: nowrap;
+    width: 30%;
+  }
+  .hair-table td { color: var(--text-body); }
+  .hair-table tr:last-child th,
+  .hair-table tr:last-child td { border-bottom: none; }
+
+  /* ─────────────────────────────────────────────
+     Container & breadcrumb
+     ───────────────────────────────────────────── */
+  .container-page {
+    width: 100%;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-page { padding-left: 2rem; padding-right: 2rem; }
   }
 
-  .text-body { color: var(--text); }
-  .text-muted { color: var(--text-muted); }
-  .text-dimmed { color: var(--text-dim); }
+  .crumb {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+  .crumb a { color: var(--text-dim); text-decoration: none; transition: color 0.2s ease; }
+  .crumb a:hover { color: var(--text); }
+  .crumb .sep { color: var(--text-dimmer); }
+  .crumb .cur { color: var(--text); }
 }
 
-/* ── Terminal breadcrumb ── */
-.term-breadcrumb {
-  font-size: 0.78rem;
-  color: var(--text-dim);
-  letter-spacing: 0.02em;
-  margin-bottom: 1.5rem;
-  font-family: "JetBrains Mono", monospace;
+/* ─────────────────────────────────────────────
+   VIEW TRANSITIONS — Maxim XV
+   Fade through dark, 180ms.
+   ───────────────────────────────────────────── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.term-breadcrumb .path-sep { color: var(--text-dimmer); margin: 0 0.1em; }
-.term-breadcrumb .path-dir { color: var(--text-muted); }
-.term-breadcrumb .path-cur { color: var(--text); }
+::view-transition-old(root) {
+  animation-name: vt-fade-out;
+}
+::view-transition-new(root) {
+  animation-name: vt-fade-in;
+}
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 1ms;
+  }
+}
 
-/* ── Code block copy button ── */
+/* ─────────────────────────────────────────────
+   CODE BLOCK COPY BUTTON
+   ───────────────────────────────────────────── */
 .code-block-copy {
   position: absolute;
-  top: 0.5rem;
-  right: 0.75rem;
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
+  top: 0.55rem;
+  right: 0.6rem;
+  background: rgba(244, 244, 245, 0.06);
+  border: 1px solid var(--line-strong);
   color: var(--text-dim);
-  border-radius: 0.25rem;
-  padding: 0.2rem 0.55rem;
-  font-size: 0.68rem;
+  padding: 0.22rem 0.55rem;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s ease;
-  font-family: inherit;
+  transition: opacity 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-pre:hover .code-block-copy { opacity: 1; }
-.code-block-copy:hover { color: var(--text); }
+pre:hover .code-block-copy,
+.code-block-copy:focus-visible { opacity: 1; }
+.code-block-copy:hover { color: var(--text); border-color: var(--line-bright); }
 
-/* ── Print / Resume ── */
+/* ─────────────────────────────────────────────
+   PRINT (resume)
+   ───────────────────────────────────────────── */
 .print-only { display: none; }
-
 @page { size: letter; margin: 0.55in 0.6in; }
-
 @media print {
   .web-only { display: none !important; }
   .print-only { display: block !important; }
-  body {
-    background: #fff !important;
-    color: #1a1a1a !important;
-  }
+  body { background: #ffffff !important; color: #111114 !important; }
   * {
     animation: none !important;
     transition: none !important;
@@ -324,21 +567,11 @@ pre:hover .code-block-copy { opacity: 1; }
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  astro-dev-toolbar { display: none !important; }
 }
-
-body.page-hidden * { animation-play-state: paused !important; }
 
 @media (prefers-reduced-motion: reduce) {
   * {
-    animation-play-state: paused !important;
+    animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-@media (max-width: 1023px) {
-  .py-24, .py-20 {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
   }
 }

@@ -1,18 +1,11 @@
 [
   {
     "title": "GCC Flag Simulations",
-    "featured": true,
-    "resume": true,
     "company": "Personal Research",
-    "category": "security",
+    "category": "Security · Systems",
     "description": "Repository of documented C files simulating GCC hardening flag mechanisms in plain C without using the actual compiler flag. Each file demonstrates the injected mechanism with full documentation and is reproduced from memory before new material is added.",
-    "tags": ["C", "GCC", "Security", "Systems Programming"],
-    "icon": "command-line",
-    "sliderImage": "/images/projects/use-astro.jpg",
-    "sliderOrder": 1,
-    "backgroundImage": "/images/projects/use-astro.jpg",
     "link": "https://github.com/kristianjosipuremovic/gcc_flag_simulations",
-    "colorIcon": "/images/icons/materialdesign/github.svg",
-    "githubRepo": "gcc_flag_simulations"
+    "writeupHref": "/blog/research-writeups/cerias-zephyr-gcc-flags",
+    "year": "2025"
   }
 ]

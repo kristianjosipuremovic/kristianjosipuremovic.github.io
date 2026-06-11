@@ -1,75 +1,151 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const sections = [
+  {
+    label: 'Studying',
+    items: ['Cryptography', 'Unix Systems Administration'],
+  },
+  {
+    label: 'Building',
+    items: ['GCC flag simulation repository', 'CERIAS binary hardening benchmarking'],
+  },
+  {
+    label: 'Training',
+    items: ['Powerlifting', 'Judo', 'Soccer'],
+  },
+];
 ---
 
-<Layout title="Now — Kristian Uremovic" description="What Kristian is currently focused on.">
-  <div style="min-height:100vh; background:var(--bg); padding-top:6rem; padding-bottom:6rem;">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl">
+<Layout title="Now — Kristian Uremovic" description="What I'm currently focused on.">
+  <div class="web-only">
+    <Header />
+    <main id="main-content" class="page">
+      <div class="container-page narrow">
 
-      <div class="term-breadcrumb">
-        <a href="/" class="path-dir hover:text-[var(--text)] transition-colors">~</a>
-        <span class="path-sep">/</span>
-        <span class="path-cur">now</span>
+        <nav class="crumb" aria-label="Breadcrumb">
+          <a href="/">~</a>
+          <span class="sep">/</span>
+          <span class="cur">now</span>
+        </nav>
+
+        <div class="sec-head reveal">
+          <span class="sec-numeral">01</span>
+          <div>
+            <p class="eyebrow">Status</p>
+            <h1 class="sec-title">Now</h1>
+            <p class="sec-sub">
+              Updated May 2026 ·
+              <a href="https://nownownow.com/about" target="_blank" rel="noopener" class="link-bright">What is a now page?</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="now-grid">
+          {sections.map((s, i) => (
+            <section class="panel-chrome now-card reveal" style={`transition-delay: ${i * 0.05}s;`}>
+              <div class="now-head">
+                <span class="now-num">{String(i + 1).padStart(2, '0')}</span>
+                <h2 class="now-label">{s.label}</h2>
+              </div>
+              <ul class="now-list">
+                {s.items.map((item) => (
+                  <li class="now-item">{item}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+
+        <div class="rule-diagonal" aria-hidden="true"></div>
+
+        <div class="now-foot reveal">
+          <a href="/reading" class="link-bright">→ Reading list</a>
+        </div>
       </div>
-
-      <h1 class="text-3xl font-bold text-[var(--text)] mb-2 mt-4">Now</h1>
-      <p class="text-xs text-[var(--text-dimmer)] mb-10">Last updated: May 2026 · <a href="https://nownownow.com/about" target="_blank" rel="noopener" class="hover:text-[var(--text-dim)] transition-colors">What is a now page?</a></p>
-
-      <div class="now-sections">
-
-        <div class="now-item">
-          <h2 class="now-heading">Studying</h2>
-          <ul class="now-list">
-            <li>Cryptography</li>
-            <li>Unix Systems Administration</li>
-          </ul>
-        </div>
-
-        <div class="now-item">
-          <h2 class="now-heading">Reading</h2>
-          <ul class="now-list">
-            <li class="text-[var(--text-dimmer)] italic">Placeholder — will update</li>
-          </ul>
-        </div>
-
-        <div class="now-item">
-          <h2 class="now-heading">Building</h2>
-          <ul class="now-list">
-            <li>GCC flag simulation repository</li>
-            <li>CERIAS binary hardening benchmarking</li>
-          </ul>
-        </div>
-
-        <div class="now-item">
-          <h2 class="now-heading">Training</h2>
-          <ul class="now-list">
-            <li>Powerlifting</li>
-            <li>Judo</li>
-            <li>Soccer</li>
-          </ul>
-        </div>
-
-      </div>
-
-      <div class="mt-10 text-xs text-[var(--text-dimmer)]">
-        <a href="/reading" class="hover:text-[var(--text-dim)] transition-colors">→ Reading list</a>
-      </div>
-    </div>
+    </main>
+    <Footer />
   </div>
 </Layout>
 
 <style>
-  .now-sections { display: flex; flex-direction: column; gap: 2rem; }
-  .now-item { border-left: 2px solid var(--border); padding-left: 1.25rem; }
-  .now-heading {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 0.6rem;
+  .page { padding-top: 7rem; padding-bottom: 6rem; min-height: 100vh; background: var(--bg); }
+  .container-page.narrow { max-width: 56rem; }
+
+  .now-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 3.5rem;
   }
-  .now-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
-  .now-list li { font-size: 0.95rem; color: var(--text-muted); }
-  .now-list li::before { content: '›'; margin-right: 0.5rem; color: var(--text-dimmer); }
+  @media (min-width: 700px) {
+    .now-grid { grid-template-columns: repeat(2, 1fr); }
+    .now-grid > :nth-child(1) { grid-column: 1 / -1; }
+  }
+  @media (min-width: 1024px) {
+    .now-grid { grid-template-columns: repeat(3, 1fr); }
+    .now-grid > :nth-child(1) { grid-column: span 3; }
+    .now-grid > :nth-child(2) { grid-column: span 2; }
+    .now-grid > :nth-child(3) { grid-column: span 1; }
+  }
+
+  .now-card {
+    padding: 1.5rem 1.75rem 1.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    min-height: 180px;
+  }
+  .now-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+  }
+  .now-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dimmer);
+    padding: 0.18rem 0.4rem;
+    border: 1px solid var(--line);
+    line-height: 1;
+  }
+  .now-label {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .now-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .now-item {
+    font-size: 0.92rem;
+    color: var(--text-body);
+    padding-left: 1rem;
+    position: relative;
+  }
+  .now-item::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--text-dimmer);
+  }
+
+  .now-foot {
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
 </style>

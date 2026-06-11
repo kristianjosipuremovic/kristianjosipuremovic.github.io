@@ -1,0 +1,230 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import personalData from '../data/personal.json';
+import siteData from '../data/site.json';
+---
+
+<Layout title="Contact — Kristian Uremovic" description="Get in touch.">
+  <div class="web-only">
+    <Header />
+    <main id="main-content" class="page">
+      <div class="container-page">
+
+        <nav class="crumb" aria-label="Breadcrumb">
+          <a href="/">~</a>
+          <span class="sep">/</span>
+          <span class="cur">contact</span>
+        </nav>
+
+        <div class="sec-head reveal">
+          <span class="sec-numeral">01</span>
+          <div>
+            <p class="eyebrow">Channel</p>
+            <h1 class="sec-title">Contact</h1>
+            <p class="sec-sub">Email is the most reliable channel. The form below routes there too.</p>
+          </div>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Direct contact lines -->
+          <div class="contact-direct reveal">
+            <table class="hair-table">
+              <tbody>
+                <tr>
+                  <th>Email</th>
+                  <td><a href={`mailto:${personalData.email}`} class="link-bright">{personalData.email}</a></td>
+                </tr>
+                <tr>
+                  <th>LinkedIn</th>
+                  <td><a href={personalData.linkedin} target="_blank" rel="noopener noreferrer" class="link-bright">linkedin.com/in/kristian-uremovic</a></td>
+                </tr>
+                <tr>
+                  <th>GitHub</th>
+                  <td><a href={personalData.github} target="_blank" rel="noopener noreferrer" class="link-bright">github.com/kristianjosipuremovic</a></td>
+                </tr>
+                <tr>
+                  <th>Location</th>
+                  <td>{personalData.location}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Chrome form panel -->
+          <div class="panel-chrome contact-form-panel reveal">
+            <p class="form-eyebrow">Send a message</p>
+            <form id="contact-form" novalidate>
+              <input type="hidden" name="access_key" value={siteData.web3formsKey} />
+              <input type="checkbox" name="botcheck" style="display:none;" aria-hidden="true" />
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" name="name" autocomplete="name" required placeholder="Your name" />
+                </div>
+                <div class="form-field">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" autocomplete="email" required placeholder="you@example.com" />
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" autocomplete="off" required placeholder="What's this about?" />
+              </div>
+
+              <div class="form-field">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="6" required placeholder="Your message…"></textarea>
+              </div>
+
+              <div aria-live="polite" aria-atomic="true" id="form-status" class="form-status"></div>
+
+              <button type="submit" class="btn-primary form-submit">Transmit</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .page { padding-top: 7rem; padding-bottom: 6rem; min-height: 100vh; background: var(--bg); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 5fr 7fr;
+      gap: 2.5rem;
+    }
+  }
+
+  .contact-direct {
+    padding: 0.5rem 0;
+  }
+
+  .contact-form-panel {
+    padding: 2rem 2rem 2.25rem;
+  }
+
+  .form-eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  #contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 540px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .form-field label {
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+  }
+
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--line-strong);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    padding: 0.7rem 0.85rem;
+    outline: none;
+    transition: border-color 0.2s var(--ease-shutter), background 0.2s ease;
+  }
+  .form-field input::placeholder,
+  .form-field textarea::placeholder { color: var(--text-dimmer); }
+  .form-field input:focus,
+  .form-field textarea:focus {
+    border-color: var(--line-bright);
+    background: rgba(0, 0, 0, 0.55);
+  }
+  .form-field textarea { resize: vertical; min-height: 140px; font-family: var(--font-body); }
+
+  .form-status {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    min-height: 1.25em;
+  }
+  .form-status.is-error { color: var(--text); }
+
+  .form-submit { width: 100%; margin-top: 0.25rem; }
+</style>
+
+<script>
+  function wireContact() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const status = document.getElementById('form-status') as HTMLElement | null;
+    const button = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    if (!form || !button) return;
+    const original = button.innerHTML;
+
+    function setStatus(msg: string, isError: boolean) {
+      if (!status) return;
+      status.textContent = msg;
+      status.classList.toggle('is-error', isError);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      button!.disabled = true;
+      button!.textContent = 'Transmitting…';
+      setStatus('', false);
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: new FormData(form!),
+        });
+        const data = (await res.json()) as { success?: boolean; message?: string };
+        if (res.ok) {
+          setStatus("Transmitted. I'll respond shortly.", false);
+          form!.reset();
+        } else {
+          setStatus(data.message ?? 'Transmission failed. Try again.', true);
+        }
+      } catch {
+        setStatus('Network error. Check your connection and try again.', true);
+      } finally {
+        button!.disabled = false;
+        button!.innerHTML = original;
+      }
+    });
+  }
+  wireContact();
+  document.addEventListener('astro:page-load', wireContact);
+</script>

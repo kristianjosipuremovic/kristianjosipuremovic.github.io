@@ -1,40 +1,10 @@
 {
   "sections": [
-    {
-      "label": "About",
-      "shortLabel": "About",
-      "href": "#about",
-      "desc": "Background, education, and approach"
-    },
-    {
-      "label": "Projects",
-      "shortLabel": "Projects",
-      "href": "#projects",
-      "desc": "Personal projects and open-source work"
-    },
-    {
-      "label": "Research",
-      "shortLabel": "Research",
-      "href": "/research",
-      "desc": "Active research projects and publications"
-    },
-    {
-      "label": "Certs",
-      "shortLabel": "Certs",
-      "href": "#certifications",
-      "desc": "Certifications in progress and planned"
-    },
-    {
-      "label": "Writeups",
-      "shortLabel": "Writeups",
-      "href": "/blog",
-      "desc": "CTF writeups, research notes, and more"
-    },
-    {
-      "label": "Contact",
-      "shortLabel": "Contact",
-      "href": "#contact",
-      "desc": "Get in touch"
-    }
+    { "label": "About",    "shortLabel": "About",    "href": "/about",    "desc": "Bio, education, languages, tools" },
+    { "label": "Projects", "shortLabel": "Projects", "href": "/projects", "desc": "Personal projects and open-source work" },
+    { "label": "Research", "shortLabel": "Research", "href": "/research", "desc": "Active research projects" },
+    { "label": "Writeups", "shortLabel": "Writeups", "href": "/blog",     "desc": "Research notes, CTFs, home labs" },
+    { "label": "Certs",    "shortLabel": "Certs",    "href": "/certs",    "desc": "Certifications" },
+    { "label": "Contact",  "shortLabel": "Contact",  "href": "/contact",  "desc": "Get in touch" }
   ]
 }

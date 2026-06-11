@@ -1,0 +1,193 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import projectsData from '../data/projects.json';
+
+interface ProjectEntry {
+  title: string;
+  company: string;
+  category: string;
+  description: string;
+  link: string;
+  writeupHref?: string;
+  year?: string;
+}
+
+const projects = projectsData as ProjectEntry[];
+---
+
+<Layout title="Projects — Kristian Uremovic" description="Personal projects and open-source work.">
+  <div class="web-only">
+    <Header />
+    <main id="main-content" class="page">
+      <div class="container-page">
+
+        <nav class="crumb" aria-label="Breadcrumb">
+          <a href="/">~</a>
+          <span class="sep">/</span>
+          <span class="cur">projects</span>
+        </nav>
+
+        <div class="sec-head reveal">
+          <span class="sec-numeral">01</span>
+          <div>
+            <p class="eyebrow">Open source</p>
+            <h1 class="sec-title">Projects</h1>
+            <p class="sec-sub">Personal projects and open-source work. Each card links directly to its source or writeup.</p>
+          </div>
+        </div>
+
+        <div class="proj-grid">
+          {projects.map((p, i) => (
+            <article class:list={["panel-chrome", "proj-card", "reveal", { "panel-feature": i === 0 }]}>
+              <div class="proj-head">
+                <span class="proj-cat">{p.category}</span>
+                {p.year && <span class="proj-year">{p.year}</span>}
+              </div>
+              <h2 class="proj-title">{p.title}</h2>
+              <p class="proj-company">{p.company}</p>
+              <p class="proj-desc">{p.description}</p>
+              <div class="proj-links">
+                {p.writeupHref && (
+                  <a href={p.writeupHref} class="proj-link primary">
+                    Read writeup
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                      <path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/>
+                    </svg>
+                  </a>
+                )}
+                {p.link && (
+                  <a href={p.link} target="_blank" rel="noopener noreferrer" class="proj-link" aria-label={`${p.title} — GitHub`}>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 19c-4 1.5-4-2-6-2.5M15 21v-3.5a3 3 0 0 0-1-2.3c3 -.3 6 -1.5 6 -6.5 a4.7 4.7 0 0 0 -1.3 -3.3 a4.4 4.4 0 0 0 -.1 -3.3 s-1.1 -.3 -3.6 1.3 a12.3 12.3 0 0 0 -6.4 0 C6.1 1.8 5 2.1 5 2.1 a4.4 4.4 0 0 0 -.1 3.3 A4.7 4.7 0 0 0 3.6 8.7 c0 5 3 6.1 6 6.5 a3 3 0 0 0 -1 2.3 V21"/>
+                    </svg>
+                    Source
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {projects.length === 0 && (
+          <p class="empty">No projects to display.</p>
+        )}
+
+      </div>
+    </main>
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .page { padding-top: 7rem; padding-bottom: 6rem; min-height: 100vh; background: var(--bg); }
+
+  .proj-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 700px) {
+    .proj-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+    /* Fragmented: first project full width, others 3-col */
+    .proj-grid > :nth-child(1) { grid-column: span 6; }
+    .proj-grid > :nth-child(n+2) { grid-column: span 3; }
+  }
+  @media (min-width: 1024px) {
+    .proj-grid {
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .proj-grid > :nth-child(1) { grid-column: span 8; }
+    .proj-grid > :nth-child(n+2) { grid-column: span 4; }
+    .proj-grid > :nth-child(3n+2) { grid-column: span 4; }
+  }
+
+  .proj-card {
+    padding: 1.75rem 1.85rem 1.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    min-height: 260px;
+  }
+
+  .proj-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  .proj-cat {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    padding: 0.2rem 0.45rem;
+    border: 1px solid var(--line);
+    line-height: 1;
+  }
+  .proj-year {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dimmer);
+    letter-spacing: 0.08em;
+  }
+  .proj-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin: 0.25rem 0 0;
+    line-height: 1.1;
+  }
+  .proj-company {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .proj-desc {
+    font-size: 0.86rem;
+    line-height: 1.65;
+    color: var(--text-body);
+    margin: 0.6rem 0 0;
+    flex: 1;
+  }
+  .proj-links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .proj-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s var(--ease-shutter);
+  }
+  .proj-link:hover { color: var(--text); }
+  .proj-link.primary { color: var(--text); }
+
+  .empty {
+    color: var(--text-dim);
+    font-size: 0.875rem;
+    text-align: center;
+    padding: 4rem 0;
+  }
+</style>

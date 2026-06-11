@@ -1,0 +1,147 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import certs from '../data/certifications.json';
+
+interface Cert {
+  name: string;
+  issuer: string;
+  date: string;
+  status: string;
+  type: string;
+  description: string;
+  credentialUrl?: string;
+}
+
+const items = certs as Cert[];
+---
+
+<Layout title="Certifications — Kristian Uremovic" description="Industry certifications: earned, in progress, and planned.">
+  <div class="web-only">
+    <Header />
+    <main id="main-content" class="page">
+      <div class="container-page">
+
+        <nav class="crumb" aria-label="Breadcrumb">
+          <a href="/">~</a>
+          <span class="sep">/</span>
+          <span class="cur">certs</span>
+        </nav>
+
+        <div class="sec-head reveal">
+          <span class="sec-numeral">01</span>
+          <div>
+            <p class="eyebrow">Credentials</p>
+            <h1 class="sec-title">Certifications</h1>
+            <p class="sec-sub">Earned, in progress, and planned. Status tracked, not embellished.</p>
+          </div>
+        </div>
+
+        <div class="certs-grid">
+          {items.map((c, i) => (
+            <article class:list={["panel-chrome", "cert-card", "reveal", { "panel-feature": i === 0 }]}>
+              <div class="cert-head">
+                <span class="cert-issuer">{c.issuer}</span>
+                <span class:list={["status-label", { "is-active": c.status === 'Completed' || c.status === 'In Progress' }]}>
+                  {c.status}
+                </span>
+              </div>
+              <h2 class="cert-name">{c.name}</h2>
+              <p class="cert-date">{c.date}</p>
+              <p class="cert-desc">{c.description}</p>
+              {c.credentialUrl && (
+                <a href={c.credentialUrl} target="_blank" rel="noopener noreferrer" class="cert-link">
+                  View credential
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                  </svg>
+                </a>
+              )}
+            </article>
+          ))}
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .page { padding-top: 7rem; padding-bottom: 6rem; min-height: 100vh; background: var(--bg); }
+
+  /* Fragmented composition — first cert wider, rest in 3-col */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .certs-grid { grid-template-columns: 1fr 1fr; }
+    .certs-grid > :nth-child(1) { grid-column: 1 / -1; }
+  }
+
+  .cert-card {
+    padding: 1.6rem 1.75rem 1.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-height: 200px;
+  }
+
+  .cert-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .cert-issuer {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+  }
+
+  .cert-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    color: var(--text);
+    margin: 0.3rem 0 0;
+    max-width: 36rem;
+  }
+  .cert-date {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin: 0;
+  }
+  .cert-desc {
+    font-size: 0.86rem;
+    line-height: 1.6;
+    color: var(--text-body);
+    margin: 0.4rem 0 0;
+    flex: 1;
+  }
+  .cert-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    transition: color 0.2s ease;
+  }
+  .cert-link:hover { color: var(--text); }
+</style>

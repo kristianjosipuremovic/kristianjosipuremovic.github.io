@@ -1,95 +1,299 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Projects from '../components/Projects.astro';
-import Research from '../components/Research.astro';
-import Certifications from '../components/Certifications.astro';
-import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
-import SectionDivider from '../components/SectionDivider.astro';
 import PrintResume from '../components/PrintResume.astro';
-import { getCollection } from 'astro:content';
+import personalData from '../data/personal.json';
 
-const allPosts = await getCollection('blog');
-const recentPosts = [...allPosts]
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+const cards = [
+  { num: "01", label: "About",    href: "/about",    title: "Background",  blurb: "Bio, education, languages, and tools.", feature: true },
+  { num: "02", label: "Research", href: "/research", title: "Research",    blurb: "Compiler-level binary hardening, mechanistic interpretability, anomaly detection.", feature: false },
+  { num: "03", label: "Writeups", href: "/blog",     title: "Writeups",    blurb: "Research notes, CTFs, home labs.", feature: false },
+  { num: "04", label: "Projects", href: "/projects", title: "Projects",    blurb: "Personal projects and open-source work.", feature: false },
+];
 ---
 
 <Layout>
   <div class="web-only">
-  <Header />
-  <main id="main-content">
-    <Hero />
-    <SectionDivider />
-    <About />
-    <SectionDivider />
-    <Projects />
-    <SectionDivider />
-    <Research />
-    <SectionDivider />
-    <Certifications />
-    <SectionDivider />
-
-    <!-- Recently Updated -->
-    {recentPosts.length > 0 && (
-      <section id="recent" class="py-16" style="background: var(--bg);">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl reveal">
-          <div class="flex items-center justify-between mb-8">
-            <div>
-              <p class="text-xs font-semibold tracking-widest text-[var(--text-dim)] uppercase mb-2">~/writeups</p>
-              <h2 class="text-2xl font-bold section-title">Recently Published</h2>
+    <Header />
+    <main id="main-content" class="home">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="container-page">
+          <div class="hero-grid">
+            <div class="hero-aside" aria-hidden="true">
+              <span class="hero-num">01</span>
+              <span class="hero-vline"></span>
+              <span class="hero-meta">Портфолио · 2026</span>
             </div>
-            <a href="/blog" class="text-sm text-[var(--text-dim)] hover:text-[var(--text)] transition-colors border border-[var(--border)] px-3 py-1.5 rounded hover:border-[var(--border-hover)]">
-              All posts →
-            </a>
-          </div>
-          <div class="recent-posts-list">
-            {recentPosts.map(post => {
-              const slug = post.id.split('/').pop()!;
-              return (
-                <a href={`/blog/${post.data.category}/${slug}`} class="recent-post-item">
-                  <span class="rp-date">{post.data.date.toISOString().split('T')[0]}</span>
-                  <span class="rp-title">{post.data.title}</span>
-                  <span class="rp-cat">{post.data.category}</span>
-                </a>
-              );
-            })}
+            <div class="hero-body reveal">
+              <p class="hero-role-eyebrow">{personalData.heroRole}</p>
+              <h1 class="hero-name">
+                <span class="line">KRISTIAN</span>
+                <span class="line offset">UREMOVIC</span>
+              </h1>
+              <p class="hero-bio">{personalData.bio}</p>
+              <div class="hero-actions">
+                <a href="/contact" class="btn-primary">Contact</a>
+                <a href={personalData.github} target="_blank" rel="noopener noreferrer" class="btn-secondary">GitHub</a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-    )}
 
-    <SectionDivider />
-    <Contact />
-  </main>
-  <Footer />
+      <div class="rule-diagonal" aria-hidden="true"></div>
+
+      <!-- PANEL GRID -->
+      <section class="panel-section">
+        <div class="container-page">
+          <div class="sec-head">
+            <span class="sec-numeral">02</span>
+            <h2 class="sec-title">Sections</h2>
+          </div>
+
+          <div class="panel-grid">
+            {cards.map((c) => (
+              <a href={c.href} class:list={["panel-chrome", "card-link", "reveal", { "panel-feature": c.feature, "is-feature": c.feature }]}>
+                <span class="card-num">{c.num}</span>
+                <h3 class="card-title">{c.title}</h3>
+                <p class="card-blurb">{c.blurb}</p>
+                <span class="card-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.2">
+                    <path stroke-linecap="round" d="M5 12h14M13 6l6 6-6 6"/>
+                  </svg>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+    <Footer />
   </div>
   <PrintResume />
 </Layout>
 
 <style>
-  .recent-posts-list { display: flex; flex-direction: column; gap: 0; }
-  .recent-post-item {
-    display: grid;
-    grid-template-columns: 7rem 1fr auto;
-    gap: 1rem;
-    align-items: center;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--border);
-    text-decoration: none;
-    transition: background 0.15s ease;
+  .home {
+    padding-top: 4.5rem;
+    background: var(--bg);
   }
-  .recent-post-item:last-child { border-bottom: none; }
-  .recent-post-item:hover { background: var(--bg-surface); }
-  .rp-date { font-size: 0.72rem; color: var(--text-dimmer); white-space: nowrap; font-family: inherit; }
-  .rp-title { font-size: 0.9rem; color: var(--text-muted); transition: color 0.2s ease; }
-  .recent-post-item:hover .rp-title { color: var(--text); }
-  .rp-cat { font-size: 0.65rem; color: var(--text-dimmer); text-align: right; white-space: nowrap; }
-  @media (max-width: 480px) {
-    .recent-post-item { grid-template-columns: 1fr; }
-    .rp-cat, .rp-date { display: none; }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 5rem 0 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .hero { padding: 7rem 0 7rem; }
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 6rem 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+  }
+
+  .hero-aside {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .hero-aside {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      padding-top: 0.4rem;
+    }
+  }
+  .hero-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dimmer);
+    padding: 0.2rem 0.45rem;
+    border: 1px solid var(--line);
+    line-height: 1;
+  }
+  .hero-vline {
+    width: 1px;
+    height: 64px;
+    background: linear-gradient(180deg, var(--line-bright) 0%, transparent 100%);
+  }
+  .hero-meta {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    color: var(--text-dimmer);
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .hero-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 60rem;
+  }
+
+  .hero-role-eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--text-dim);
+    margin: 0;
+  }
+  .hero-role-eyebrow::before {
+    content: "";
+    display: inline-block;
+    width: 26px;
+    height: 1px;
+    background: var(--line-bright);
+    vertical-align: middle;
+    margin-right: 0.85rem;
+    transform: translateY(-2px);
+  }
+
+  .hero-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.015em;
+    line-height: 0.88;
+    color: var(--text);
+    margin: 0;
+    font-size: clamp(2.8rem, 10vw, 7rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.05em;
+  }
+  .hero-name .line {
+    display: block;
+    /* monumental */
+  }
+  /* Diagonal composition — Maxim IV */
+  .hero-name .line.offset {
+    transform: translateX(0.5em);
+    color: var(--text);
+    -webkit-text-stroke: 0;
+  }
+  @media (max-width: 640px) {
+    .hero-name .line.offset { transform: translateX(0.25em); }
+  }
+
+  .hero-bio {
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+    line-height: 1.7;
+    color: var(--text-body);
+    max-width: 42rem;
+    margin: 0.5rem 0 0;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.85rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* ─── PANEL GRID ─── */
+  .panel-section {
+    padding: 5rem 0 7rem;
+  }
+
+  .panel-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 700px) {
+    .panel-grid {
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: minmax(180px, auto);
+      gap: 1rem;
+    }
+    /* Fragmented composition — Maxim VIII
+       Featured (About) spans full width, then 2 stacked, then 1 wider */
+    .panel-grid .card-link:nth-child(1) { grid-column: span 6; min-height: 220px; }
+    .panel-grid .card-link:nth-child(2) { grid-column: span 4; }
+    .panel-grid .card-link:nth-child(3) { grid-column: span 2; }
+    .panel-grid .card-link:nth-child(4) { grid-column: span 6; min-height: 180px; }
+  }
+  @media (min-width: 1024px) {
+    .panel-grid {
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .panel-grid .card-link:nth-child(1) { grid-column: span 8; }
+    .panel-grid .card-link:nth-child(2) { grid-column: span 4; }
+    .panel-grid .card-link:nth-child(3) { grid-column: span 5; }
+    .panel-grid .card-link:nth-child(4) { grid-column: span 7; }
+  }
+
+  .card-link {
+    position: relative;
+    padding: 1.75rem 1.75rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    min-height: 160px;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .card-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    color: var(--text-dimmer);
+    padding: 0.2rem 0.4rem;
+    border: 1px solid var(--line);
+    align-self: flex-start;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin: 0.5rem 0 0;
+    line-height: 1.05;
+  }
+  .card-link.is-feature .card-title {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+  }
+  .card-blurb {
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: var(--text-dim);
+    margin: 0;
+    max-width: 36rem;
+  }
+  .card-arrow {
+    position: absolute;
+    bottom: 1.4rem;
+    right: 1.5rem;
+    color: var(--text-dim);
+    transition: color 0.25s var(--ease-shutter), transform 0.3s var(--ease-shutter);
+  }
+  .card-link:hover .card-arrow {
+    color: var(--text);
+    transform: translate(3px, -3px);
   }
 </style>
+

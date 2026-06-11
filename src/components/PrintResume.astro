@@ -5,10 +5,8 @@ import certsData from '../data/certifications.json';
 import projectsData from '../data/projects.json';
 import researchData from '../data/research.json';
 
-const resumeProjects = projectsData.filter(p => p.resume);
-
-const earnedCerts = certsData.filter(c => c.status === 'Earned');
-const inProgressCerts = certsData.filter(c => c.status !== 'Earned');
+const earnedCerts = certsData.filter((c) => c.status === 'Completed');
+const ongoingCerts = certsData.filter((c) => c.status !== 'Completed');
 ---
 
 <div class="print-only" id="resume-print">
@@ -19,9 +17,10 @@ const inProgressCerts = certsData.filter(c => c.status !== 'Earned');
       <p class="resume-title">{personal.title}</p>
     </div>
     <div class="header-right">
-      <div>{personal.email} · {personal.phone}</div>
+      <div>{personal.email}</div>
       <div>{personal.location}</div>
-      <div>{personal.linkedin ? personal.linkedin.replace('https://www.linkedin.com/in/', 'linkedin.com/in/') : ''} · {personal.github ? personal.github.replace('https://github.com/', 'github.com/') : ''}</div>
+      <div>{personal.linkedin ? personal.linkedin.replace('https://www.linkedin.com/in/', 'linkedin.com/in/') : ''}</div>
+      <div>{personal.github ? personal.github.replace('https://github.com/', 'github.com/') : ''}</div>
     </div>
   </header>
 
@@ -33,12 +32,17 @@ const inProgressCerts = certsData.filter(c => c.status !== 'Earned');
   </section>
 
   <section class="resume-section">
+    <h2 class="section-title">Education</h2>
+    <p class="body-text">{personal.education}</p>
+  </section>
+
+  <section class="resume-section">
     <h2 class="section-title">Technical Skills</h2>
     <div class="skills-grid">
-      {skillsData.map(category => (
+      {skillsData.map((category: { title: string; skills: { name: string }[] }) => (
         <div class="skill-row">
           <span class="skill-category">{category.title}</span>
-          <span class="skill-items">{category.skills.map(s => s.name).join(' · ')}</span>
+          <span class="skill-items">{category.skills.map((s) => s.name).join(' · ')}</span>
         </div>
       ))}
     </div>
@@ -46,11 +50,15 @@ const inProgressCerts = certsData.filter(c => c.status !== 'Earned');
 
   <section class="resume-section">
     <h2 class="section-title">Research</h2>
-    <div class="cert-list">
-      {researchData.map(r => (
-        <span class="cert-item" style="display:block;margin-bottom:0.2rem;">
-          <strong>{r.title}</strong> — {r.status}
-        </span>
+    <div class="list-block">
+      {researchData.map((r: { title: string; status: string; summary: string }) => (
+        <div class="list-item">
+          <div class="list-head">
+            <strong>{r.title}</strong>
+            <span class="list-meta">{r.status}</span>
+          </div>
+          <p class="list-desc">{r.summary}</p>
+        </div>
       ))}
     </div>
   </section>
@@ -58,45 +66,45 @@ const inProgressCerts = certsData.filter(c => c.status !== 'Earned');
   <section class="resume-section">
     <h2 class="section-title">Certifications</h2>
     <div class="cert-list">
-      {earnedCerts.map(cert => (
+      {earnedCerts.map((cert: { name: string; date: string }) => (
         <span class="cert-item cert-earned">
-          <span class="cert-mark">✓</span>{cert.name}
+          <span class="cert-mark">✓</span>{cert.name} — {cert.date}
         </span>
       ))}
-      {inProgressCerts.map(cert => (
+      {ongoingCerts.map((cert: { name: string; status: string; date: string }) => (
         <span class="cert-item cert-planned">
-          <span class="cert-mark">○</span>{cert.name} — {cert.date}
+          <span class="cert-mark">○</span>{cert.name} — {cert.status}{cert.date && cert.date !== cert.status ? ` (${cert.date})` : ''}
         </span>
       ))}
     </div>
   </section>
 
   <section class="resume-section">
-    <h2 class="section-title">Notable Projects</h2>
-    <div class="projects-list">
-      {resumeProjects.map(project => project && (
-        <div class="project-item">
-          <div class="project-header">
-            <span class="project-title">{project.title}</span>
-            <span class="project-tags">{project.tags.slice(0, 4).join(' · ')}</span>
-          </div>
-          <p class="project-desc">{project.description}</p>
-        </div>
+    <h2 class="section-title">Languages</h2>
+    <div class="lang-list">
+      {personal.languages.map((lang: { name: string; level: string }) => (
+        <span class="lang-item"><strong>{lang.name}</strong> — {lang.level}</span>
       ))}
     </div>
   </section>
 
-  <div class="resume-footer-row">
+  {projectsData.length > 0 && (
     <section class="resume-section">
-      <h2 class="section-title">Education</h2>
-      <p class="body-text">{personal.education}</p>
+      <h2 class="section-title">Selected Projects</h2>
+      <div class="list-block">
+        {projectsData.map((project: { title: string; company: string; description: string; link?: string }) => (
+          <div class="list-item">
+            <div class="list-head">
+              <strong>{project.title}</strong>
+              <span class="list-meta">{project.company}</span>
+            </div>
+            <p class="list-desc">{project.description}</p>
+            {project.link && <p class="list-link">{project.link}</p>}
+          </div>
+        ))}
+      </div>
     </section>
-
-    <section class="resume-section">
-      <h2 class="section-title">Volunteer</h2>
-      <p class="body-text">{personal.volunteer}</p>
-    </section>
-  </div>
+  )}
 
 </div>
 
@@ -115,11 +123,10 @@ const inProgressCerts = certsData.filter(c => c.status !== 'Earned');
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 6px;
+    gap: 24px;
   }
 
-  .header-left {
-    flex: 1;
-  }
+  .header-left { flex: 1; }
 
   .resume-name {
     font-size: 22pt;
@@ -128,154 +135,109 @@ const inProgressCerts = certsData.filter(c => c.status !== 'Earned');
     line-height: 1.1;
     margin: 0 0 3px 0;
     letter-spacing: -0.02em;
+    text-transform: uppercase;
   }
 
   .resume-title {
-    font-size: 11pt;
+    font-size: 10pt;
     color: #111;
     margin: 0;
     font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .header-right {
     text-align: right;
-    font-size: 9.5pt;
+    font-size: 9pt;
     color: #111;
-    line-height: 1.7;
-    padding-top: 4px;
+    line-height: 1.55;
   }
 
   .header-rule {
     border: none;
-    border-top: 2px solid #000;
-    margin: 6px 0;
+    border-top: 1px solid #000;
+    margin: 6px 0 8px;
   }
 
-  .resume-section {
-    margin-bottom: 9px;
-  }
+  .resume-section { margin-bottom: 10px; }
 
   .section-title {
-    font-size: 10pt;
-    font-weight: 800;
-    letter-spacing: 0.08em;
+    font-size: 9.5pt;
+    font-weight: 700;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #000 !important;
-    border-bottom: 2px solid #000;
+    border-bottom: 1px solid #000;
     padding-bottom: 2px;
     margin: 0 0 5px 0;
   }
 
-  .body-text {
-    margin: 0;
-    font-size: 10pt;
-    color: #000;
-  }
+  .body-text { margin: 0; font-size: 10pt; color: #000; }
 
-  /* Skills */
-  .skills-grid {
-    display: grid;
-    gap: 2px 0;
-  }
-
+  .skills-grid { display: grid; gap: 2px 0; }
   .skill-row {
     display: grid;
-    grid-template-columns: 14rem 1fr;
-    gap: 0 6px;
+    grid-template-columns: 8rem 1fr;
+    gap: 0 8px;
     font-size: 9.5pt;
-    line-height: 1.55;
+    line-height: 1.5;
   }
-
   .skill-category {
     font-weight: 600;
     color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 9pt;
   }
+  .skill-items { color: #111; }
 
-  .skill-items {
-    color: #111;
-  }
-
-  /* Certifications */
-  .cert-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3px 20px;
-    font-size: 9.5pt;
-  }
-
-  .cert-item {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-  }
-
-  .cert-mark {
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-
-  .cert-earned .cert-mark {
-    color: #000;
-  }
-
-  .cert-earned {
-    color: #000;
-    font-weight: 500;
-  }
-
-  .cert-planned .cert-mark {
-    color: #222;
-  }
-
-  .cert-planned {
-    color: #222;
-    font-weight: 400;
-  }
-
-  /* Projects */
-  .projects-list {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .project-item {
-    page-break-inside: avoid;
-  }
-
-  .project-header {
+  .list-block { display: flex; flex-direction: column; gap: 5px; }
+  .list-item { page-break-inside: avoid; }
+  .list-head {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 8px;
-  }
-
-  .project-title {
-    font-weight: 600;
     font-size: 10pt;
-    color: #000;
-    white-space: nowrap;
   }
-
-  .project-tags {
+  .list-meta {
     font-size: 8.5pt;
     color: #222;
     text-align: right;
     white-space: nowrap;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
-
-  .project-desc {
+  .list-desc {
     margin: 1px 0 0 0;
     font-size: 9pt;
     color: #111;
     padding-left: 10px;
     line-height: 1.4;
   }
+  .list-link {
+    margin: 1px 0 0 10px;
+    font-size: 8pt;
+    color: #444;
+    font-family: 'Courier New', monospace;
+  }
 
-  /* Education + Volunteer side by side */
-  .resume-footer-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0 24px;
+  .cert-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px 20px;
+    font-size: 9.5pt;
+  }
+  .cert-item { display: flex; align-items: baseline; gap: 4px; }
+  .cert-mark { font-weight: 700; flex-shrink: 0; }
+  .cert-earned { color: #000; font-weight: 500; }
+  .cert-planned { color: #222; font-weight: 400; }
+
+  .lang-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px 24px;
+    font-size: 9.5pt;
   }
 </style>
