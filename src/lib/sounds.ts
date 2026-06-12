@@ -30,12 +30,6 @@ let audioCtx: AudioContext | null = null;
 let globalListenersBound = false;
 let dronePending = false;
 
-/* Rain ambient — continuous filtered noise, fades in/out with the master toggle. */
-let rainSource: AudioBufferSourceNode | null = null;
-let rainGain: GainNode | null = null;
-let rainGestureWaiter: (() => void) | null = null;
-const RAIN_TARGET_GAIN = 0.012; // very faint — sub-conscious, "is it raining outside?"
-
 /* ─────────────────────────────────────────────
    STATE: enabled / disabled, reduced motion
    ───────────────────────────────────────────── */
@@ -278,131 +272,6 @@ function playDrone(ctx: AudioContext): void {
 }
 
 /* ─────────────────────────────────────────────
-   RAIN AMBIENT
-   A 3-second stereo noise buffer, looped behind a band-shaped EQ
-   (highpass + lowpass) to fake the hiss of rain on the neon sign.
-   Fades in over 1.5 s when sounds are enabled, fades out over 0.6 s.
-   ───────────────────────────────────────────── */
-
-function makeRainBuffer(ctx: AudioContext, duration: number): AudioBuffer {
-  const len = Math.max(1, Math.floor(ctx.sampleRate * duration));
-  const buf = ctx.createBuffer(2, len, ctx.sampleRate);
-  for (let ch = 0; ch < 2; ch++) {
-    const data = buf.getChannelData(ch);
-    // Slightly correlated noise — softer than pure white, less hissy.
-    let prev = 0;
-    for (let i = 0; i < len; i++) {
-      const r = Math.random() * 2 - 1;
-      prev = prev * 0.55 + r * 0.45;
-      data[i] = prev;
-    }
-  }
-  return buf;
-}
-
-function startRainAmbient(): void {
-  if (rainSource) return;
-  if (typeof window === 'undefined') return;
-  if (!isSoundsEnabled()) return;
-  if (reducedMotion()) return;
-  const ctx = getCtx();
-  if (!ctx || ctx.state !== 'running') return;
-
-  try {
-    const buf = makeRainBuffer(ctx, 3);
-    const source = ctx.createBufferSource();
-    source.buffer = buf;
-    source.loop = true;
-
-    const hp = ctx.createBiquadFilter();
-    hp.type = 'highpass';
-    hp.frequency.value = 1200;
-
-    const lp = ctx.createBiquadFilter();
-    lp.type = 'lowpass';
-    lp.frequency.value = 7000;
-    lp.Q.value = 0.5;
-
-    const g = ctx.createGain();
-    const now = ctx.currentTime;
-    g.gain.setValueAtTime(0, now);
-    g.gain.linearRampToValueAtTime(RAIN_TARGET_GAIN, now + 1.5);
-
-    source.connect(hp).connect(lp).connect(g).connect(ctx.destination);
-    source.start();
-
-    rainSource = source;
-    rainGain = g;
-  } catch {
-    /* swallow */
-  }
-}
-
-function stopRainAmbient(): void {
-  if (!rainSource || !rainGain) return;
-  const ctx = getCtx();
-  if (!ctx) {
-    rainSource = null;
-    rainGain = null;
-    return;
-  }
-  const source = rainSource;
-  const g = rainGain;
-  rainSource = null;
-  rainGain = null;
-  try {
-    const now = ctx.currentTime;
-    g.gain.cancelScheduledValues(now);
-    g.gain.setValueAtTime(g.gain.value, now);
-    g.gain.linearRampToValueAtTime(0, now + 0.6);
-    setTimeout(() => {
-      try { source.stop(); source.disconnect(); g.disconnect(); } catch { /* ignore */ }
-    }, 700);
-  } catch {
-    /* ignore */
-  }
-}
-
-/**
- * Reconcile the rain ambient with the current toggle / motion state.
- * If sounds should be on, attempts to (re)start the loop. If sounds
- * are off or reduced-motion is set, fades it out. Idempotent.
- */
-export function syncRainAmbient(): void {
-  if (typeof window === 'undefined') return;
-  if (isSoundsEnabled() && !reducedMotion()) {
-    startRainAmbient();
-  } else {
-    stopRainAmbient();
-  }
-}
-
-/**
- * Attempts to start rain immediately, falling back to a one-shot
- * gesture waiter if the AudioContext is still suspended (autoplay policy).
- */
-export function ensureRainSync(): void {
-  if (typeof window === 'undefined') return;
-  syncRainAmbient();
-  if (
-    isSoundsEnabled() &&
-    !reducedMotion() &&
-    !rainSource &&
-    !rainGestureWaiter
-  ) {
-    const fire = () => {
-      document.removeEventListener('pointerdown', fire);
-      document.removeEventListener('keydown', fire);
-      rainGestureWaiter = null;
-      syncRainAmbient();
-    };
-    rainGestureWaiter = fire;
-    document.addEventListener('pointerdown', fire);
-    document.addEventListener('keydown', fire);
-  }
-}
-
-/* ─────────────────────────────────────────────
    PUBLIC: playSound — fire-and-forget dispatcher
    ───────────────────────────────────────────── */
 export function playSound(name: SoundName): void {
@@ -500,8 +369,6 @@ export function wireToggleButton(btn: HTMLElement): void {
       }
       if (dronePending) maybePlayDroneIntro();
     }
-    // Start or stop the rain ambient in lockstep with the master toggle.
-    syncRainAmbient();
   });
 }
 

@@ -135,13 +135,14 @@ const streaks = Array.from({ length: STREAK_COUNT }, (_, i) => {
     );
     border-radius: 2px;
     /* White neon halo around the housing: heavy drop, inner depth, then
-       three concentric white glows simulating tube emission off the border. */
+       three concentric white glows simulating tube emission off the border.
+       Glow alphas dimmed 25%. */
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.9),
       inset 0 0 20px rgba(0, 0, 0, 0.5),
-      0 0 6px  rgba(255, 255, 255, 0.55),
-      0 0 18px rgba(255, 255, 255, 0.28),
-      0 0 40px rgba(255, 255, 255, 0.15);
+      0 0 6px  rgba(255, 255, 255, 0.41),
+      0 0 18px rgba(255, 255, 255, 0.21),
+      0 0 40px rgba(255, 255, 255, 0.11);
     overflow: hidden; /* contain rain */
     align-self: flex-end;
   }
@@ -165,18 +166,18 @@ const streaks = Array.from({ length: STREAK_COUNT }, (_, i) => {
     will-change: opacity;
   }
 
-  /* All three pairs now glow as white neon tubes.
+  /* All three pairs glow as white neon tubes. Glow stack alphas dimmed 25%.
      The independent flicker timings are kept so they still wobble out of sync. */
   .num-h,
   .num-m,
   .num-s {
     color: #ffffff;
     text-shadow:
-      0 0 2px  #ffffff,
-      0 0 6px  #ffffff,
-      0 0 14px rgba(255, 255, 255, 0.85),
-      0 0 28px rgba(255, 255, 255, 0.55),
-      0 0 56px rgba(255, 255, 255, 0.25);
+      0 0 2px  rgba(255, 255, 255, 0.75),
+      0 0 6px  rgba(255, 255, 255, 0.75),
+      0 0 14px rgba(255, 255, 255, 0.64),
+      0 0 28px rgba(255, 255, 255, 0.41),
+      0 0 56px rgba(255, 255, 255, 0.19);
   }
   .num-h { animation: flicker-red   4.7s linear infinite; }
   .num-m { animation: flicker-green 3.9s linear infinite; }
@@ -184,10 +185,11 @@ const streaks = Array.from({ length: STREAK_COUNT }, (_, i) => {
 
   .neon-colon {
     color: #ffffff;
+    /* Glow alphas dimmed 25%. */
     text-shadow:
-      0 0 2px  #ffffff,
-      0 0 4px  #ffffff,
-      0 0 10px rgba(255, 255, 255, 0.5);
+      0 0 2px  rgba(255, 255, 255, 0.75),
+      0 0 4px  rgba(255, 255, 255, 0.75),
+      0 0 10px rgba(255, 255, 255, 0.38);
     transition: opacity 0.05s linear;
   }
 
