@@ -46,7 +46,6 @@ function isActive(href: string) {
           <line x1="14.4" y1="5.6" x2="10.2" y2="10.4"/>
         </svg>
       </button>
-      <span class="nav-mark" aria-hidden="true">{siteData.shortName}</span>
       <button id="nav-toggle" class="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-overlay">
         <span class="burger-bar"></span>
         <span class="burger-bar"></span>
@@ -177,19 +176,6 @@ function isActive(href: string) {
   }
   @media (min-width: 900px) {
     .nav-right { margin-left: 0; }
-  }
-
-  .nav-mark {
-    display: none;
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.22em;
-    color: var(--text-dimmer);
-    padding: 0.18rem 0.45rem;
-    border: 1px solid var(--line);
-  }
-  @media (min-width: 900px) {
-    .nav-mark { display: inline-block; }
   }
 
   /* Sound toggle — small 16×16 minimal speaker, switches between on/off icons */

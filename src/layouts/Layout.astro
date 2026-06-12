@@ -4,6 +4,7 @@ import { ClientRouter } from 'astro:transitions';
 import siteData from '../data/site.json';
 import CommandPalette from '../components/CommandPalette.astro';
 import TopTicker from '../components/TopTicker.astro';
+import NeonClock from '../components/NeonClock.astro';
 
 interface Props {
   title?: string;
@@ -107,6 +108,7 @@ const { title = siteData.title, description = siteData.description, ogImage } = 
     <CommandPalette />
     <TopTicker />
     <slot />
+    <NeonClock />
   </body>
 </html>
 <style is:global>

@@ -1,0 +1,151 @@
+---
+/*
+ * Neon Clock — bottom-right hanging neon sign.
+ *
+ * Not a clean digital readout: a physical neon-tube clock. Green-dominant
+ * RGB layered glow simulates dye-tube emission with red/blue halos and a
+ * white tube core. Subtle gas-flicker animation. Colons blink with each
+ * second tick. Geographic label grounds it like a wall clock.
+ *
+ * Fixed bottom-right, pointer-events: none, z-index 100 (below nav/ticker).
+ * Persists across View Transitions.
+ */
+---
+
+<div class="neon-clock" aria-hidden="true" transition:persist="neon-clock">
+  <span class="neon-wire" aria-hidden="true"></span>
+  <div class="neon-time">
+    <span id="neon-hours">00</span><span class="neon-colon">:</span><span id="neon-minutes">00</span><span class="neon-colon">:</span><span id="neon-seconds">00</span>
+  </div>
+  <div class="neon-label">West Lafayette, IN</div>
+</div>
+
+<style>
+  .neon-clock {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 100;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Hanging wire — the thin filament the sign dangles from */
+  .neon-wire {
+    width: 1px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  /* The neon-tube readout */
+  .neon-time {
+    font-family: 'Courier New', monospace;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    line-height: 1;
+    /* RGB neon contamination: dominant green tube, red+blue halos, white core */
+    text-shadow:
+      /* Green channel — the dominant tube colour */
+      0 0 4px  #00ff88,
+      0 0 10px #00ff88,
+      0 0 20px #00ff44,
+      0 0 40px #00cc44,
+      /* Red channel — environmental halo */
+      0 0 6px  #ff0044,
+      0 0 15px #ff002288,
+      /* Blue channel — environmental halo */
+      0 0 8px  #0088ff44,
+      0 0 25px #0055ff33,
+      /* White core — the brightest centre of the tube */
+      0 0 2px #ffffff,
+      0 0 4px #ffffff;
+    animation: neon-flicker 4s linear infinite;
+  }
+
+  .neon-colon {
+    transition: opacity 0.05s linear;
+  }
+
+  /* Gas-tube flicker — mostly steady with brief instability spikes */
+  @keyframes neon-flicker {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: 0.92; }
+    97% { opacity: 1; }
+    98% { opacity: 0.88; }
+    99% { opacity: 0.95; }
+  }
+
+  .neon-label {
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Mobile: smaller sign, hugged tighter to the corner */
+  @media (max-width: 640px) {
+    .neon-clock {
+      bottom: 16px;
+      right: 16px;
+    }
+    .neon-time { font-size: 20px; }
+    .neon-wire { height: 14px; }
+    .neon-label { font-size: 7px; }
+  }
+
+  /* Reduced motion: kill the flicker AND the colon blink — clock still ticks */
+  @media (prefers-reduced-motion: reduce) {
+    .neon-time  { animation: none; }
+    .neon-colon { opacity: 1 !important; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var intervalId = null;
+    var prefersReduced = false;
+    try {
+      prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch (e) { /* ignore */ }
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function updateClock() {
+      var h = document.getElementById('neon-hours');
+      var m = document.getElementById('neon-minutes');
+      var s = document.getElementById('neon-seconds');
+      if (!h || !m || !s) return;
+      var now = new Date();
+      h.textContent = pad(now.getHours());
+      m.textContent = pad(now.getMinutes());
+      s.textContent = pad(now.getSeconds());
+
+      if (!prefersReduced) {
+        var colons = document.querySelectorAll('.neon-colon');
+        var brightHalf = now.getMilliseconds() < 500;
+        for (var i = 0; i < colons.length; i++) {
+          colons[i].style.opacity = brightHalf ? '1' : '0.3';
+        }
+      }
+    }
+
+    function start() {
+      updateClock();
+      if (intervalId) clearInterval(intervalId);
+      // 100ms cadence keeps the colon-blink switch crisp at the half-second.
+      intervalId = setInterval(updateClock, 100);
+    }
+
+    start();
+    document.addEventListener('astro:page-load', start);
+  })();
+</script>
