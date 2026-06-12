@@ -119,7 +119,7 @@ const streaks = Array.from({ length: STREAK_COUNT }, (_, i) => {
   .neon-frame {
     position: relative;
     padding: 16px 24px 14px;
-    border: 3px solid #333333;
+    border: 2px solid #ffffff;
     background-color: rgba(8, 8, 10, 0.92);
     /* Water-streak marks running vertically down the glass.
        Very faint, almost subliminal. */
@@ -134,12 +134,14 @@ const streaks = Array.from({ length: STREAK_COUNT }, (_, i) => {
       transparent 19px
     );
     border-radius: 2px;
+    /* White neon halo around the housing: heavy drop, inner depth, then
+       three concentric white glows simulating tube emission off the border. */
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.9),
       inset 0 0 20px rgba(0, 0, 0, 0.5),
-      0 0 30px rgba(0, 255, 100, 0.15),
-      0 0 60px rgba(255, 0, 60, 0.08),
-      0 0 40px rgba(0, 100, 255, 0.08);
+      0 0 6px  rgba(255, 255, 255, 0.55),
+      0 0 18px rgba(255, 255, 255, 0.28),
+      0 0 40px rgba(255, 255, 255, 0.15);
     overflow: hidden; /* contain rain */
     align-self: flex-end;
   }
@@ -163,39 +165,22 @@ const streaks = Array.from({ length: STREAK_COUNT }, (_, i) => {
     will-change: opacity;
   }
 
-  /* Hours — red */
-  .num-h {
-    color: #ff3355;
-    text-shadow:
-      0 0 2px  #ffffff,
-      0 0 6px  #ff3355,
-      0 0 12px #ff3355,
-      0 0 24px #ff0033,
-      0 0 48px rgba(204, 0, 34, 0.53);
-    animation: flicker-red 4.7s linear infinite;
-  }
-  /* Minutes — green (the dominant tube) */
-  .num-m {
-    color: #00ff88;
-    text-shadow:
-      0 0 2px  #ffffff,
-      0 0 6px  #00ff88,
-      0 0 14px #00ff66,
-      0 0 28px #00cc44,
-      0 0 56px rgba(0, 170, 51, 0.53);
-    animation: flicker-green 3.9s linear infinite;
-  }
-  /* Seconds — blue */
+  /* All three pairs now glow as white neon tubes.
+     The independent flicker timings are kept so they still wobble out of sync. */
+  .num-h,
+  .num-m,
   .num-s {
-    color: #4488ff;
+    color: #ffffff;
     text-shadow:
       0 0 2px  #ffffff,
-      0 0 6px  #4488ff,
-      0 0 12px #2266ff,
-      0 0 24px #0044cc,
-      0 0 48px rgba(0, 34, 153, 0.67);
-    animation: flicker-blue 5.3s linear infinite;
+      0 0 6px  #ffffff,
+      0 0 14px rgba(255, 255, 255, 0.85),
+      0 0 28px rgba(255, 255, 255, 0.55),
+      0 0 56px rgba(255, 255, 255, 0.25);
   }
+  .num-h { animation: flicker-red   4.7s linear infinite; }
+  .num-m { animation: flicker-green 3.9s linear infinite; }
+  .num-s { animation: flicker-blue  5.3s linear infinite; }
 
   .neon-colon {
     color: #ffffff;
