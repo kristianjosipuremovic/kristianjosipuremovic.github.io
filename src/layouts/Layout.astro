@@ -86,12 +86,17 @@ const { title = siteData.title, description = siteData.description, ogImage } = 
         wireToggleButton,
         setupGlobalSoundListeners,
         maybePlayDroneIntro,
+        ensureRainSync,
       } from '../lib/sounds';
 
       function wireSoundsAndToggle() {
         wireSoundsForCurrentPage();
         const btn = document.getElementById('sound-toggle');
         if (btn) wireToggleButton(btn);
+        // Re-sync the rain ambient on every page-load. If sounds are already
+        // enabled but the AudioContext isn't running yet (autoplay policy),
+        // ensureRainSync registers a one-shot gesture waiter.
+        ensureRainSync();
       }
 
       setupGlobalSoundListeners();
