@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   # Uncomment the lines below to automatically deploy on every push to main:
   push:
-  branches: [main]
+      branches: [main]
 
   # Manual trigger: run this workflow from Actions → Run workflow in GitHub.
   workflow_dispatch:
