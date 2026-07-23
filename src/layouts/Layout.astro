@@ -4,7 +4,6 @@ import { ClientRouter } from 'astro:transitions';
 import siteData from '../data/site.json';
 import CommandPalette from '../components/CommandPalette.astro';
 import TopTicker from '../components/TopTicker.astro';
-import NeonClock from '../components/NeonClock.astro';
 
 interface Props {
   title?: string;
@@ -38,7 +37,18 @@ const { title = siteData.title, description = siteData.description, ogImage } = 
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
-    <meta name="theme-color" content="#0c0c0e" />
+    <meta name="theme-color" content="#f5efdc" />
+
+    <!-- Theme init (pre-paint): default = cream light, dark opt-in via localStorage. -->
+    <script is:inline>
+      (function () {
+        try {
+          if (localStorage.getItem('kru.theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+          }
+        } catch (e) { /* privacy mode / quota — ignore */ }
+      })();
+    </script>
 
     <!-- Fonts: Space Grotesk (display) + Inter (body) + JetBrains Mono (local) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -108,7 +118,6 @@ const { title = siteData.title, description = siteData.description, ogImage } = 
     <CommandPalette />
     <TopTicker />
     <slot />
-    <NeonClock />
   </body>
 </html>
 <style is:global>
