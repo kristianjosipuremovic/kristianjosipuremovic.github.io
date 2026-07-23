@@ -1,3 +1,12 @@
+---
+title: "Network Design for SOC Labs"
+date: 2026-07-18
+description: "A step-by-step methodology for designing a SOC homelab network from scratch — segments, IP schemes, monitoring placement, and firewall rules."
+category: home-labs
+tags: [SOC, Networking, Security Onion, ICS, Network Design]
+---
+
+
 # Network Design for SOC Labs
 
 The following article is a step-by-step methodology formula for designing a SOC Homelab network from complete scratch. In my personal homelab, the first step I encountered after defining my organization and the threat it was facing was the network design process. As I was mulling over network segments, firewalls, and NICs, I realized that the entire homelab and security architecture depends on the design of the network. As a result, I figured it would be worth the time to create a flexible, easily reproducible step-by-step methodology to internalize when confronted with the task of securing any company, big or small.
